@@ -1,0 +1,38 @@
+<div class="max-w-7xl mx-auto px-5">
+  <header class="flex justify-between items-center py-4 bg-white border-b border-gray-200">
+    <div class="logo">
+      <a routerLink="/" class="flex items-center font-bold text-2xl text-hydro-green no-underline">Hydrolink</a>
+    </div>
+    <nav>
+      <ul class="flex list-none m-0 p-0 items-center">
+        <li class="ml-6"><a routerLink="/" class="no-underline text-gray-700 font-medium transition-colors duration-300 hover:text-hydro-green">Inicio</a></li>
+        <li class="ml-6"><a routerLink="/products" class="no-underline text-gray-700 font-medium transition-colors duration-300 hover:text-hydro-green">Productos</a></li>
+        <li class="ml-6"><a routerLink="/contact" class="no-underline text-gray-700 font-medium transition-colors duration-300 hover:text-hydro-green">Contacto</a></li>
+        
+        <!-- Mostrar opciones si NO está logueado -->
+        <ng-container *ngIf="!isLoggedIn">
+          <li class="ml-6"><a routerLink="/login" class="no-underline text-gray-700 font-medium transition-colors duration-300 hover:text-hydro-green">Iniciar Sesión</a></li>
+          <li class="ml-6"><a routerLink="/register" class="inline-block px-5 py-2.5 bg-hydro-green text-white no-underline rounded-md transition-colors duration-300 hover:bg-hydro-green-600 border-none cursor-pointer text-base">Registrarse</a></li>
+        </ng-container>
+        
+        <!-- Mostrar opciones si está logueado -->
+        <ng-container *ngIf="isLoggedIn">
+          <li class="ml-6 relative">
+            <div class="flex items-center space-x-4">
+              <span class="text-gray-700 font-medium">Hola, {{ userDetail?.fullName }}</span>
+              <div class="flex space-x-2">
+                <a routerLink="/profile" class="no-underline text-gray-700 font-medium transition-colors duration-300 hover:text-hydro-green">Perfil</a>
+                <a routerLink="/admin-dashboard" class="no-underline text-gray-700 font-medium transition-colors duration-300 hover:text-hydro-green">Dashboard</a>
+                <button 
+                  (click)="logout()" 
+                  class="px-4 py-2 bg-red-500 text-white rounded-md transition-colors duration-300 hover:bg-red-600 border-none cursor-pointer text-sm">
+                  Cerrar Sesión
+                </button>
+              </div>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+    </nav>
+  </header>
+</div>

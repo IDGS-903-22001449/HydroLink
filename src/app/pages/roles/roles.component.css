@@ -1,0 +1,76 @@
+/* Estilos específicos para el componente roles */
+
+.bg-hydro-green {
+  background-color: #4CAF50;
+}
+
+.text-hydro-green {
+  color: #4CAF50;
+}
+
+.bg-hydro-green-600 {
+  background-color: #45a049;
+}
+
+.border-hydro-green {
+  border-color: #4CAF50;
+}
+
+.focus\:ring-hydro-green:focus {
+  --tw-ring-color: #4CAF50;
+}
+
+.focus\:border-hydro-green:focus {
+  border-color: #4CAF50;
+}
+
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
+}
+
+/* Animación de carga */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Tabla responsive */
+@media (max-width: 640px) {
+  .overflow-x-auto {
+    overflow-x: auto;
+  }
+  
+  table {
+    min-width: 500px;
+  }
+}
+
+/* Hover effects */
+.hover\:bg-gray-50:hover {
+  background-color: #f9fafb;
+}
+
+.hover\:bg-blue-700:hover {
+  background-color: #1d4ed8;
+}
+
+.hover\:text-red-900:hover {
+  color: #7f1d1d;
+}
+
+/* Focus states */
+.focus\:outline-none:focus {
+  outline: none;
+}
+
+.focus\:underline:focus {
+  text-decoration: underline;
+}

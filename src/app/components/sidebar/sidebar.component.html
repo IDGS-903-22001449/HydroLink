@@ -1,0 +1,16 @@
+<aside class="w-64 bg-hydro-dark-green text-white py-5 shadow-lg flex-shrink-0 h-full">
+  <div class="flex items-center font-bold text-2xl text-white px-6 pb-6 border-b border-white border-opacity-15 mb-6">
+    Hydrolink
+  </div>
+  <nav>
+    <ul class="list-none p-0 m-0">
+      <li class="mb-1" *ngFor="let item of menuItems">
+        <a [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          class="flex items-center py-4 px-6 text-white no-underline font-normal text-base transition-colors duration-300 hover:bg-white hover:bg-opacity-15">
+          <i [class]="'fas ' + item.icon" class="mr-3 text-lg"></i>
+          {{ item.label }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>

@@ -1,0 +1,173 @@
+<app-navbar></app-navbar>
+
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Mi Perfil</h1>
+      <p class="mt-2 text-gray-600">Gestiona tu información personal y configuración de cuenta</p>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-hydro-green"></div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-6">
+      <p>{{ error }}</p>
+      <button 
+        (click)="loadUserProfile()" 
+        class="mt-2 text-sm bg-red-100 hover:bg-red-200 px-3 py-1 rounded transition-colors">
+        Reintentar
+      </button>
+    </div>
+
+    <!-- Profile Content -->
+    <div *ngIf="userProfile && !loading" class="space-y-6">
+      
+      <!-- User Info Card -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-hydro-green to-hydro-green-600 px-6 py-8">
+          <div class="flex items-center space-x-6">
+            <!-- Avatar -->
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-hydro-green text-2xl font-bold shadow-lg">
+              {{ getInitials() }}
+            </div>
+            
+            <!-- User Info -->
+            <div class="text-white">
+              <h2 class="text-2xl font-bold">{{ userProfile.fullName }}</h2>
+              <p class="text-green-100 text-lg">{{ userProfile.email }}</p>
+              <div class="mt-2 flex items-center space-x-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                  {{ getUserTypeLabel() }}
+                </span>
+                <span class="text-green-100">ID: {{ userProfile.id }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- User Details -->
+        <div class="px-6 py-6">
+          <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Roles Asignados</dt>
+              <dd class="mt-1 text-sm text-gray-900">{{ getRoleNames() }}</dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Estado de Cuenta</dt>
+              <dd class="mt-1">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" 
+                      [class]="userProfile.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+                  {{ userProfile.isActive ? 'Activa' : 'Inactiva' }}
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Miembro desde</dt>
+              <dd class="mt-1 text-sm text-gray-900">{{ formatDate(userProfile.createdAt) }}</dd>
+            </div>
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Última actualización</dt>
+              <dd class="mt-1 text-sm text-gray-900">{{ formatDate(userProfile.updatedAt) }}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Acciones Rápidas</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <!-- Dashboard Access -->
+          <button 
+            (click)="navigateTo(getDashboardRoute())"
+            class="p-4 bg-gradient-to-r from-hydro-green to-hydro-green-600 hover:from-hydro-green-600 hover:to-hydro-green-700 text-white rounded-lg transition-all duration-200 transform hover:scale-105">
+            <div class="flex items-center space-x-3">
+              <div class="text-2xl">📊</div>
+              <div class="text-left">
+                <h4 class="font-semibold">Dashboard</h4>
+                <p class="text-sm opacity-90">Ir a mi panel de control</p>
+              </div>
+            </div>
+          </button>
+
+          <!-- Change Password -->
+          <button 
+            (click)="navigateTo('/change-password')"
+            class="p-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg transition-all duration-200 transform hover:scale-105">
+            <div class="flex items-center space-x-3">
+              <div class="text-2xl">🔐</div>
+              <div class="text-left">
+                <h4 class="font-semibold">Cambiar Contraseña</h4>
+                <p class="text-sm opacity-90">Actualizar credenciales</p>
+              </div>
+            </div>
+          </button>
+
+          <!-- Admin Only: Role Management -->
+          <button 
+            *ngIf="userProfile.isAdmin"
+            (click)="navigateTo('/roles')"
+            class="p-4 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-lg transition-all duration-200 transform hover:scale-105">
+            <div class="flex items-center space-x-3">
+              <div class="text-2xl">👥</div>
+              <div class="text-left">
+                <h4 class="font-semibold">Gestión de Roles</h4>
+                <p class="text-sm opacity-90">Administrar usuarios</p>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Navegación Rápida</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          
+          <button 
+            (click)="navigateTo('/products')"
+            class="p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-hydro-green transition-all duration-200">
+            <div class="flex items-center space-x-3">
+              <span class="text-xl">🏭</span>
+              <span class="text-sm font-medium text-gray-700">Productos</span>
+            </div>
+          </button>
+
+          <button 
+            (click)="navigateTo('/contact')"
+            class="p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-hydro-green transition-all duration-200">
+            <div class="flex items-center space-x-3">
+              <span class="text-xl">📞</span>
+              <span class="text-sm font-medium text-gray-700">Contacto</span>
+            </div>
+          </button>
+
+          <button 
+            (click)="navigateTo('/')"
+            class="p-3 text-left border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-hydro-green transition-all duration-200">
+            <div class="flex items-center space-x-3">
+              <span class="text-xl">🏠</span>
+              <span class="text-sm font-medium text-gray-700">Inicio</span>
+            </div>
+          </button>
+
+          <button 
+            (click)="confirmLogout()"
+            class="p-3 text-left border border-red-200 rounded-lg hover:bg-red-50 hover:border-red-400 transition-all duration-200">
+            <div class="flex items-center space-x-3">
+              <span class="text-xl">🚪</span>
+              <span class="text-sm font-medium text-red-600">Cerrar Sesión</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

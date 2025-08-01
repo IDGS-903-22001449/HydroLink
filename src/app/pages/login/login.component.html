@@ -1,0 +1,61 @@
+<app-auth-card title="Iniciar Sesión">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <!-- Mensaje de error general -->
+    <div *ngIf="errorMessage" class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-md">
+      {{ errorMessage }}
+    </div>
+    
+    <div class="text-left mb-5">
+      <label for="email" class="block mb-2 font-semibold text-gray-700">Correo Electrónico</label>
+      <input 
+        type="email" 
+        id="email" 
+        formControlName="email" 
+        autocomplete="email" 
+        class="w-full text-lg p-3 border rounded-md box-border transition-colors duration-300 focus:outline-none focus:shadow-lg"
+        [class.border-red-400]="getFieldError('email')"
+        [class.border-gray-300]="!getFieldError('email')"
+        [class.focus:border-hydro-green]="!getFieldError('email')">
+      <div *ngIf="getFieldError('email')" class="text-red-500 text-sm mt-1">
+        {{ getFieldError('email') }}
+      </div>
+    </div>
+    
+    <div class="text-left mb-5">
+      <label for="password" class="block mb-2 font-semibold text-gray-700">Contraseña</label>
+      <input 
+        type="password" 
+        id="password" 
+        formControlName="password" 
+        autocomplete="current-password" 
+        class="w-full text-lg p-3 border rounded-md box-border transition-colors duration-300 focus:outline-none focus:shadow-lg"
+        [class.border-red-400]="getFieldError('password')"
+        [class.border-gray-300]="!getFieldError('password')"
+        [class.focus:border-hydro-green]="!getFieldError('password')">
+      <div *ngIf="getFieldError('password')" class="text-red-500 text-sm mt-1">
+        {{ getFieldError('password') }}
+      </div>
+    </div>
+    
+    <button 
+      type="submit" 
+      [disabled]="isLoading"
+      class="w-full mt-8 text-lg p-4 bg-hydro-green text-white rounded-md transition-colors duration-300 hover:bg-hydro-green-600 border-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+      <span *ngIf="!isLoading">Acceder</span>
+      <span *ngIf="isLoading" class="flex items-center justify-center">
+        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Cargando...
+      </span>
+    </button>
+  </form>
+  
+  <div class="mt-6 text-sm">
+    <a routerLink="/forgot-password" class="text-hydro-green no-underline transition-all duration-300 hover:underline">¿Olvidaste tu contraseña?</a><br>
+    <span class="block mt-2">
+      ¿No tienes cuenta? <a routerLink="/register" class="text-hydro-green no-underline transition-all duration-300 hover:underline">Regístrate aquí</a>
+    </span>
+  </div>
+</app-auth-card>

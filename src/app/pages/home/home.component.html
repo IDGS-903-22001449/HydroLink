@@ -1,0 +1,87 @@
+<app-navbar></app-navbar>
+
+<main>
+  <section class="bg-white py-20 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-5 flex justify-between items-center flex-wrap">
+      <div class="flex-1 min-w-[300px] max-w-xl pr-10 mb-8 text-left">
+        <h1 class="text-5xl leading-tight mb-5">Sistema de Riego Inteligente Automatizado</h1>
+        <p class="text-lg text-gray-600 mb-10">Un sistema de riego inteligente diseñado para el cuidado sostenible y
+          eficiente de las plantas, optimizando el consumo de agua y promoviendo la autosustentabilidad.</p>
+        <a href="/get-started"
+          class="inline-block bg-hydro-green text-white py-3 px-5 rounded-md text-lg transition-colors duration-300 hover:bg-hydro-green-600">Empezar</a>
+      </div>
+      <div class="flex-1 min-w-[300px] flex justify-center items-center">
+        <img src="/assets/SistemaDeRiego.jpg" alt="Sistemas de Riego Inteligente" class="max-w-full h-auto">
+      </div>
+    </div>
+  </section>
+
+  <section class="text-center py-20 bg-gray-100">
+    <div class="max-w-7xl mx-auto px-5">
+      <h2 class="text-4xl mb-4">Nuestros Dispositivos Inteligentes</h2>
+      <p class="text-lg text-gray-600 mb-15">Explore nuestra gama de innovadores dispositivos de riego diseñados para
+        cada necesidad, desde jardines urbanos hasta espacios comerciales.</p>
+
+      <!-- Estado de carga -->
+      <div *ngIf="loading" class="flex justify-center items-center py-12">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-hydro-green"></div>
+        <p class="ml-4 text-gray-600">Cargando productos...</p>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div *ngIf="error && !loading" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6">
+        <p>{{ error }}</p>
+      </div>
+
+      <!-- Productos -->
+      <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div *ngFor="let producto of productos"
+          class="bg-white rounded-md shadow-md p-8 transform transition-transform duration-300 hover:-translate-y-2">
+          <img [src]="producto.imagenBase64 || 'https://via.placeholder.com/200x200?text=Producto'"
+            [alt]="producto.nombre" class="mx-auto mb-6 w-48 h-48 object-cover rounded">
+          <h3 class="text-2xl mb-2">{{producto.nombre}}</h3>
+          <p class="text-gray-600 mb-4">{{producto.descripcion}}</p>
+          <p class="text-hydro-green font-bold text-xl mb-4">{{formatearPrecio(producto.precio)}}</p>
+          <a href="/products" class="btn-secondary">Saber Más</a>
+        </div>
+      </div>
+
+      <!-- Mensaje cuando no hay productos -->
+      <div *ngIf="!loading && productos.length === 0" class="text-center py-12">
+        <p class="text-gray-600 text-lg">No hay productos disponibles en este momento.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-15 bg-white text-center">
+    <div class="max-w-7xl mx-auto px-5">
+      <h2 class="text-4xl mb-8">¿Por Qué Elegir Hydrolink?</h2>
+      <div class="flex flex-wrap justify-center gap-8 mt-8">
+        <div class="flex-1 min-w-[250px] max-w-[350px] p-5 border border-gray-200 rounded-md">
+          <img src="/assets/iconos/soltarverde.png" alt="Water Drop Icon" class="mx-auto mb-4 w-40">
+          <h3 class="text-xl mb-3">Eficiencia Hídrica</h3>
+          <p class="text-gray-600">Sensores inteligentes y datos históricos optimizan el consumo de agua, reduciendo el
+            desperdicio significativamente.</p>
+        </div>
+        <div class="flex-1 min-w-[250px] max-w-[350px] p-5 border border-gray-200 rounded-md">
+          <img src="/assets/iconos/nubeverde2.png" alt="Rain Cloud Icon" class="mx-auto mb-4 w-40">
+          <h3 class="text-xl mb-3">Recolección de Agua de Lluvia</h3>
+          <p class="text-gray-600">Módulo integrado para la recolección y utilización de agua de lluvia, promoviendo
+            prácticas sostenibles.</p>
+        </div>
+        <div class="flex-1 min-w-[250px] max-w-[350px] p-5 border border-gray-200 rounded-md">
+          <img src="/assets/iconos/plantaverde.png" alt="Plant Icon" class="mx-auto mb-4 w-40">
+          <h3 class="text-xl mb-3">Salud de las Plantas</h3>
+          <p class="text-gray-600">Configuraciones personalizables para diferentes tipos de plantas aseguran una
+            hidratación óptima para una vegetación próspera.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-hydro-dark-green text-white text-center py-10">
+  <div class="max-w-7xl mx-auto px-5">
+    <p>&copy; 2025 Hydrolink. Todos los derechos reservados.</p>
+  </div>
+</footer>

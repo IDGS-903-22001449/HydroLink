@@ -1,0 +1,15 @@
+.metric-card {
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 38px;
+  font-weight: bold;
+  color: var(--primary-green);
+  margin-bottom: 10px;
+}
+
+.metric-subtitle {
+  color: var(--text-light);
+  font-size: 14px;
+}

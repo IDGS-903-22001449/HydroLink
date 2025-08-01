@@ -1,0 +1,184 @@
+/* Estilos específicos para el componente profile */
+
+.bg-hydro-green {
+  background-color: #4CAF50;
+}
+
+.text-hydro-green {
+  color: #4CAF50;
+}
+
+.bg-hydro-green-600 {
+  background-color: #45a049;
+}
+
+.from-hydro-green {
+  --tw-gradient-from: #4CAF50;
+}
+
+.to-hydro-green-600 {
+  --tw-gradient-to: #45a049;
+}
+
+.hover\:from-hydro-green-600:hover {
+  --tw-gradient-from: #45a049;
+}
+
+.hover\:to-hydro-green-700:hover {
+  --tw-gradient-to: #388e3c;
+}
+
+.border-hydro-green {
+  border-color: #4CAF50;
+}
+
+.focus\:ring-hydro-green:focus {
+  --tw-ring-color: #4CAF50;
+}
+
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
+}
+
+/* Gradientes personalizados */
+.bg-gradient-to-r {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+/* Animaciones */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Transform y transiciones */
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\:scale-105:hover {
+  --tw-scale-x: 1.05;
+  --tw-scale-y: 1.05;
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+/* Espaciado */
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.space-y-3 > * + * {
+  margin-top: 0.75rem;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+/* Avatar circle */
+.rounded-full {
+  border-radius: 9999px;
+}
+
+/* Grid responsive */
+@media (max-width: 768px) {
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Hover effects adicionales */
+.hover\:opacity-90:hover {
+  opacity: 0.9;
+}
+
+.hover\:bg-gray-50:hover {
+  background-color: #f9fafb;
+}
+
+/* Colores adicionales para las tarjetas */
+.bg-purple-500 {
+  background-color: #8b5cf6;
+}
+
+.bg-purple-600 {
+  background-color: #7c3aed;
+}
+
+.hover\:bg-purple-700:hover {
+  background-color: #6d28d9;
+}
+
+.from-blue-500 {
+  --tw-gradient-from: #3b82f6;
+}
+
+.to-blue-600 {
+  --tw-gradient-to: #2563eb;
+}
+
+.hover\:from-blue-600:hover {
+  --tw-gradient-from: #2563eb;
+}
+
+.hover\:to-blue-700:hover {
+  --tw-gradient-to: #1d4ed8;
+}
+
+.from-orange-500 {
+  --tw-gradient-from: #f97316;
+}
+
+.to-orange-600 {
+  --tw-gradient-to: #ea580c;
+}
+
+.hover\:from-orange-600:hover {
+  --tw-gradient-from: #ea580c;
+}
+
+.hover\:to-orange-700:hover {
+  --tw-gradient-to: #c2410c;
+}
+
+/* Estado badge */
+.bg-green-100 {
+  background-color: #dcfce7;
+}
+
+.text-green-800 {
+  color: #166534;
+}

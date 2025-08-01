@@ -1,0 +1,47 @@
+<div class="dashboard-layout">
+  <app-sidebar [menuItems]="clientMenuItems" [isAdmin]="false"></app-sidebar>
+  
+  <div class="main-content">
+    <header class="top-bar">
+      <div class="user-dropdown">
+        <button>Welcome, Jane Doe <i class="fas fa-chevron-down"></i></button>
+      </div>
+    </header>
+
+    <h1>Welcome to Your Hydrolink Dashboard!</h1>
+    <p class="welcome-text">Here's a quick overview of your account and products.</p>
+
+    <div class="metrics-grid">
+      <app-metric-card
+        *ngFor="let metric of metrics"
+        [title]="metric.title"
+        [value]="metric.value"
+        [subtitle]="metric.subtitle">
+      </app-metric-card>
+    </div>
+
+    <app-data-table
+      title="My Recent Product Activity"
+      [columns]="productActivityColumns"
+      [data]="productActivityData">
+    </app-data-table>
+
+    <div class="card">
+      <h2>Quick Actions</h2>
+      <div class="actions-container">
+        <a href="/client-products" class="btn btn-secondary">
+          <i class="fas fa-cog"></i> Manage My Devices
+        </a>
+        <a href="/client-profile" class="btn btn-secondary">
+          <i class="fas fa-user-edit"></i> Edit My Profile
+        </a>
+        <a href="/client-quotes" class="btn btn-secondary">
+          <i class="fas fa-file-invoice"></i> View My Quotes
+        </a>
+        <a href="/contact" class="btn btn-secondary">
+          <i class="fas fa-life-ring"></i> Get Support
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

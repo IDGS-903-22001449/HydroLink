@@ -1,0 +1,48 @@
+/* Estilos específicos para el componente home */
+
+.btn-secondary {
+  @apply inline-block bg-gray-200 text-gray-800 py-2 px-4 rounded-md text-base transition-colors duration-300 hover:bg-gray-300;
+}
+
+/* Clases de Tailwind customizadas para Hydrolink */
+.bg-hydro-green {
+  background-color: #4CAF50;
+}
+
+.text-hydro-green {
+  color: #4CAF50;
+}
+
+.bg-hydro-green-600 {
+  background-color: #45a049;
+}
+
+.border-hydro-green {
+  border-color: #4CAF50;
+}
+
+.bg-hydro-dark-green {
+  background-color: #2E7D32;
+}
+
+/* Animación de carga personalizada */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive para imágenes de productos */
+@media (max-width: 768px) {
+  .grid-cols-1 .w-48 {
+    width: 12rem;
+    height: 12rem;
+  }
+}

@@ -43,6 +43,10 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'cotizacion',
+        loadComponent: () => import('./pages/cotizacion-cliente/cotizacion-cliente.component').then(m => m.CotizacionClienteComponent)
+    },
+    {
         path: 'admin-dashboard',
         loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
         // canActivate: [authGuard] // Comentado temporalmente para desarrollo

@@ -83,8 +83,9 @@
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Acciones Rápidas</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           
-          <!-- Dashboard Access -->
+          <!-- Dashboard Access (Admin) / My Purchases (Client) -->
           <button 
+            *ngIf="userProfile.isAdmin"
             (click)="navigateTo(getDashboardRoute())"
             class="p-4 bg-gradient-to-r from-hydro-green to-hydro-green-600 hover:from-hydro-green-600 hover:to-hydro-green-700 text-white rounded-lg transition-all duration-200 transform hover:scale-105">
             <div class="flex items-center space-x-3">
@@ -92,6 +93,19 @@
               <div class="text-left">
                 <h4 class="font-semibold">Dashboard</h4>
                 <p class="text-sm opacity-90">Ir a mi panel de control</p>
+              </div>
+            </div>
+          </button>
+
+          <button 
+            *ngIf="!userProfile.isAdmin"
+            (click)="navigateTo('/client-purchases')"
+            class="p-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg transition-all duration-200 transform hover:scale-105">
+            <div class="flex items-center space-x-3">
+              <div class="text-2xl">🛍️</div>
+              <div class="text-left">
+                <h4 class="font-semibold">Mis Compras</h4>
+                <p class="text-sm opacity-90">Ver historial de compras</p>
               </div>
             </div>
           </button>
@@ -165,6 +179,20 @@
               <span class="text-sm font-medium text-red-600">Cerrar Sesión</span>
             </div>
           </button>
+        </div>
+      </div>
+
+      <!-- My Purchases Section (Client Only) -->
+      <div *ngIf="!userProfile.isAdmin" class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <span class="text-orange-500 text-xl mr-2">🛍️</span>
+            Mis Compras Recientes
+          </h3>
+          <p class="text-sm text-gray-600 mt-1">Historial de tus compras en HydroLink</p>
+        </div>
+        <div class="p-0">
+          <app-user-purchases [showHeader]="false"></app-user-purchases>
         </div>
       </div>
 

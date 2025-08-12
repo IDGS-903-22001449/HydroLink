@@ -8,11 +8,11 @@ import { Role, RoleCreateRequest, RoleAssignRequest } from '../interfaces/role.i
   providedIn: 'root'
 })
 export class RoleService {
-  private apiUrl = environment.apiurl;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
-  getHeaders() : HttpHeaders {
+  getHeaders(): HttpHeaders {
     const token = localStorage.getItem('authToken');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -28,6 +28,16 @@ export class RoleService {
   // Crear un nuevo rol
   createRole(role: RoleCreateRequest): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`${this.apiUrl}roles`, role, { headers: this.getHeaders() });
+  }
+
+  // Obtener un rol por ID
+  getRoleById(id: string): Observable<Role> {
+    return this.http.get<Role>(`${this.apiUrl}roles/${id}`, { headers: this.getHeaders() });
+  }
+
+  // Actualizar un rol
+  updateRole(id: string, role: RoleCreateRequest): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(`${this.apiUrl}roles/${id}`, role, { headers: this.getHeaders() });
   }
 
   // Eliminar un rol

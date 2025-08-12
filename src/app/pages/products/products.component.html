@@ -3,104 +3,70 @@
 <div class="max-w-7xl mx-auto px-5">
   <section class="text-center py-15 bg-white mb-10 rounded-md shadow-md">
     <h1 class="text-5xl mb-5 text-gray-800">Nuestros Productos</h1>
-    <p class="text-lg text-gray-600 max-w-4xl mx-auto">Descubre nuestra línea completa de sistemas de riego inteligentes diseñados para maximizar la eficiencia del agua y promover prácticas sostenibles.</p>
+    <p class="text-lg text-gray-600 max-w-4xl mx-auto">Descubre nuestra línea completa de sistemas de riego inteligentes
+      diseñados para maximizar la eficiencia del agua y promover prácticas sostenibles.</p>
   </section>
 
-  <section class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-16">
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl">
-      <img src="https://via.placeholder.com/300x250?text=Hydrolink+Home+Kit" alt="Hydrolink Home Kit" class="w-full h-64 object-cover">
-      <div class="p-8">
-        <h3 class="text-2xl mb-2 text-gray-800">Kit Hydrolink para el Hogar</h3>
-        <p class="text-3xl font-bold text-hydro-green mb-4">$299.99</p>
-        <p class="text-gray-600 mb-5 leading-relaxed">Sistema de riego automatizado perfecto para jardines pequeños y plantas de interior. Incluye sensores de humedad, controlador WiFi y aplicación móvil.</p>
-        <ul class="list-none p-0 mb-6">
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Cobertura hasta 50 m²</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">6 sensores de humedad incluidos</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Control por aplicación móvil</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Instalación fácil en 30 minutos</li>
-        </ul>
-        <a href="/quote" class="inline-block bg-hydro-green text-white py-3 px-5 rounded-md transition-colors duration-300 hover:bg-hydro-green-600">Solicitar Cotización</a>
+  <div *ngIf="loading" class="flex justify-center items-center py-20">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-hydro-green"></div>
+    <span class="ml-3 text-lg text-gray-600">Cargando productos...</span>
+  </div>
+
+  <div *ngIf="error && !loading" class="text-center py-20">
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+      <p class="text-lg">{{ error }}</p>
+    </div>
+    <button (click)="cargarProductos()"
+      class="bg-hydro-green text-white px-6 py-3 rounded-md hover:bg-hydro-green-600 transition-colors">
+      Intentar de nuevo
+    </button>
+  </div>
+
+  <section *ngIf="!loading && !error" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 product-grid">
+
+    <div *ngFor="let producto of productos; trackBy: trackByProducto" class="bg-white rounded-xl shadow-lg overflow-hidden product-card">
+
+      <div class="relative h-64 bg-gray-100">
+        <img [src]="getImagenSrc(producto.imagenBase64)" [alt]="producto.nombre"
+          class="w-full h-full object-cover" (error)="onImageError($event)">
+      </div>
+
+      <div class="p-6 flex flex-col h-full">
+        <div class="flex-1">
+          <div class="mb-3">
+            <span
+              class="bg-hydro-green text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">
+              {{ producto.categoria }}
+            </span>
+          </div>
+
+          <h3 class="text-xl font-bold mb-2 text-gray-800 line-clamp-2">{{ producto.nombre }}</h3>
+
+          <p class="text-hydro-green font-bold text-2xl mb-3">
+            ${{ producto.precio | number:'1.2-2' }}
+          </p>
+
+          <p class="text-gray-600 mb-4 leading-relaxed line-clamp-3">{{ producto.descripcion }}</p>
+        </div>
+
+        <div class="mt-auto pt-4">
+          <div class="flex space-x-3">
+            <button (click)="comprar(producto)"
+              class="flex-1 bg-hydro-green text-white font-semibold py-3 px-6 rounded-md text-center transition-all duration-300 hover:bg-hydro-green-600 hover:-translate-y-1 hover:shadow-lg">
+              Comprar
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl">
-      <img src="https://via.placeholder.com/300x250?text=Hydrolink+Pro+System" alt="Hydrolink Pro System" class="w-full h-64 object-cover">
-      <div class="p-8">
-        <h3 class="text-2xl mb-2 text-gray-800">Sistema Hydrolink Pro</h3>
-        <p class="text-3xl font-bold text-hydro-green mb-4">$799.99</p>
-        <p class="text-gray-600 mb-5 leading-relaxed">Solución avanzada para paisajes comerciales y residenciales grandes. Sistema modular escalable con análisis avanzado de datos.</p>
-        <ul class="list-none p-0 mb-6">
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Cobertura hasta 500 m²</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">20 sensores de alta precisión</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Dashboard web avanzado</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Soporte técnico premium</li>
-        </ul>
-        <a href="/quote" class="inline-block bg-hydro-green text-white py-3 px-5 rounded-md transition-colors duration-300 hover:bg-hydro-green-600">Solicitar Cotización</a>
-      </div>
-    </div>
-
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl">
-      <img src="https://via.placeholder.com/300x250?text=Hydrolink+Enterprise" alt="Hydrolink Enterprise" class="w-full h-64 object-cover">
-      <div class="p-8">
-        <h3 class="text-2xl mb-2 text-gray-800">Hydrolink Enterprise</h3>
-        <p class="text-3xl font-bold text-hydro-green mb-4">Consultar precio</p>
-        <p class="text-gray-600 mb-5 leading-relaxed">Solución empresarial completamente personalizable para grandes instalaciones comerciales, parques y espacios públicos.</p>
-        <ul class="list-none p-0 mb-6">
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Cobertura ilimitada</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Sensores personalizables</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Integración con sistemas existentes</li>
-          <li class="py-2 pl-6 relative text-gray-800 before:content-['✓'] before:absolute before:left-0 before:text-hydro-green before:font-bold">Soporte 24/7 dedicado</li>
-        </ul>
-        <a href="/contact" class="inline-block bg-hydro-green text-white py-3 px-5 rounded-md transition-colors duration-300 hover:bg-hydro-green-600">Contactar Ventas</a>
+    <div *ngIf="productos.length === 0 && !loading" class="col-span-full text-center py-20">
+      <div class="bg-gray-100 rounded-lg p-8">
+        <i class="fas fa-box-open text-6xl text-gray-400 mb-4"></i>
+        <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay productos disponibles</h3>
+        <p class="text-gray-500">Pronto tendremos nuevos productos para ti.</p>
       </div>
     </div>
   </section>
 
-  <section class="bg-white p-12 rounded-xl shadow-md mb-10">
-    <h2 class="text-center text-4xl mb-10 text-gray-800">Comparación de Productos</h2>
-    <div class="overflow-x-auto">
-      <table class="w-full border-collapse mt-5">
-        <thead>
-          <tr>
-            <th class="p-4 text-left border-b border-gray-200 bg-hydro-green text-white font-semibold">Característica</th>
-            <th class="p-4 text-left border-b border-gray-200 bg-hydro-green text-white font-semibold">Home Kit</th>
-            <th class="p-4 text-left border-b border-gray-200 bg-hydro-green text-white font-semibold">Pro System</th>
-            <th class="p-4 text-left border-b border-gray-200 bg-hydro-green text-white font-semibold">Enterprise</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="hover:bg-gray-100">
-            <td class="p-4 border-b border-gray-200">Área de cobertura</td>
-            <td class="p-4 border-b border-gray-200">Hasta 50 m²</td>
-            <td class="p-4 border-b border-gray-200">Hasta 500 m²</td>
-            <td class="p-4 border-b border-gray-200">Ilimitada</td>
-          </tr>
-          <tr class="hover:bg-gray-100">
-            <td class="p-4 border-b border-gray-200">Número de sensores</td>
-            <td class="p-4 border-b border-gray-200">6 sensores</td>
-            <td class="p-4 border-b border-gray-200">20 sensores</td>
-            <td class="p-4 border-b border-gray-200">Personalizable</td>
-          </tr>
-          <tr class="hover:bg-gray-100">
-            <td class="p-4 border-b border-gray-200">Control remoto</td>
-            <td class="p-4 border-b border-gray-200">App móvil</td>
-            <td class="p-4 border-b border-gray-200">App + Dashboard web</td>
-            <td class="p-4 border-b border-gray-200">Plataforma completa</td>
-          </tr>
-          <tr class="hover:bg-gray-100">
-            <td class="p-4 border-b border-gray-200">Soporte técnico</td>
-            <td class="p-4 border-b border-gray-200">Email y chat</td>
-            <td class="p-4 border-b border-gray-200">Premium</td>
-            <td class="p-4 border-b border-gray-200">24/7 dedicado</td>
-          </tr>
-          <tr class="hover:bg-gray-100">
-            <td class="p-4 border-b border-gray-200">Garantía</td>
-            <td class="p-4 border-b border-gray-200">2 años</td>
-            <td class="p-4 border-b border-gray-200">3 años</td>
-            <td class="p-4 border-b border-gray-200">5 años</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
 </div>

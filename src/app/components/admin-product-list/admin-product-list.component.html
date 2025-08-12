@@ -1,0 +1,40 @@
+<div class="list-container">
+  <h2>Lista de Productos</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productos">
+          <td>
+            <div class="product-info">
+              <strong>{{ producto.nombre }}</strong>
+              <small *ngIf="producto.descripcion">{{ producto.descripcion }}</small>
+            </div>
+          </td>
+          <td>{{ producto.categoria }}</td>
+          <td class="price">{{ producto.precio | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td>
+            <div class="actions">
+              <button class="btn-edit" (click)="editarProducto(producto)" title="Editar">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-delete" (click)="confirmarEliminacion(producto)" title="Eliminar">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="productos.length === 0" class="no-products">
+      <p>No hay productos registrados</p>
+    </div>
+  </div>
+</div>

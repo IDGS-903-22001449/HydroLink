@@ -1,0 +1,202 @@
+<div class="user-purchases-container">
+  <div class="purchase-header" *ngIf="showHeader">
+    <h2><i class="fas fa-shopping-bag"></i> Mis Compras</h2>
+    
+    <!-- Pestañas para alternar entre vista de ventas y manuales -->
+    <div class="tabs-container">
+      <button 
+        class="tab-button" 
+        [class.active]="!showManuales"
+        (click)="toggleView(false)">
+        <i class="fas fa-receipt"></i> Historial de Compras
+      </button>
+      <button 
+        class="tab-button" 
+        [class.active]="showManuales"
+        (click)="toggleView(true)">
+        <i class="fas fa-book"></i> Manuales de Usuario
+      </button>
+    </div>
+
+    <div class="purchase-summary" *ngIf="!isLoading && !showManuales">
+      <div class="summary-item">
+        <span class="summary-label">Total de Compras:</span>
+        <span class="summary-value">{{ totalPurchases }}</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Total Gastado:</span>
+        <span class="summary-value">{{ totalSpent | currency:'USD':'symbol':'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Summary for embedded view -->
+  <div class="purchase-summary mb-4" *ngIf="!showHeader && !isLoading">
+    <div class="summary-item">
+      <span class="summary-label">Total de Compras:</span>
+      <span class="summary-value">{{ totalPurchases }}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Total Gastado:</span>
+      <span class="summary-value">{{ totalSpent | currency:'USD':'symbol':'1.2-2' }}</span>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Cargando tus compras...</p>
+  </div>
+
+  <!-- Vista de historial de compras -->
+  <div class="no-purchases" *ngIf="!isLoading && !showManuales && purchases.length === 0">
+    <i class="fas fa-shopping-cart"></i>
+    <h3>No tienes compras registradas</h3>
+    <p>Cuando realices tu primera compra, aparecerá aquí.</p>
+    <a href="/products" class="btn btn-primary">
+      <i class="fas fa-shopping-bag"></i>
+      Ver Productos
+    </a>
+  </div>
+
+  <div class="purchases-list" *ngIf="!isLoading && !showManuales && purchases.length > 0">
+    <div class="purchase-card" *ngFor="let purchase of purchases; trackBy: trackByPurchase">
+      <div class="purchase-header-row">
+        <div class="purchase-id">
+          <strong>Compra #{{ purchase.id }}</strong>
+          <span class="purchase-date">{{ purchase.fecha | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="purchase-status">
+          <span class="status-badge" [class]="getStatusClass(purchase.estado)">
+            {{ getStatusText(purchase.estado) }}
+          </span>
+        </div>
+      </div>
+
+      <div class="purchase-details">
+        <div class="product-info">
+          <div class="product-main">
+            <h4>{{ purchase.producto?.nombre }}</h4>
+            <p class="product-description" *ngIf="purchase.producto?.descripcion">
+              {{ purchase.producto?.descripcion }}
+            </p>
+            <div class="product-meta">
+              <span class="category" *ngIf="purchase.producto?.categoria">
+                <i class="fas fa-tag"></i>
+                {{ purchase.producto?.categoria }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="quantity-price">
+            <div class="quantity">
+              <span class="label">Cantidad:</span>
+              <span class="value">{{ purchase.cantidad }}</span>
+            </div>
+            <div class="unit-price">
+              <span class="label">Precio Unitario:</span>
+              <span class="value">{{ purchase.precioUnitario | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+            <div class="total-price">
+              <span class="label">Total:</span>
+              <span class="value total">{{ purchase.total | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="purchase-notes" *ngIf="purchase.observaciones">
+          <h5><i class="fas fa-sticky-note"></i> Observaciones:</h5>
+          <p>{{ purchase.observaciones }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista de manuales de usuario -->
+  <div class="loading-container" *ngIf="showManuales && isLoadingManuales">
+    <div class="spinner"></div>
+    <p>Cargando productos con manuales...</p>
+  </div>
+
+  <div class="no-manuales" *ngIf="showManuales && !isLoadingManuales && productosComprados.length === 0">
+    <i class="fas fa-book-open"></i>
+    <h3>No tienes productos con manuales disponibles</h3>
+    <p>Cuando compres productos que incluyan manuales de usuario, aparecerán aquí.</p>
+    <a href="/products" class="btn btn-primary">
+      <i class="fas fa-shopping-bag"></i>
+      Ver Productos
+    </a>
+  </div>
+
+  <div class="manuales-list" *ngIf="showManuales && !isLoadingManuales && productosComprados.length > 0">
+    <div class="manual-card" *ngFor="let productoComprado of productosComprados; trackBy: trackByProduct">
+      <div class="manual-header">
+        <div class="product-image" *ngIf="productoComprado.producto.imagenBase64">
+          <img [src]="'data:image/jpeg;base64,' + productoComprado.producto.imagenBase64" 
+               [alt]="productoComprado.producto.nombre"
+               class="product-thumbnail" />
+        </div>
+        <div class="product-info-manual">
+          <h4>{{ productoComprado.producto.nombre }}</h4>
+          <p class="product-description" *ngIf="productoComprado.producto.descripcion">
+            {{ productoComprado.producto.descripcion }}
+          </p>
+          <div class="product-specs">
+            <span class="spec-item" *ngIf="productoComprado.producto.categoria">
+              <i class="fas fa-tag"></i>
+              {{ productoComprado.producto.categoria }}
+            </span>
+            <span class="spec-item" *ngIf="productoComprado.producto.garantia">
+              <i class="fas fa-shield-alt"></i>
+              Garantía: {{ productoComprado.producto.garantia }}
+            </span>
+          </div>
+          <div class="purchase-date-info">
+            <i class="fas fa-calendar-alt"></i>
+            Comprado el: {{ productoComprado.fechaCompra | date:'dd/MM/yyyy' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="manual-actions" *ngIf="productoComprado.producto.tieneManual">
+        <button 
+          class="btn btn-outline-primary"
+          (click)="visualizarManual(productoComprado.producto.id)"
+          title="Ver manual en nueva ventana">
+          <i class="fas fa-eye"></i>
+          Ver Manual
+        </button>
+        <button 
+          class="btn btn-primary"
+          (click)="descargarManual(productoComprado.producto.id, productoComprado.producto.nombre)"
+          title="Descargar manual PDF">
+          <i class="fas fa-download"></i>
+          Descargar PDF
+        </button>
+      </div>
+
+      <div class="no-manual-available" *ngIf="!productoComprado.producto.tieneManual">
+        <i class="fas fa-info-circle"></i>
+        <span>Este producto no incluye manual de usuario</span>
+      </div>
+
+      <!-- Detalles técnicos adicionales -->
+      <div class="product-technical-details" *ngIf="productoComprado.producto.especificaciones || productoComprado.producto.tipoInstalacion">
+        <h5><i class="fas fa-cogs"></i> Detalles Técnicos</h5>
+        <div class="technical-info">
+          <div class="tech-item" *ngIf="productoComprado.producto.especificaciones">
+            <strong>Especificaciones:</strong>
+            <p>{{ productoComprado.producto.especificaciones }}</p>
+          </div>
+          <div class="tech-item" *ngIf="productoComprado.producto.tipoInstalacion">
+            <strong>Tipo de Instalación:</strong>
+            <span>{{ productoComprado.producto.tipoInstalacion }}</span>
+          </div>
+          <div class="tech-item" *ngIf="productoComprado.producto.tiempoInstalacion">
+            <strong>Tiempo de Instalación:</strong>
+            <span>{{ productoComprado.producto.tiempoInstalacion }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,11 +4,12 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { AuthCardComponent } from '../../components/auth-card/auth-card.component';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CommonModule, AuthCardComponent],
+  imports: [ReactiveFormsModule, RouterLink, CommonModule, AuthCardComponent, NavbarComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -16,11 +17,11 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
-  
+
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
-  
+
   constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -32,7 +33,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
-      
+
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           if (response.isSuccess) {
@@ -51,14 +52,14 @@ export class LoginComponent {
       this.markFormGroupTouched();
     }
   }
-  
+
   private markFormGroupTouched() {
     Object.keys(this.loginForm.controls).forEach(key => {
       const control = this.loginForm.get(key);
       control?.markAsTouched();
     });
   }
-  
+
   getFieldError(fieldName: string): string {
     const field = this.loginForm.get(fieldName);
     if (field?.errors && field.touched) {

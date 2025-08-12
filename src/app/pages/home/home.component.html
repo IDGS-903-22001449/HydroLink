@@ -7,7 +7,7 @@
         <h1 class="text-5xl leading-tight mb-5">Sistema de Riego Inteligente Automatizado</h1>
         <p class="text-lg text-gray-600 mb-10">Un sistema de riego inteligente diseñado para el cuidado sostenible y
           eficiente de las plantas, optimizando el consumo de agua y promoviendo la autosustentabilidad.</p>
-        <a href="/get-started"
+        <a href="/products"
           class="inline-block bg-hydro-green text-white py-3 px-5 rounded-md text-lg transition-colors duration-300 hover:bg-hydro-green-600">Empezar</a>
       </div>
       <div class="flex-1 min-w-[300px] flex justify-center items-center">
@@ -22,23 +22,20 @@
       <p class="text-lg text-gray-600 mb-15">Explore nuestra gama de innovadores dispositivos de riego diseñados para
         cada necesidad, desde jardines urbanos hasta espacios comerciales.</p>
 
-      <!-- Estado de carga -->
       <div *ngIf="loading" class="flex justify-center items-center py-12">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-hydro-green"></div>
         <p class="ml-4 text-gray-600">Cargando productos...</p>
       </div>
 
-      <!-- Mensaje de error -->
       <div *ngIf="error && !loading" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6">
         <p>{{ error }}</p>
       </div>
 
-      <!-- Productos -->
       <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div *ngFor="let producto of productos"
           class="bg-white rounded-md shadow-md p-8 transform transition-transform duration-300 hover:-translate-y-2">
-          <img [src]="producto.imagenBase64 || 'https://via.placeholder.com/200x200?text=Producto'"
-            [alt]="producto.nombre" class="mx-auto mb-6 w-48 h-48 object-cover rounded">
+          <img [src]="getImagenSrc(producto.imagenBase64)" [alt]="producto.nombre"
+            class="mx-auto mb-6 w-48 h-48 object-cover rounded">
           <h3 class="text-2xl mb-2">{{producto.nombre}}</h3>
           <p class="text-gray-600 mb-4">{{producto.descripcion}}</p>
           <p class="text-hydro-green font-bold text-xl mb-4">{{formatearPrecio(producto.precio)}}</p>
@@ -46,9 +43,103 @@
         </div>
       </div>
 
-      <!-- Mensaje cuando no hay productos -->
       <div *ngIf="!loading && productos.length === 0" class="text-center py-12">
         <p class="text-gray-600 text-lg">No hay productos disponibles en este momento.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-gray-50 relative">
+    <div class="max-w-7xl mx-auto px-5">
+      <!-- Título elegante -->
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">
+          Sobre <span class="text-hydro-green">HydroLink</span>
+        </h2>
+        <div class="w-20 h-1 bg-hydro-green mx-auto rounded-full"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto mb-12">
+        <div class="bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100">
+          <div class="text-center space-y-6">
+            <p class="text-lg text-gray-700 leading-relaxed">
+              <span class="font-bold text-hydro-green">HydroLink</span> se cataloga como una empresa en busca de la
+              autosustentabilidad, pues esperamos ayudar a nuestros clientes, priorizando el
+              <span class="font-semibold text-blue-600">cuidado y el futuro de la tierra</span> y quienes la habitamos,
+              fomentando el uso de herramientas IoT para que el cuidado de la fauna sea siempre más fácil, y por lo
+              tanto prospere.
+            </p>
+
+            <div class="bg-blue-50 p-6 rounded-lg border-l-4 border-hydro-green">
+              <p class="text-gray-700 leading-relaxed">
+                Este enfoque, como todo, empieza desde las raíces, por eso, nuestros productos principalmente se enfocan
+                en
+                los hogares, sin dejar de pensar que en el futuro pueden ser módulos muchísimo más grandes que puedan
+                ayudar
+                al cuidado o desarrollo de cualquier zona natural, así como ayudar a los millones de personas que se
+                encargan
+                de mantener y vender productos de la tierra.
+              </p>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed">
+              Gracias a que nuestros productos se enfocan en la gestión o automatización de procesos como:
+              <span class="font-semibold text-hydro-green">purificación y gestión inteligente del agua</span>.
+              Nos dedicamos a crear <span class="font-semibold text-blue-600">soluciones sostenibles y eficientes</span>
+              que optimizan el uso del agua para hogares e industrias.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div
+          class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center hover:-translate-y-2">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-green-400 to-hydro-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <i class="fas fa-leaf text-white text-xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Sostenibilidad</h3>
+          <p class="text-gray-600 leading-relaxed">Comprometidos con el cuidado del medio ambiente y la eficiencia
+            energética.</p>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center hover:-translate-y-2">
+          <div
+            class="w-16 h-16 bg-gradient-to-br  from-green-400 to-hydro-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <i class="fas fa-cogs text-white text-xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Innovación</h3>
+          <p class="text-gray-600 leading-relaxed">Tecnología avanzada para sistemas de purificación y riego
+            inteligentes.</p>
+        </div>
+
+        <div
+          class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center hover:-translate-y-2">
+          <div
+            class="w-16 h-16 bg-gradient-to-br from-green-400 to-hydro-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <i class="fas fa-users text-white text-xl"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-3">Calidad</h3>
+          <p class="text-gray-600 leading-relaxed">Productos de alta calidad respaldados por años de experiencia y
+            soporte técnico.</p>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <div class="inline-flex flex-col sm:flex-row gap-4 items-center">
+          <a href="/products"
+            class="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-hydro-green to-green-600 text-white rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <i class="fas fa-arrow-right mr-2"></i>
+            Ver Nuestros Productos
+          </a>
+          <a href="/contact"
+            class="inline-flex items-center justify-center px-8 py-3 bg-white text-gray-800 border-2 border-gray-300 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 hover:border-hydro-green hover:text-hydro-green">
+            <i class="fas fa-phone mr-2"></i>
+            Contáctanos
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -79,9 +170,3 @@
     </div>
   </section>
 </main>
-
-<footer class="bg-hydro-dark-green text-white text-center py-10">
-  <div class="max-w-7xl mx-auto px-5">
-    <p>&copy; 2025 Hydrolink. Todos los derechos reservados.</p>
-  </div>
-</footer>

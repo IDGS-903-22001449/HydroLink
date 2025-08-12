@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   loading = true;
   error = '';
 
-  constructor(private productoService: ProductoService) {}
+  constructor(private productoService: ProductoService) { }
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit {
         console.error('Error al cargar productos:', error);
         this.error = 'Error al cargar los productos. Usando datos de ejemplo.';
         this.loading = false;
-        // Productos de ejemplo en caso de error
         this.productos = [
           {
             id: 1,
@@ -58,5 +57,19 @@ export class HomeComponent implements OnInit {
       style: 'currency',
       currency: 'MXN'
     }).format(precio);
+  }
+
+  getImagenSrc(imagenBase64?: string): string {
+    if (!imagenBase64) {
+      return 'https://via.placeholder.com/200x200?text=Producto';
+    }
+    
+    // Si ya tiene el prefijo data:image, lo devolvemos tal como está
+    if (imagenBase64.startsWith('data:image/')) {
+      return imagenBase64;
+    }
+    
+    // Si es solo la cadena base64, agregamos el prefijo por defecto
+    return `data:image/jpeg;base64,${imagenBase64}`;
   }
 }

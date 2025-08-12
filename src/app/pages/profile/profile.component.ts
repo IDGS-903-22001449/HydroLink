@@ -6,11 +6,12 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../interfaces/user.interface';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { UserPurchasesComponent } from '../../components/user-purchases/user-purchases.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, NavbarComponent, UserPurchasesComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     {
@@ -44,82 +45,103 @@ export const routes: Routes = [
     },
     {
         path: 'admin-dashboard',
-        loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
-        // canActivate: [authGuard] // Comentado temporalmente para desarrollo
-        children: [
-            {
-                path: '',
-                redirectTo: 'overview',
-                pathMatch: 'full'
-            },
-            {
-                path: 'overview',
-                loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
-            }
-        ]
+        redirectTo: '/admin-sales',
+        pathMatch: 'full'
     },
     {
         path: 'admin-users',
-        loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/admin-users/admin-users.component').then(m => m.AdminUsersComponent),
+        canActivate: [adminGuard]
     },
     {
         path: 'admin-suppliers',
-        loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/admin-suppliers/admin-suppliers.component').then(m => m.AdminSuppliersComponent),
+        canActivate: [adminGuard]
     },
     {
         path: 'admin-raw-materials',
-        loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/admin-raw-materials/admin-raw-materials').then(m => m.AdminRawMaterialsComponent),
+        canActivate: [adminGuard]
+    },
+    {
+        path: 'inventario',
+        loadComponent: () => import('./pages/inventario/inventario.component').then(m => m.InventarioComponent),
+        canActivate: [adminGuard]
     },
     {
         path: 'admin-products',
-        loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/admin-products/admin-products.component').then(m => m.AdminProductsComponent),
+        canActivate: [adminGuard]
     },
     {
         path: 'admin-sales',
-        loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/admin-sales/admin-sales.component').then(m => m.AdminSalesComponent),
+        canActivate: [adminGuard]
+    },
+    {
+        path: 'admin-purchases',
+        loadComponent: () => import('./admin-purchases/admin-purchases').then(m => m.AdminPurchasesComponent),
+        canActivate: [adminGuard]
     },
     {
         path: 'admin-quotes',
-        loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/admin-quotes/admin-quotes.component').then(m => m.AdminQuotesComponent),
+        canActivate: [adminGuard]
     },
     {
         path: 'client-dashboard',
-        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent)
-        // canActivate: [authGuard] // Comentado temporalmente para desarrollo
+        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent),
+        canActivate: [authGuard]
     },
     {
         path: 'client-profile',
-        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent),
+        canActivate: [authGuard]
     },
     {
         path: 'client-products',
-        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent),
+        canActivate: [authGuard]
     },
     {
         path: 'client-documentation',
-        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent),
+        canActivate: [authGuard]
     },
     {
         path: 'client-quotes',
-        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent)
-        // canActivate: [authGuard] // Ruta temporal - agregar componente específico después
+        loadComponent: () => import('./pages/client-dashboard/client-dashboard.component').then(m => m.ClientDashboardComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'client-purchases',
+        loadComponent: () => import('./pages/client-purchases/client-purchases.component').then(m => m.ClientPurchasesComponent),
+        canActivate: [authGuard]
     },
     {
         path: 'products',
         loadComponent: () => import('./pages/products/products.component').then(m => m.ProductsComponent)
     },
     {
+        path: 'purchase-detail/:id',
+        loadComponent: () => import('./pages/purchase-detail/purchase-detail.component').then(m => m.PurchaseDetailComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'cotizacion',
+        loadComponent: () => import('./pages/cotizacion-cliente/cotizacion-cliente').then(m => m.CotizacionCliente)
+    },
+    {
         path: 'contact',
         loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent)
+    },
+    {
+        path: 'faq',
+        loadComponent: () => import('./pages/faq/faq.component').then(m => m.FaqComponent)
+    },
+    {
+        path: 'reviews',
+        loadComponent: () => import('./pages/reviews/reviews.component').then(m => m.ReviewsComponent)
     },
     {
         path: '**',

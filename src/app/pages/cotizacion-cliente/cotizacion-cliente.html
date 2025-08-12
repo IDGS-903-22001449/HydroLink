@@ -1,0 +1,443 @@
+<app-navbar></app-navbar>
+
+<main>
+    <!-- Header Section -->
+    <section class="bg-white py-15 text-center">
+        <div class="max-w-7xl mx-auto px-5">
+            <h1 class="text-4xl mb-5 text-gray-800">Solicita tu Cotización</h1>
+            <p class="text-lg text-gray-600">Completa el formulario a continuación y nuestro equipo te contactará con
+                una cotización personalizada para tu proyecto de riego.</p>
+        </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="py-15 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-5">
+
+            <!-- Loading State -->
+            <div *ngIf="loading" class="flex justify-center items-center py-12">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+                <span class="ml-3 text-gray-600">Cargando información...</span>
+            </div>
+
+            <!-- Content -->
+            <div *ngIf="!loading" class="flex flex-wrap gap-8 justify-center">
+
+                <!-- Form Section -->
+                <div class="bg-white rounded-md shadow-md p-10 flex-1 min-w-[300px] max-w-[600px]">
+                    <h2 class="text-3xl text-hydro-green mb-6">Información del Proyecto</h2>
+
+                    <form [formGroup]="createQuoteForm" (ngSubmit)="onSubmitCreate()" class="space-y-6">
+
+                        <!-- Loading State para Dropdowns -->
+                        <div *ngIf="loadingDropdowns" class="flex justify-center items-center py-8">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+                            <span class="ml-2 text-gray-600">Cargando datos...</span>
+                        </div>
+
+                        <div *ngIf="!loadingDropdowns" class="space-y-6">
+
+                            <!-- Cliente Actual -->
+                            <div *ngIf="clienteActual" class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                <h4 class="text-lg font-semibold text-blue-900 mb-2">Información del Cliente</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <p class="text-gray-600">Nombre:</p>
+                                        <p class="font-semibold text-gray-900">{{clienteActual.nombre}}
+                                            {{clienteActual.apellido}}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600">Email:</p>
+                                        <p class="font-semibold text-gray-900">{{clienteActual.email}}</p>
+                                    </div>
+                                    <div *ngIf="clienteActual.empresa">
+                                        <p class="text-gray-600">Empresa:</p>
+                                        <p class="font-semibold text-gray-900">{{clienteActual.empresa}}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-600">Teléfono:</p>
+                                        <p class="font-semibold text-gray-900">{{clienteActual.telefono}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Formulario para usuarios invitados -->
+                            <div *ngIf="isGuestUser" class="bg-orange-50 p-4 rounded-lg border border-orange-200 space-y-4">
+                                <div class="flex items-center mb-4">
+                                    <svg class="w-5 h-5 text-orange-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                    <h4 class="text-lg font-semibold text-orange-900">Información de Contacto</h4>
+                                </div>
+                                <p class="text-orange-700 text-sm mb-4">Como usuario invitado, necesitamos tus datos de contacto para enviarte la cotización:</p>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block mb-2 font-semibold text-gray-700">Nombre *</label>
+                                        <input type="text" formControlName="clienteNombre"
+                                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="Tu nombre">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block mb-2 font-semibold text-gray-700">Apellido *</label>
+                                        <input type="text" formControlName="clienteApellido"
+                                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="Tu apellido">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block mb-2 font-semibold text-gray-700">Email *</label>
+                                        <input type="email" formControlName="clienteEmail"
+                                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="tu@email.com">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block mb-2 font-semibold text-gray-700">Teléfono</label>
+                                        <input type="tel" formControlName="clienteTelefono"
+                                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="(55) 1234-5678">
+                                    </div>
+                                    
+                                    <div class="md:col-span-2">
+                                        <label class="block mb-2 font-semibold text-gray-700">Dirección</label>
+                                        <input type="text" formControlName="clienteDireccion"
+                                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="Calle, número, colonia, ciudad">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block mb-2 font-semibold text-gray-700">Empresa (Opcional)</label>
+                                        <input type="text" formControlName="clienteEmpresa"
+                                            class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            placeholder="Nombre de la empresa">
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-orange-100 p-3 rounded text-sm text-orange-700">
+                                    <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <strong>¿Ya tienes cuenta?</strong> <a (click)="navigateToLogin()" class="underline cursor-pointer hover:text-orange-800">Inicia sesión</a> para acceso más rápido.
+                                </div>
+                            </div>
+
+                            <!-- Error si no se puede cargar el cliente autenticado -->
+                            <div *ngIf="!clienteActual && !loading && !isGuestUser"
+                                class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 text-red-600 mr-2" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                        </path>
+                                    </svg>
+                                    <h4 class="text-lg font-semibold text-red-900">Error al cargar información del
+                                        cliente</h4>
+                                </div>
+                                <p class="text-red-700 mt-2">No se pudo cargar tu información de cliente. Por favor,
+                                    inicia sesión nuevamente.</p>
+                                <button (click)="navigateToLogin()"
+                                    class="mt-3 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors">
+                                    Ir al Login
+                                </button>
+                            </div>
+
+                            <!-- Producto Selection -->
+                            <div>
+                                <label class="block mb-2 font-semibold text-gray-700">Producto *</label>
+                                <select formControlName="productoId" (change)="onProductChange($event)"
+                                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                    <option value="">Seleccionar producto...</option>
+                                    <option *ngFor="let producto of productos" [value]="producto.id">
+                                        {{producto.nombre}} - {{formatCurrency(producto.precio)}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Nombre del Proyecto -->
+                            <div>
+                                <label class="block mb-2 font-semibold text-gray-700">Nombre del Proyecto *</label>
+                                <input type="text" formControlName="nombreProyecto"
+                                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                    placeholder="Ej: Sistema de riego para jardín residencial">
+                            </div>
+
+                            <!-- Descripción -->
+                            <div>
+                                <label class="block mb-2 font-semibold text-gray-700">Descripción del Proyecto</label>
+                                <textarea formControlName="descripcion" rows="4"
+                                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-vertical"
+                                    placeholder="Describe los detalles de tu proyecto, requerimientos específicos, área a regar, etc."></textarea>
+                            </div>
+
+                            <!-- Información de Porcentaje de Ganancia (Solo informativo) -->
+                            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <h4 class="text-lg font-semibold text-blue-900">Información de Precios</h4>
+                                </div>
+                                <p class="text-blue-700 mt-2 text-sm">
+                                    Nuestras cotizaciones incluyen un margen estándar del <strong>10%</strong> sobre el costo de materiales y mano de obra.
+                                    Este margen garantiza la calidad del servicio y el soporte post-venta.
+                                </p>
+                            </div>
+
+                            <!-- Observaciones -->
+                            <div>
+                                <label class="block mb-2 font-semibold text-gray-700">Observaciones Adicionales</label>
+                                <textarea formControlName="observaciones" rows="4"
+                                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 resize-vertical"
+                                    placeholder="Cualquier información adicional que consideres importante para la cotización"></textarea>
+                            </div>
+
+                            <!-- Componentes del Producto -->
+                            <div *ngIf="selectedProduct && productComponents.length > 0"
+                                class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                                <h4 class="text-lg font-semibold text-blue-900 mb-4">Componentes Disponibles</h4>
+                                <p class="text-sm text-blue-700 mb-4">Producto seleccionado:
+                                    <strong>{{selectedProduct.nombre}}</strong>
+                                </p>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div *ngFor="let component of productComponents"
+                                        class="bg-white p-4 rounded border border-blue-200">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-gray-900">
+                                                    {{component.nombreComponente}}</p>
+                                                <p class="text-xs text-gray-600 mt-1">Cantidad: {{component.cantidad}}
+                                                    {{component.unidadMedida}}</p>
+                                                <p *ngIf="component.especificaciones"
+                                                    class="text-xs text-gray-500 mt-1">
+                                                    {{component.especificaciones}}
+                                                </p>
+
+                                                <!-- Toggle Component Selection -->
+                                                <div class="flex items-center mt-3">
+                                                    <label class="flex items-center cursor-pointer">
+                                                        <input type="checkbox"
+                                                            (change)="toggleComponentSelection(component, $event)"
+                                                            class="form-checkbox h-4 w-4 text-green-600 rounded">
+                                                        <span class="ml-2 text-sm text-gray-700">Incluir en
+                                                            cotización</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 text-xs text-blue-700 bg-blue-100 p-3 rounded">
+                                    <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                    Selecciona los componentes que deseas incluir en tu cotización.
+                                </div>
+                            </div>
+
+                            <!-- Resumen de Cálculos -->
+                            <div *ngIf="selectedComponents.length > 0"
+                                class="bg-green-50 p-6 rounded-lg border border-green-200">
+                                <h4 class="text-lg font-semibold text-green-900 mb-4">Resumen de Cotización</h4>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div class="bg-white p-3 rounded">
+                                        <p class="text-gray-600">Subtotal Componentes:</p>
+                                        <p class="font-semibold text-gray-900">{{formatCurrency(subtotalComponentes)}}
+                                        </p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded">
+                                        <p class="text-gray-600">Mano de Obra:</p>
+                                        <p class="font-semibold text-gray-900">{{formatCurrency(subtotalManoObra)}}</p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded">
+                                        <p class="text-gray-600">Materiales:</p>
+                                        <p class="font-semibold text-gray-900">{{formatCurrency(subtotalMateriales)}}
+                                        </p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded">
+                                        <p class="text-gray-600">Subtotal:</p>
+                                        <p class="font-semibold text-gray-900">{{formatCurrency(totalSinGanancia)}}</p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded">
+                                        <p class="text-gray-600">Ganancia (10%):</p>
+                                        <p class="font-semibold text-gray-900">{{formatCurrency(montoGanancia)}}</p>
+                                    </div>
+                                    <div class="bg-green-100 p-3 rounded col-span-2">
+                                        <p class="text-gray-600">Total Estimado:</p>
+                                        <p class="font-bold text-green-800 text-xl">{{formatCurrency(totalEstimado)}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="pt-6">
+                                <button type="submit" [disabled]="!createQuoteForm.valid"
+                                    class="w-full bg-hydro-green text-white py-3 px-5 rounded-md transition-colors duration-300 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed text-base font-semibold">
+                                    <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Crear Cotización
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Information Section -->
+                <div class="bg-white rounded-md shadow-md p-10 flex-1 min-w-[300px] max-w-[400px]">
+                    <h2 class="text-3xl text-hydro-green mb-6">¿Por qué elegirnos?</h2>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Experiencia Comprobada</h3>
+                                <p class="text-gray-600 mt-1">Más de 10 años diseñando e instalando sistemas de riego
+                                    eficientes y duraderos.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Precios Competitivos</h3>
+                                <p class="text-gray-600 mt-1">Ofrecemos las mejores tarifas del mercado sin comprometer
+                                    la calidad.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Garantía Completa</h3>
+                                <p class="text-gray-600 mt-1">Todos nuestros sistemas incluyen garantía y soporte
+                                    técnico post-venta.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Tecnología Avanzada</h3>
+                                <p class="text-gray-600 mt-1">Utilizamos la última tecnología en sistemas de riego
+                                    automatizados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div *ngIf="showLoginAlert"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 animate-fadeIn modal-backdrop">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full transform transition-all animate-slideIn">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-t-lg p-6 text-white">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold">Acceso Requerido</h3>
+                        <p class="text-green-100 text-sm">Necesitas iniciar sesión para continuar</p>
+                    </div>
+                </div>
+                <button (click)="closeLoginAlert()" class="text-white hover:text-green-200 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h4 class="text-lg font-semibold text-gray-900 mb-2">¡Bienvenido a HydroLink!</h4>
+                <p class="text-gray-600 mb-4">
+                    Para solicitar una cotización personalizada, necesitas tener una cuenta en nuestro sistema.
+                </p>
+
+            </div>
+
+            <!-- Actions -->
+            <div class="space-y-3">
+                <button (click)="goToLogin()"
+                    class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center btn-primary">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                    Iniciar Sesión
+                </button>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 pt-4 border-t border-gray-200 text-center">
+                <p class="text-xs text-gray-500">
+                    ¿Ya tienes una cuenta?
+                    <a (click)="goToLogin()" class="text-green-600 hover:text-green-700 font-medium cursor-pointer">
+                        Inicia sesión aquí
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

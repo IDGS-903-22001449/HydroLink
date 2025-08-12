@@ -4,7 +4,7 @@
   <div class="main-content">
     <header class="top-bar">
       <div class="user-dropdown">
-        <button>Welcome, Jane Doe <i class="fas fa-chevron-down"></i></button>
+        <button>Welcome, {{ userFullName }} <i class="fas fa-chevron-down"></i></button>
       </div>
     </header>
 
@@ -37,6 +37,9 @@
         </a>
         <a href="/client-quotes" class="btn btn-secondary">
           <i class="fas fa-file-invoice"></i> View My Quotes
+        </a>
+        <a href="/client-purchases" class="btn btn-secondary">
+          <i class="fas fa-shopping-bag"></i> View My Purchases
         </a>
         <a href="/contact" class="btn btn-secondary">
           <i class="fas fa-life-ring"></i> Get Support

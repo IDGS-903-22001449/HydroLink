@@ -4,30 +4,23 @@ import { Router, NavigationEnd } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { MetricCardComponent } from '../../components/metric-card/metric-card.component';
 import { DataTableComponent } from '../../components/data-table/data-table.component';
+import { AdminDropdownComponent } from '../../components/admin-dropdown/admin-dropdown.component';
+import { MenuService, MenuItem } from '../../services/menu.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, MetricCardComponent, DataTableComponent],
+  imports: [CommonModule, SidebarComponent, MetricCardComponent, DataTableComponent, AdminDropdownComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrls: ['./admin-dashboard.component.css']
 })
 export class AdminDashboardComponent implements OnInit {
   currentRoute: string = '/admin-dashboard';
-  pageTitle: string = 'Dashboard Overview';
+  pageTitle: string = 'Panel de Control';
+  adminMenuItems: MenuItem[] = [];
   
-  constructor(private router: Router) {}
-  
-  adminMenuItems = [
-    { label: 'Dashboard', route: '/admin-dashboard', icon: 'fa-tachometer-alt', active: true },
-    { label: 'Users', route: '/admin-users', icon: 'fa-users' },
-    { label: 'Suppliers', route: '/admin-suppliers', icon: 'fa-truck-loading' },
-    { label: 'Raw Materials', route: '/admin-raw-materials', icon: 'fa-boxes' },
-    { label: 'Products', route: '/admin-products', icon: 'fa-box-open' },
-    { label: 'Sales & Reports', route: '/admin-sales', icon: 'fa-chart-line' },
-    { label: 'Quotes', route: '/admin-quotes', icon: 'fa-clipboard-list' }
-  ];
+  constructor(private router: Router, private menuService: MenuService) {}
 
   metrics = [
     { title: 'Total Sales', value: '$125,450', subtitle: 'Last 30 days' },
@@ -146,6 +139,9 @@ export class AdminDashboardComponent implements OnInit {
   ];
 
   ngOnInit() {
+    // Inicializar menú desde el servicio
+    this.adminMenuItems = this.menuService.getAdminMenuItems();
+    
     // Escuchar cambios de ruta
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -164,28 +160,31 @@ export class AdminDashboardComponent implements OnInit {
   updatePageContent() {
     switch (this.currentRoute) {
       case '/admin-dashboard':
-        this.pageTitle = 'Dashboard Overview';
+        this.pageTitle = 'Panel de Control';
         break;
       case '/admin-users':
-        this.pageTitle = 'User Management';
+        this.pageTitle = 'Gestión de Usuarios';
         break;
       case '/admin-suppliers':
-        this.pageTitle = 'Supplier Management';
+        this.pageTitle = 'Gestión de Proveedores';
         break;
       case '/admin-raw-materials':
-        this.pageTitle = 'Raw Materials Inventory';
+        this.pageTitle = 'Inventario de Materias Primas';
         break;
       case '/admin-products':
-        this.pageTitle = 'Product Management';
+        this.pageTitle = 'Gestión de Productos';
+        break;
+      case '/admin-purchases':
+        this.pageTitle = 'Gestión de Compras';
         break;
       case '/admin-sales':
-        this.pageTitle = 'Sales & Reports';
+        this.pageTitle = 'Ventas y Reportes';
         break;
       case '/admin-quotes':
-        this.pageTitle = 'Quote Management';
+        this.pageTitle = 'Gestión de Cotizaciones';
         break;
       default:
-        this.pageTitle = 'Admin Panel';
+        this.pageTitle = 'Panel de Administración';
     }
   }
   

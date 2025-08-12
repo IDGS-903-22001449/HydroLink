@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { MetricCardComponent } from '../../components/metric-card/metric-card.component';
 import { DataTableComponent } from '../../components/data-table/data-table.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -12,11 +13,13 @@ import { DataTableComponent } from '../../components/data-table/data-table.compo
   styleUrls: ['./client-dashboard.component.css']
 })
 export class ClientDashboardComponent implements OnInit {
+  userFullName = 'Usuario';
 
   clientMenuItems = [
     { label: 'My Dashboard', route: '/client-dashboard', icon: 'fa-home', active: true },
     { label: 'My Profile', route: '/client-profile', icon: 'fa-user-circle' },
     { label: 'My Products', route: '/client-products', icon: 'fa-box' },
+    { label: 'My Purchases', route: '/client-purchases', icon: 'fa-shopping-bag' },
     { label: 'Documentation', route: '/client-documentation', icon: 'fa-book' },
     { label: 'My Quotes', route: '/client-quotes', icon: 'fa-file-invoice-dollar' },
     { label: 'Support', route: '/contact', icon: 'fa-headset' },
@@ -42,10 +45,17 @@ export class ClientDashboardComponent implements OnInit {
     { device: 'Hydrolink Home Kit #I9J0K1L2 (Inactive)', activity: 'Desconectado (06/20/2025)', status: 'Offline' }
   ];
 
+  constructor(private authService: AuthService) {}
+
   statusColor(status: string): string {
     return status === 'Online' ? 'green' : 'red';
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const userDetail = this.authService.getUserDetail();
+    if (userDetail && userDetail.fullName) {
+      this.userFullName = userDetail.fullName;
+    }
+  }
 }
 

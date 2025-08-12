@@ -1,0 +1,195 @@
+<div class="form-container">
+  <h2>Editar Producto</h2>
+  
+  <!-- Mensaje de error general -->
+  <div *ngIf="errorMessage" class="alert alert-error">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{ errorMessage }}
+  </div>
+  
+  <!-- Estado de carga -->
+  <div *ngIf="isLoading" class="alert alert-info">
+    <i class="fas fa-spinner fa-spin"></i>
+    Cargando datos del producto, por favor espera...
+  </div>
+  
+  <div *ngIf="isSubmitting" class="alert alert-info">
+    <i class="fas fa-spinner fa-spin"></i>
+    Actualizando producto, por favor espera...
+  </div>
+  
+  <form [formGroup]="productoForm" (ngSubmit)="submit()" *ngIf="!isLoading">
+    <div class="form-group">
+      <label for="nombre">Nombre del Producto *</label>
+      <input id="nombre" type="text" formControlName="nombre" placeholder="Ingrese el nombre del producto" required 
+             [class.error]="productoForm.get('nombre')?.invalid && productoForm.get('nombre')?.touched" />
+      <div *ngIf="productoForm.get('nombre')?.invalid && productoForm.get('nombre')?.touched" class="field-error">
+        <small>El nombre del producto es requerido</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" formControlName="descripcion" rows="3"
+        placeholder="Ingrese una descripción del producto"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="categoria">Categoría *</label>
+        <select id="categoria" formControlName="categoria" required
+                [class.error]="productoForm.get('categoria')?.invalid && productoForm.get('categoria')?.touched">
+          <option value="">Seleccione una categoría</option>
+          <option value="Home Kit">Kit para el Hogar</option>
+          <option value="Professional">Profesional</option>
+          <option value="Industrial">Industrial</option>
+          <option value="Accessories">Accesorios</option>
+        </select>
+        <div *ngIf="productoForm.get('categoria')?.invalid && productoForm.get('categoria')?.touched" class="field-error">
+          <small>La categoría es requerida</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="calcularPrecioAutomatico">Cálculo de Precio</label>
+        <div class="checkbox-group">
+          <input id="calcularPrecioAutomatico" type="checkbox" formControlName="calcularPrecioAutomatico" />
+          <label for="calcularPrecioAutomatico">Calcular precio automáticamente</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group" *ngIf="!productoForm.get('calcularPrecioAutomatico')?.value">
+        <label for="precio">Precio Manual ($) *</label>
+        <input id="precio" type="number" step="0.01" formControlName="precio" placeholder="0.00" min="0"
+               [class.error]="productoForm.get('precio')?.invalid && productoForm.get('precio')?.touched" />
+        <small class="form-help">Precio fijo del producto</small>
+        <div *ngIf="productoForm.get('precio')?.invalid && productoForm.get('precio')?.touched" class="field-error">
+          <small>El precio es requerido y debe ser mayor o igual a 0</small>
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="productoForm.get('calcularPrecioAutomatico')?.value">
+        <label for="margenGanancia">Margen de Ganancia (%) *</label>
+        <input id="margenGanancia" type="number" step="1" formControlName="margenGanancia" placeholder="30" min="0"
+               [class.error]="productoForm.get('margenGanancia')?.invalid && productoForm.get('margenGanancia')?.touched" />
+        <small class="form-help">El precio se calculará automáticamente basado en el costo de los componentes más este
+          margen de ganancia</small>
+        <div *ngIf="productoForm.get('margenGanancia')?.invalid && productoForm.get('margenGanancia')?.touched" class="field-error">
+          <small>El margen de ganancia es requerido y debe ser mayor o igual a 0</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="especificaciones">Especificaciones</label>
+      <textarea id="especificaciones" formControlName="especificaciones" rows="3"
+        placeholder="Ingrese las especificaciones técnicas"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tipoInstalacion">Tipo de Instalación</label>
+        <input id="tipoInstalacion" type="text" formControlName="tipoInstalacion"
+          placeholder="Por ejemplo, Interior, Exterior, Profesional" />
+      </div>
+
+      <div class="form-group">
+        <label for="tiempoInstalacion">Tiempo de Instalación</label>
+        <input id="tiempoInstalacion" type="text" formControlName="tiempoInstalacion"
+          placeholder="Por ejemplo, 2-3 horas" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="garantia">Garantía</label>
+      <input id="garantia" type="text" formControlName="garantia" placeholder="Por ejemplo, 2 años garantía limitada" />
+    </div>
+
+    <!-- Sección de componentes requeridos -->
+    <div class="form-group">
+      <h3>Componentes Requeridos *</h3>
+      <p class="form-help">Selecciona las materias primas/componentes que se requieren para este producto</p>
+      
+      <div *ngIf="isLoadingComponents" class="loading-state">
+        <i class="fas fa-spinner fa-spin"></i> Cargando componentes/materias primas...
+      </div>
+      
+      <div *ngIf="componentes.length === 0 && !isLoadingComponents" class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle"></i>
+        No hay componentes disponibles. Debes crear materias primas primero en la sección de administración.
+      </div>
+      
+      <div formArrayName="componentesRequeridos" *ngIf="componentes.length > 0">
+        <div *ngFor="let componenteCtrl of componentesRequeridos.controls; let i=index" [formGroupName]="i"
+          class="componente-row">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Componente/Materia Prima *</label>
+              <select formControlName="componenteId" 
+                      [class.error]="componenteCtrl.get('componenteId')?.invalid && componenteCtrl.get('componenteId')?.touched">
+                <option value="">Seleccionar componente</option>
+                <option *ngFor="let componente of componentes" [value]="componente.id">
+                  {{ componente.nombre }} ({{ componente.unidadMedida }})
+                </option>
+              </select>
+              <div *ngIf="componenteCtrl.get('componenteId')?.invalid && componenteCtrl.get('componenteId')?.touched" class="field-error">
+                <small>Selecciona un componente</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Cantidad *</label>
+              <input type="number" step="0.01" formControlName="cantidad" placeholder="1" min="0.01"
+                     [class.error]="componenteCtrl.get('cantidad')?.invalid && componenteCtrl.get('cantidad')?.touched" />
+              <div *ngIf="componenteCtrl.get('cantidad')?.invalid && componenteCtrl.get('cantidad')?.touched" class="field-error">
+                <small>La cantidad debe ser mayor a 0</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Especificaciones (opcional)</label>
+              <input type="text" formControlName="especificaciones"
+                placeholder="Especificaciones específicas para este componente" />
+            </div>
+            <div class="form-group action-group">
+              <button type="button" class="btn-remove" (click)="removerComponente(i)"
+                *ngIf="componentesRequeridos.length > 1">
+                <i class="fas fa-trash"></i> Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button type="button" class="btn-add" (click)="agregarComponente()" [disabled]="componentes.length === 0">
+        <i class="fas fa-plus"></i> Agregar Componente
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Cambiar Imagen del Producto (opcional)</label>
+      <input type="file" accept="image/*" (change)="onFileChange($event)" />
+      <small class="form-help">Sube una nueva imagen en formato JPG, PNG (máx 5MB). Si no seleccionas nada, se mantendrá la imagen actual.</small>
+    </div>
+
+    <div class="form-group">
+      <label for="manualPdf">Cambiar Manual de Usuario (PDF) (opcional)</label>
+      <input type="file" id="manualPdf" accept=".pdf" (change)="onPdfChange($event)" />
+      <small class="form-help">Sube un nuevo manual de usuario en formato PDF (máx 10MB). Si no seleccionas nada, se mantendrá el manual actual.</small>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary" [disabled]="!productoForm.valid || isSubmitting">
+        <span *ngIf="!isSubmitting">
+          <i class="fas fa-save"></i> Actualizar Producto
+        </span>
+        <span *ngIf="isSubmitting">
+          <i class="fas fa-spinner fa-spin"></i> Actualizando...
+        </span>
+      </button>
+      <button type="button" class="btn-secondary" (click)="cancelar()" [disabled]="isSubmitting">
+        <i class="fas fa-times"></i> Cancelar
+      </button>
+    </div>
+  </form>
+</div>

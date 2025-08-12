@@ -46,3 +46,150 @@
     height: 12rem;
   }
 }
+
+/* Espaciado consistente para toda la página */
+.py-15 {
+  padding-top: 3.75rem;
+  padding-bottom: 3.75rem;
+}
+
+.py-20 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* Gradientes simples */
+.bg-gradient-to-r {
+  background: linear-gradient(to right, var(--tw-gradient-stops));
+}
+
+.bg-gradient-to-br {
+  background: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.from-hydro-green {
+  --tw-gradient-from: #4CAF50;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(76, 175, 80, 0));
+}
+
+.to-green-600 {
+  --tw-gradient-to: #16a34a;
+}
+
+.from-green-400 {
+  --tw-gradient-from: #4ade80;
+}
+
+.from-blue-400 {
+  --tw-gradient-from: #60a5fa;
+}
+
+.to-blue-600 {
+  --tw-gradient-to: #2563eb;
+}
+
+.from-purple-400 {
+  --tw-gradient-from: #c084fc;
+}
+
+.to-purple-600 {
+  --tw-gradient-to: #9333ea;
+}
+
+/* Transformaciones simples */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.hover\:-translate-y-1:hover {
+  transform: translateY(-0.25rem);
+}
+
+.hover\:-translate-y-2:hover {
+  transform: translateY(-0.5rem);
+}
+
+/* Sombras */
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.hover\:shadow-xl:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Bordes redondeados */
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+/* Colores adicionales */
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.bg-blue-50 {
+  background-color: #eff6ff;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+.hover\:border-hydro-green:hover {
+  border-color: #4CAF50;
+}
+
+.hover\:text-hydro-green:hover {
+  color: #4CAF50;
+}
+
+/* Espaciado */
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.gap-8 {
+  gap: 2rem;
+}
+
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .py-15 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .py-20 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .text-4xl {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+  
+  .text-lg {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .gap-8 {
+    gap: 1.5rem;
+  }
+  
+  .mb-12 {
+    margin-bottom: 2rem;
+  }
+}

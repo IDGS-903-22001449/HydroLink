@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, BehaviorSubject, of } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 
 import { AuthResponse } from '../interfaces/auth-response.interface';
@@ -15,16 +15,37 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = environment.apiurl;
+  private apiUrl = environment.apiUrl;
   private userKey = 'user';
+  private authStatusSubject = new BehaviorSubject<boolean>(false);
+  private userSubject = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) { }
+  public isAuthenticated$ = this.authStatusSubject.asObservable();
+  public user$ = this.userSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    // Inicializar el estado al crear el servicio
+    this.checkAuthState();
+  }
+
+  private checkAuthState(): void {
+    const isLoggedIn = this.isLoggedIn();
+    this.authStatusSubject.next(isLoggedIn);
+    
+    if (isLoggedIn) {
+      const user = this.getUserDetail();
+      this.userSubject.next(user);
+    } else {
+      this.userSubject.next(null);
+    }
+  }
 
   login(data: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}account/login`, data).pipe(
       map((response) => {
         if (response.isSuccess && response.token) {
           localStorage.setItem(this.userKey, JSON.stringify(response));
+          this.checkAuthState(); // Actualizar estado
         }
         return response;
       })
@@ -90,16 +111,24 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.userKey);
+    this.checkAuthState(); // Actualizar estado
   }
 
   getRoles(): string[] | null {
     const token = this.getToken();
-    if (!token) return null;
+    if (!token) {
+      console.log('AuthService.getRoles: No hay token');
+      return null;
+    }
 
     try {
       const decodedToken: any = jwtDecode(token);
-      return decodedToken.role ? (Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]) : [];
-    } catch {
+      console.log('AuthService.getRoles: Token decodificado:', decodedToken);
+      const roles = decodedToken.role ? (Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]) : [];
+      console.log('AuthService.getRoles: Roles extraídos:', roles);
+      return roles;
+    } catch (error) {
+      console.log('AuthService.getRoles: Error al decodificar token:', error);
       return null;
     }
   }
@@ -134,5 +163,10 @@ export class AuthService {
     } catch {
       return null;
     }
+  }
+
+  // Método para obtener el usuario actual como observable
+  getCurrentUser(): Observable<any> {
+    return this.user$;
   }
 }

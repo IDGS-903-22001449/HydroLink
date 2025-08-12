@@ -5,11 +5,26 @@ import { map } from 'rxjs/operators';
 import { User, UserDetailDto } from '../interfaces/user.interface';
 import { environment } from '../../environments/environment';
 
+export interface UserDetail {
+  id: string;
+  fullName: string;
+  email: string;
+  roles: string[];
+  phoneNumber?: string;
+  phoneNumberConfirmed?: boolean;
+  accessFailedCount?: number;
+}
+
+export interface RoleAssignDto {
+  userId: string;
+  roleId: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = environment.apiurl;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -31,6 +46,36 @@ export class UserService {
       .pipe(
         map(userDetails => userDetails.map(userDetail => this.mapUserDetailToUser(userDetail)))
       );
+  }
+
+  /**
+   * Obtiene todos los usuarios para administración (formato simplificado)
+   */
+  getAllUsersForAdmin(): Observable<UserDetail[]> {
+    return this.http.get<UserDetail[]>(`${this.apiUrl}account`);
+  }
+
+  /**
+   * Asigna un rol a un usuario
+   */
+  assignRole(roleAssignDto: RoleAssignDto): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}roles/assign`, roleAssignDto);
+  }
+
+  /**
+   * Quita un rol a un usuario
+   */
+  removeRole(roleAssignDto: RoleAssignDto): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}roles/remove`, {
+      body: roleAssignDto
+    });
+  }
+
+  /**
+   * Obtiene todos los roles disponibles
+   */
+  getAllRoles(): Observable<{ id: string; name: string }[]> {
+    return this.http.get<{ id: string; name: string }[]>(`${this.apiUrl}roles`);
   }
 
   /**

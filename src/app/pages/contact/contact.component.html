@@ -25,7 +25,7 @@
           </li>
           <li class="mb-4 text-lg flex items-center">
             <i class="fas fa-envelope mr-4 text-hydro-green text-2xl"></i>
-            info@Hydrolink.com
+            info&#64;Hydrolink.com
           </li>
           <li class="mb-4 text-lg flex items-center">
             <i class="fas fa-clock mr-4 text-hydro-green text-2xl"></i>
@@ -42,31 +42,99 @@
 
       <div class="bg-white rounded-md shadow-md p-10 flex-1 min-w-[300px] max-w-[550px]">
         <h2 class="text-3xl text-hydro-green mb-6">Envíanos un Mensaje</h2>
-        <form>
+        <form (ngSubmit)="onSubmit()">
+          <!-- Mensaje de estado -->
+          <div *ngIf="submitMessage" class="mb-4 p-3 rounded-md" 
+               [class]="submitSuccess ? 'bg-green-100 text-green-800 border border-green-300' : 'bg-red-100 text-red-800 border border-red-300'">
+            {{ submitMessage }}
+          </div>
+
           <div class="mb-4">
             <label for="contact-name" class="block mb-2 font-semibold text-gray-700">Tu Nombre</label>
             <input type="text" id="contact-name" name="name" required
-              class="w-full p-3 border border-gray-300 rounded-md box-border">
+              [(ngModel)]="contactForm.Name"
+              [disabled]="isSubmitting"
+              class="w-full p-3 border border-gray-300 rounded-md box-border disabled:bg-gray-100 disabled:cursor-not-allowed">
           </div>
           <div class="mb-4">
             <label for="contact-email" class="block mb-2 font-semibold text-gray-700">Tu Correo Electrónico</label>
             <input type="email" id="contact-email" name="email" required
-              class="w-full p-3 border border-gray-300 rounded-md box-border">
+              [(ngModel)]="contactForm.Email"
+              [disabled]="isSubmitting"
+              class="w-full p-3 border border-gray-300 rounded-md box-border disabled:bg-gray-100 disabled:cursor-not-allowed">
           </div>
           <div class="mb-4">
             <label for="subject" class="block mb-2 font-semibold text-gray-700">Asunto</label>
             <input type="text" id="subject" name="subject" required
-              class="w-full p-3 border border-gray-300 rounded-md box-border">
+              [(ngModel)]="contactForm.Subject"
+              [disabled]="isSubmitting"
+              class="w-full p-3 border border-gray-300 rounded-md box-border disabled:bg-gray-100 disabled:cursor-not-allowed">
           </div>
           <div class="mb-4">
             <label for="contact-message" class="block mb-2 font-semibold text-gray-700">Tu Mensaje</label>
             <textarea id="contact-message" name="message" rows="7" required
-              class="w-full p-3 border border-gray-300 rounded-md box-border resize-vertical"></textarea>
+              [(ngModel)]="contactForm.Message"
+              [disabled]="isSubmitting"
+              class="w-full p-3 border border-gray-300 rounded-md box-border resize-vertical disabled:bg-gray-100 disabled:cursor-not-allowed"></textarea>
           </div>
           <button type="submit"
-            class="w-full mt-8 bg-hydro-green text-white py-3 px-5 rounded-md transition-colors duration-300 hover:bg-hydro-green-600 border-none cursor-pointer text-base">Enviar
-            Mensaje</button>
+            [disabled]="isSubmitting || !isFormValid()"
+            class="w-full mt-8 bg-hydro-green text-white py-3 px-5 rounded-md transition-colors duration-300 hover:bg-hydro-green-600 border-none cursor-pointer text-base disabled:bg-gray-400 disabled:cursor-not-allowed">
+            <span *ngIf="isSubmitting">Enviando...</span>
+            <span *ngIf="!isSubmitting">Enviar Mensaje</span>
+          </button>
         </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 bg-white">
+    <div class="max-w-7xl mx-auto px-5">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl text-hydro-green mb-4">Recursos Adicionales</h2>
+        <p class="text-gray-600">Encuentra más información y respuestas a tus preguntas</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- FAQ -->
+        <div class="bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition-shadow duration-300">
+          <div class="text-hydro-green text-4xl mb-4">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Preguntas Frecuentes</h3>
+          <p class="text-gray-600 mb-4 text-sm">Encuentra respuestas rápidas a las preguntas más comunes sobre nuestros
+            productos y servicios</p>
+          <a routerLink="/faq"
+            class="inline-block bg-hydro-green text-white px-4 py-2 rounded-md hover:bg-hydro-green-600 transition-colors duration-200 text-sm font-medium">
+            Ver preguntas frecuentes
+          </a>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition-shadow duration-300">
+          <div class="text-hydro-green text-4xl mb-4">
+            <i class="fas fa-calculator"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Solicitar Cotización</h3>
+          <p class="text-gray-600 mb-4 text-sm">Obtén una cotización personalizada para tu proyecto de purificación de
+            agua</p>
+          <a routerLink="/cotizacion"
+            class="inline-block bg-hydro-green text-white px-4 py-2 rounded-md hover:bg-hydro-green-600 transition-colors duration-200 text-sm font-medium">
+            Solicitar Cotización
+          </a>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition-shadow duration-300">
+          <div class="text-hydro-green text-4xl mb-4">
+            <i class="fas fa-filter"></i>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Ver Productos</h3>
+          <p class="text-gray-600 mb-4 text-sm">Explora nuestro catálogo completo de sistemas de purificación de agua
+          </p>
+          <a routerLink="/products"
+            class="inline-block bg-hydro-green text-white px-4 py-2 rounded-md hover:bg-hydro-green-600 transition-colors duration-200 text-sm font-medium">
+            Ver Catálogo
+          </a>
+        </div>
       </div>
     </div>
   </section>

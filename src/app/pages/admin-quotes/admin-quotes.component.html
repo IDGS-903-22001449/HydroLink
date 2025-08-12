@@ -1,0 +1,490 @@
+<div class="dashboard-layout">
+  <app-sidebar [menuItems]="adminMenuItems" [isAdmin]="true"></app-sidebar>
+
+  <div class="main-content">
+    <header class="top-bar">
+      <app-admin-dropdown></app-admin-dropdown>
+    </header>
+
+    <h1>{{ pageTitle }}</h1>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!loading">
+      <!-- Metrics Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="p-2 bg-blue-100 rounded-lg">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                </path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Total Cotizaciones</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ totalQuotes }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="p-2 bg-yellow-100 rounded-lg">
+              <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Pendientes</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ pendingQuotes }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="p-2 bg-green-100 rounded-lg">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Aprobadas</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ approvedQuotes }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="p-2 bg-purple-100 rounded-lg">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1">
+                </path>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Valor Total</p>
+              <p class="text-2xl font-semibold text-gray-900">{{ formatCurrency(totalValue) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters and Actions -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+        <div class="p-6">
+          <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <!-- Search and Filters -->
+            <div class="flex flex-col sm:flex-row gap-4 flex-1">
+              <!-- Search -->
+              <div class="relative flex-1 max-w-md">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </div>
+                <input type="text" [(ngModel)]="searchTerm" (input)="onSearch(searchTerm)"
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-green-500 focus:border-green-500"
+                  placeholder="Buscar cotizaciones...">
+              </div>
+
+              <!-- Status Filter -->
+              <div class="w-full sm:w-48">
+                <select [(ngModel)]="selectedStatus" (change)="onStatusChange(selectedStatus)"
+                  class="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                  <option *ngFor="let status of statusOptions" [value]="status.value">
+                    {{ status.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Create Button -->
+            <div>
+              <button (click)="openCreateModal()"
+                class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Nueva Cotización
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quotes Table -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proyecto</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let quote of filteredQuotes" class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  #{{ quote.id }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">{{ quote.nombreProyecto }}</div>
+                  <div class="text-sm text-gray-500 truncate max-w-xs">{{ quote.descripcion }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-medium text-gray-900">{{ quote.nombreCliente }}</div>
+                  <div class="text-sm text-gray-500">{{ quote.emailCliente }}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ formatDate(quote.fecha) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {{ formatCurrency(quote.totalEstimado) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                    [ngClass]="getBadgeClass(quote.estado)">
+                    {{ quote.estado }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex space-x-2">
+                    <button (click)="openDetailsModal(quote)" class="text-green-600 hover:text-green-900">
+                      Ver
+                    </button>
+                    <button *ngIf="quote.estado === 'PENDIENTE'" (click)="updateQuoteStatus(quote, 'APROBADA')"
+                      class="text-blue-600 hover:text-blue-900">
+                      Aprobar
+                    </button>
+                    <button *ngIf="quote.estado === 'PENDIENTE'" (click)="updateQuoteStatus(quote, 'RECHAZADA')"
+                      class="text-red-600 hover:text-red-900">
+                      Rechazar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Empty State -->
+          <div *ngIf="filteredQuotes.length === 0" class="text-center py-12">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+              </path>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No hay cotizaciones</h3>
+            <p class="mt-1 text-sm text-gray-500">Comienza creando una nueva cotización.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Quote Modal -->
+    <div *ngIf="showCreateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+      <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+          <!-- Modal Header -->
+          <div class="flex items-center justify-between pb-4 border-b">
+            <h3 class="text-lg font-medium text-gray-900">Nueva Cotización</h3>
+            <button (click)="closeCreateModal()" class="text-gray-400 hover:text-gray-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <form [formGroup]="createQuoteForm" (ngSubmit)="onSubmitCreate()" class="mt-6">
+            <!-- Loading State para Dropdowns -->
+            <div *ngIf="loadingDropdowns" class="flex justify-center items-center py-8">
+              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+              <span class="ml-2 text-gray-600">Cargando datos...</span>
+            </div>
+
+            <div *ngIf="!loadingDropdowns" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Dropdown Cliente -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Cliente *</label>
+                <select formControlName="clienteId" (change)="onClientChange($event)"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                  <option value="">Seleccionar cliente...</option>
+                  <option *ngFor="let cliente of clientes" [value]="cliente.id">
+                    {{cliente.nombre}} {{cliente.apellido}} - {{cliente.empresa || cliente.email}}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Dropdown Producto -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Producto *</label>
+                <select formControlName="productoId" (change)="onProductChange($event)"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                  <option value="">Seleccionar producto...</option>
+                  <option *ngFor="let producto of productos" [value]="producto.id">
+                    {{producto.nombre}} - {{formatCurrency(producto.precio)}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Nombre del Proyecto</label>
+                <input type="text" formControlName="nombreProyecto"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Descripción</label>
+                <textarea formControlName="descripcion" rows="3"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"></textarea>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Porcentaje de Ganancia (%)</label>
+                <input type="number" formControlName="porcentajeGanancia" min="0" max="100"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Observaciones</label>
+                <textarea formControlName="observaciones" rows="3"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"></textarea>
+              </div>
+
+              <!-- Componentes del Producto Seleccionado -->
+              <div *ngIf="selectedProduct && productComponents.length > 0" class="md:col-span-2">
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <h4 class="text-md font-medium text-blue-900 mb-3">Componentes disponibles para:
+                    {{selectedProduct.nombre}}</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div *ngFor="let component of productComponents" class="bg-white p-3 rounded border">
+                      <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                          <p class="text-sm font-medium text-gray-900">{{component.nombreComponente}}</p>
+                          <p class="text-xs text-gray-600">Cantidad: {{component.cantidad}} {{component.unidadMedida}}
+                          </p>
+                          <p *ngIf="component.especificaciones" class="text-xs text-gray-500 mt-1">
+                            {{component.especificaciones}}</p>
+
+                          <!-- Toggle Component Selection -->
+                          <div class="flex items-center my-2">
+                            <label class="flex items-center">
+                              <input type="checkbox" (change)="toggleComponentSelection(component, $event)"
+                                class="form-checkbox h-4 w-4 text-green-600">
+                              <span class="ml-2 text-sm text-gray-600">Incluir en cotización</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="ml-2">
+                          <span
+                            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Disponible
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-3 text-xs text-blue-700">
+                    <svg class="w-4 h-4 inline mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                    Selecciona los componentes que deseas incluir en la cotización.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Resumen de Cálculos (solo si hay componentes seleccionados) -->
+              <div *ngIf="selectedComponents.length > 0" class="md:col-span-2">
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <h4 class="text-md font-medium text-green-900 mb-3">Resumen de Cotización</h4>
+                  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <p class="text-gray-600">Subtotal Componentes:</p>
+                      <p class="font-semibold text-gray-900">{{formatCurrency(subtotalComponentes)}}</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-600">Mano de Obra:</p>
+                      <p class="font-semibold text-gray-900">{{formatCurrency(subtotalManoObra)}}</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-600">Materiales:</p>
+                      <p class="font-semibold text-gray-900">{{formatCurrency(subtotalMateriales)}}</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-600">Subtotal:</p>
+                      <p class="font-semibold text-gray-900">{{formatCurrency(totalSinGanancia)}}</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-600">Ganancia ({{createQuoteForm.get('porcentajeGanancia')?.value || 0}}%):
+                      </p>
+                      <p class="font-semibold text-gray-900">{{formatCurrency(montoGanancia)}}</p>
+                    </div>
+                    <div class="bg-green-100 p-2 rounded">
+                      <p class="text-gray-600">Total Estimado:</p>
+                      <p class="font-bold text-green-800 text-lg">{{formatCurrency(totalEstimado)}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex justify-end space-x-3 pt-6 border-t mt-6">
+              <button type="button" (click)="closeCreateModal()"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                Cancelar
+              </button>
+              <button type="submit" [disabled]="!createQuoteForm.valid"
+                class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                Crear Cotización
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div *ngIf="showDetailsModal && selectedQuote"
+      class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+      <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 shadow-lg rounded-md bg-white">
+        <div class="mt-3">
+          <!-- Modal Header -->
+          <div class="flex items-center justify-between pb-4 border-b">
+            <h3 class="text-lg font-medium text-gray-900">Detalles de Cotización #{{ selectedQuote.id }}</h3>
+            <button (click)="closeDetailsModal()" class="text-gray-400 hover:text-gray-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="mt-6 space-y-6">
+            <!-- Project Info -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h4 class="text-md font-medium text-gray-900 mb-3">Información del Proyecto</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-500">Nombre del Proyecto</p>
+                  <p class="text-sm font-medium text-gray-900">{{ selectedQuote.nombreProyecto }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Estado</p>
+                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                    [ngClass]="getBadgeClass(selectedQuote.estado)">
+                    {{ selectedQuote.estado }}
+                  </span>
+                </div>
+                <div class="md:col-span-2">
+                  <p class="text-sm text-gray-500">Descripción</p>
+                  <p class="text-sm text-gray-900">{{ selectedQuote.descripcion || 'No disponible' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Client Info -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h4 class="text-md font-medium text-gray-900 mb-3">Información del Cliente</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-500">Nombre</p>
+                  <p class="text-sm font-medium text-gray-900">{{ selectedQuote.nombreCliente }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Email</p>
+                  <p class="text-sm text-gray-900">{{ selectedQuote.emailCliente || 'No disponible' }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Teléfono</p>
+                  <p class="text-sm text-gray-900">{{ selectedQuote.telefonoCliente || 'No disponible' }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Financial Info -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h4 class="text-md font-medium text-gray-900 mb-3">Información Financiera</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-500">Subtotal Componentes</p>
+                  <p class="text-sm font-medium text-gray-900">{{ formatCurrency(selectedQuote.subtotalComponentes) }}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Subtotal Mano de Obra</p>
+                  <p class="text-sm font-medium text-gray-900">{{ formatCurrency(selectedQuote.subtotalManoObra) }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Subtotal Materiales</p>
+                  <p class="text-sm font-medium text-gray-900">{{ formatCurrency(selectedQuote.subtotalMateriales) }}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Porcentaje de Ganancia</p>
+                  <p class="text-sm font-medium text-gray-900">{{ selectedQuote.porcentajeGanancia }}%</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Monto de Ganancia</p>
+                  <p class="text-sm font-medium text-gray-900">{{ formatCurrency(selectedQuote.montoGanancia) }}</p>
+                </div>
+                <div class="bg-green-100 p-3 rounded">
+                  <p class="text-sm text-gray-500">Total Estimado</p>
+                  <p class="text-lg font-bold text-green-800">{{ formatCurrency(selectedQuote.totalEstimado) }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dates -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h4 class="text-md font-medium text-gray-900 mb-3">Fechas</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-500">Fecha de Creación</p>
+                  <p class="text-sm font-medium text-gray-900">{{ formatDate(selectedQuote.fecha) }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Fecha de Vencimiento</p>
+                  <p class="text-sm font-medium text-gray-900">{{ formatDate(selectedQuote.fechaVencimiento) }}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Observations -->
+            <div *ngIf="selectedQuote.observaciones" class="bg-gray-50 p-4 rounded-lg">
+              <h4 class="text-md font-medium text-gray-900 mb-3">Observaciones</h4>
+              <p class="text-sm text-gray-900">{{ selectedQuote.observaciones }}</p>
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="flex justify-end space-x-3 pt-6 border-t mt-6">
+            <button (click)="closeDetailsModal()"
+              class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div> <!-- Close main-content -->
+</div> <!-- Close dashboard-layout -->

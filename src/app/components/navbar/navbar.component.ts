@@ -22,6 +22,11 @@ export class NavbarComponent {
     return this.authService.getUserDetail();
   }
   
+  get isAdmin(): boolean {
+    const roles = this.authService.getRoles();
+    return roles?.includes('Admin') || roles?.includes('Administrator') || false;
+  }
+  
   logout() {
     this.authService.logout();
     this.router.navigate(['/']);

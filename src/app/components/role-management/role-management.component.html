@@ -1,0 +1,86 @@
+<div class="role-management-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Gestión de Roles</h1>
+      <p class="page-description">Administra los roles del sistema HydroLink</p>
+    </div>
+    <button class="btn btn-primary" (click)="openCreateModal()" [disabled]="isLoading">
+      <i class="fas fa-plus"></i>
+      Nuevo Rol
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-banner">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{ errorMessage }}
+    <button (click)="loadRoles()" class="retry-btn">
+      <i class="fas fa-redo"></i>
+      Reintentar
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando roles...</p>
+  </div>
+
+  <!-- Roles Table -->
+  <div *ngIf="!isLoading" class="table-container">
+    <div *ngIf="roles.length === 0 && !errorMessage" class="empty-state">
+      <div class="empty-icon">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <h3>No hay roles disponibles</h3>
+      <p>Comienza creando tu primer rol para el sistema</p>
+      <button class="btn btn-primary" (click)="openCreateModal()">
+        <i class="fas fa-plus"></i>
+        Crear Primer Rol
+      </button>
+    </div>
+
+    <table *ngIf="roles.length > 0" class="roles-table">
+      <thead>
+        <tr>
+          <th>Nombre del Rol</th>
+          <th>Total de Usuarios</th>
+          <th>ID del Rol</th>
+          <th class="actions-column">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of roles; trackBy: trackByRoleId">
+          <td class="role-name">
+            <div class="role-name-content">
+              <i class="fas fa-user-shield role-icon"></i>
+              <span>{{ role.name }}</span>
+            </div>
+          </td>
+          <td class="user-count">
+            <span class="badge">{{ role.totalUsers || 0 }} usuario(s)</span>
+          </td>
+          <td class="role-id">
+            <code>{{ role.id }}</code>
+          </td>
+          <td class="actions">
+            <div class="action-buttons">
+              <button class="action-btn view-btn" (click)="openViewModal(role)" title="Ver detalles">
+                <i class="fas fa-eye"></i>
+              </button>
+
+              <button class="action-btn delete-btn" (click)="openDeleteModal(role)" title="Eliminar rol">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Role Modal -->
+  <app-role-modal [config]="modalConfig" (configChange)="onModalConfigChange($event)"
+    (roleAction)="onRoleAction($event)"></app-role-modal>
+</div>

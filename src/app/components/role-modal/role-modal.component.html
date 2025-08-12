@@ -1,0 +1,127 @@
+<!-- Modal Backdrop -->
+<div 
+  *ngIf="config.isOpen" 
+  class="modal-backdrop"
+  (click)="closeModal()"
+>
+  <!-- Modal Content -->
+  <div 
+    class="modal-content"
+    (click)="onModalContentClick($event)"
+  >
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h2 class="modal-title">{{ modalTitle }}</h2>
+      <button 
+        type="button" 
+        class="modal-close"
+        (click)="closeModal()"
+        [disabled]="isLoading"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Delete Confirmation -->
+      <div *ngIf="config.mode === 'delete'" class="delete-confirmation">
+        <div class="warning-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <p class="delete-text">
+          ¿Estás seguro de que deseas eliminar el rol 
+          <strong>"{{ config.role?.name }}"</strong>?
+        </p>
+        <p class="delete-subtext">
+          Esta acción no se puede deshacer. El rol será eliminado permanentemente.
+        </p>
+        <div *ngIf="config.role?.totalUsers && (config.role?.totalUsers ?? 0) > 0" class="users-warning">
+          <i class="fas fa-users"></i>
+          <span>Este rol está asignado a {{ config.role?.totalUsers }} usuario(s)</span>
+        </div>
+      </div>
+
+      <!-- Form for Create/Edit/View -->
+      <form 
+        *ngIf="config.mode !== 'delete'" 
+        [formGroup]="roleForm" 
+        (ngSubmit)="onSubmit()"
+        class="role-form"
+      >
+        <!-- Role Name Field -->
+        <div class="form-group">
+          <label for="roleName" class="form-label">
+            Nombre del Rol <span class="required" *ngIf="config.mode !== 'view'">*</span>
+          </label>
+          <input
+            id="roleName"
+            type="text"
+            class="form-input"
+            formControlName="roleName"
+            placeholder="Ingrese el nombre del rol"
+            [class.error]="roleForm.get('roleName')?.invalid && roleForm.get('roleName')?.touched"
+            [class.success]="roleForm.get('roleName')?.valid && roleForm.get('roleName')?.touched"
+          />
+          
+          <!-- Validation Messages -->
+          <div 
+            *ngIf="roleForm.get('roleName')?.invalid && roleForm.get('roleName')?.touched" 
+            class="validation-message"
+          >
+            <span *ngIf="roleForm.get('roleName')?.errors?.['required']">
+              El nombre del rol es requerido
+            </span>
+            <span *ngIf="roleForm.get('roleName')?.errors?.['minlength']">
+              El nombre debe tener al menos 2 caracteres
+            </span>
+            <span *ngIf="roleForm.get('roleName')?.errors?.['maxlength']">
+              El nombre no puede exceder 50 caracteres
+            </span>
+          </div>
+        </div>
+
+        <!-- Role Info in View Mode -->
+        <div *ngIf="config.mode === 'view' && config.role" class="role-info">
+          <div class="info-row">
+            <span class="info-label">ID del Rol:</span>
+            <span class="info-value">{{ config.role.id }}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Total de Usuarios:</span>
+            <span class="info-value">{{ config.role.totalUsers || 0 }}</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <button 
+        type="button" 
+        class="btn btn-secondary"
+        (click)="closeModal()"
+        [disabled]="isLoading"
+      >
+        {{ config.mode === 'view' ? 'Cerrar' : 'Cancelar' }}
+      </button>
+      
+      <button 
+        *ngIf="config.mode !== 'view'"
+        type="button"
+        [class]="'btn ' + submitButtonClass"
+        (click)="onSubmit()"
+        [disabled]="isLoading || (config.mode !== 'delete' && roleForm.invalid)"
+      >
+        <div *ngIf="isLoading" class="loading-spinner"></div>
+        <span [class.loading]="isLoading">{{ submitButtonText }}</span>
+      </button>
+    </div>
+  </div>
+</div>

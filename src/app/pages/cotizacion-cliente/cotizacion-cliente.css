@@ -1,0 +1,274 @@
+/* Admin dashboard layout styles */
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-light);
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: var(--bg-light);
+}
+
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 15px 0;
+}
+
+h1 {
+    color: var(--hydro-dark-green);
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 30px 0;
+}
+
+/* Additional custom styles for admin-quotes component */
+
+/* Animation for modal backdrop */
+.modal-backdrop {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Modal animation */
+.modal-content {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Table hover effects */
+.table-row-hover:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Custom scrollbar for modals */
+.modal-body {
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db #f9fafb;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f9fafb;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Loading spinner enhancement */
+.loading-spinner {
+    border-color: #10b981 transparent #10b981 transparent;
+}
+
+/* Status badge animations */
+.status-badge {
+    transition: all 0.2s ease-in-out;
+}
+
+.status-badge:hover {
+    transform: scale(1.05);
+}
+
+/* Button hover effects */
+.btn-action {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+}
+
+/* Card hover effects */
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Input focus effects */
+.form-input:focus {
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    transform: scale(1.01);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Empty state illustration */
+.empty-state-icon {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Custom utility classes */
+.text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(4px);
+}
+
+/* Action buttons spacing */
+.action-buttons>*+* {
+    margin-left: 0.5rem;
+}
+
+/* Table cell animations */
+.table-cell {
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Status-specific styling */
+.status-pendiente {
+    background-color: #fef3c7;
+    color: #d97706;
+    animation: pulse 2s infinite;
+}
+
+.status-aprobada {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-rechazada {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.status-borrador {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Animaciones para el modal de login */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideIn {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Efectos hover mejorados para los botones */
+.btn-primary {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el modal */
+.modal-backdrop {
+    backdrop-filter: blur(4px);
+}
+
+/* Responsive design para el modal */
+@media (max-width: 640px) {
+    .modal-content {
+        margin: 1rem;
+        max-width: calc(100vw - 2rem);
+    }
+}

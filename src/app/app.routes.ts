@@ -44,6 +44,10 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'cotizacion',
+        loadComponent: () => import('./pages/cotizacion-cliente/cotizacion-cliente.component').then(m => m.CotizacionClienteComponent)
+    },
+    {
         path: 'admin-dashboard',
         redirectTo: '/admin-sales',
         pathMatch: 'full'

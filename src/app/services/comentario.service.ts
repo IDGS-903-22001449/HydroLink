@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, timeout } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -23,12 +23,12 @@ export class ComentarioService {
   }
 
   getComentarios(): Observable<ComentarioResponse> {
-    // El backend devuelve un objeto con comentarios y paginación
+
     return this.http.get<ComentarioResponse>(this.apiUrl)
-      .pipe(timeout(10000)); // 10 segundos timeout
+      .pipe(timeout(10000));
   }
 
-  // Método alternativo para obtener todos los comentarios
+
   getAllComentarios(): Observable<Comentario[]> {
     return this.http.get<Comentario[]>(`${this.apiUrl}/All`);
   }
@@ -37,10 +37,10 @@ export class ComentarioService {
     return this.http.get<Comentario>(`${this.apiUrl}/${id}`);
   }
 
-  // ✅ Actualizado para usar ProductoHydroLink
+
   getComentariosPorProducto(productoHydroLinkId: number): Observable<ComentarioResponse> {
     return this.http.get<ComentarioResponse>(`${this.apiUrl}/ProductoHydroLink/${productoHydroLinkId}`)
-      .pipe(timeout(8000)); // 8 segundos timeout
+      .pipe(timeout(8000));
   }
 
   getComentariosPorUsuario(usuarioId: string): Observable<Comentario[]> {
@@ -50,28 +50,28 @@ export class ComentarioService {
   }
 
   crearComentario(comentario: ComentarioCreate): Observable<Comentario> {
-    // ✅ Backend actualizado ahora acepta formato simplificado
+
     const comentarioDto: ComentarioCreateDto = {
       usuarioId: comentario.usuarioId,
       productoHydroLinkId: comentario.productoHydroLinkId,
       calificacion: comentario.calificacion,
       texto: comentario.texto || ''
     };
-    
+
     return this.http.post<Comentario>(this.apiUrl, comentarioDto, {
       headers: this.getHeaders()
     });
   }
 
   actualizarComentario(id: number, comentario: ComentarioCreate): Observable<void> {
-    // ✅ Backend actualizado ahora acepta formato simplificado
+
     const comentarioDto: ComentarioCreateDto = {
       usuarioId: comentario.usuarioId,
       productoHydroLinkId: comentario.productoHydroLinkId,
       calificacion: comentario.calificacion,
       texto: comentario.texto || ''
     };
-    
+
     return this.http.put<void>(`${this.apiUrl}/${id}`, comentarioDto, {
       headers: this.getHeaders()
     });

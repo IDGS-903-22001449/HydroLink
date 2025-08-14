@@ -1,7 +1,7 @@
-<app-navbar></app-navbar>
+﻿<app-navbar></app-navbar>
 
 <main>
-  <!-- Hero Section -->
+  
   <section class="bg-white py-15 text-center border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-5">
       <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">
@@ -10,9 +10,8 @@
       <p class="text-lg text-gray-600 max-w-4xl mx-auto mb-10">
         Descubre lo que dicen nuestros clientes sobre nuestros sistemas de riego inteligente
       </p>
-      
-      <!-- Estadísticas Globales -->
-      <div *ngIf="estadisticasGlobales?.totalComentarios > 0" 
+
+<div *ngIf="estadisticasGlobales?.totalComentarios > 0"
            class="bg-gray-50 rounded-xl p-8 inline-block border border-gray-200">
         <div class="flex items-center justify-center space-x-8 text-center">
           <div>
@@ -38,10 +37,9 @@
     </div>
   </section>
 
-  <!-- Contenido Principal -->
-  <section class="py-15 bg-gray-100">
+<section class="py-15 bg-gray-100">
     <div class="max-w-7xl mx-auto px-5">
-      <!-- Filtros -->
+      
       <div class="bg-white rounded-md shadow-md p-6 mb-8">
         <h2 class="text-2xl font-bold text-gray-800 mb-6">
           <i class="fas fa-filter text-hydro-green mr-2"></i>
@@ -50,9 +48,9 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Producto</label>
-            <select 
-              [(ngModel)]="filtroProducto" 
-              (change)="aplicarFiltros()" 
+            <select
+              [(ngModel)]="filtroProducto"
+              (change)="aplicarFiltros()"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-hydro-green focus:border-hydro-green"
             >
               <option value="">Todos los productos</option>
@@ -63,9 +61,9 @@
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Calificación</label>
-            <select 
-              [(ngModel)]="filtroCalificacion" 
-              (change)="aplicarFiltros()" 
+            <select
+              [(ngModel)]="filtroCalificacion"
+              (change)="aplicarFiltros()"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-hydro-green focus:border-hydro-green"
             >
               <option value="">Todas las calificaciones</option>
@@ -78,9 +76,9 @@
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Ordenar por</label>
-            <select 
-              [(ngModel)]="ordenamiento" 
-              (change)="aplicarFiltros()" 
+            <select
+              [(ngModel)]="ordenamiento"
+              (change)="aplicarFiltros()"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-hydro-green focus:border-hydro-green"
             >
               <option value="fecha-desc">Más recientes</option>
@@ -92,25 +90,23 @@
         </div>
       </div>
 
-      <!-- Formulario para agregar comentario (solo usuarios logueados) -->
-      <div *ngIf="isLoggedIn && !showReviewForm" class="bg-white rounded-md shadow-md p-6 mb-8">
-        <button 
-          (click)="showReviewForm = true" 
+<div *ngIf="isLoggedIn && !showReviewForm" class="bg-white rounded-md shadow-md p-6 mb-8">
+        <button
+          (click)="showReviewForm = true"
           class="w-full bg-hydro-green hover:bg-hydro-green-600 text-white font-semibold py-3 px-6 rounded-md transition-colors duration-300"
         >
           <i class="fas fa-star mr-2"></i>
           Escribir una Valoración
         </button>
       </div>
-      
-      <!-- Mensaje para usuarios no logueados -->
-      <div *ngIf="!isLoggedIn" class="bg-gray-50 rounded-md p-6 mb-8 text-center border border-gray-200">
+
+<div *ngIf="!isLoggedIn" class="bg-gray-50 rounded-md p-6 mb-8 text-center border border-gray-200">
         <i class="fas fa-sign-in-alt text-hydro-green text-3xl mb-3"></i>
         <h3 class="text-lg font-semibold text-gray-800 mb-2">¿Quieres valorar nuestros productos?</h3>
         <p class="text-gray-600 mb-4">
           Inicia sesión para compartir tu experiencia y ayudar a otros clientes
         </p>
-        <a href="/login" 
+        <a href="/login"
            class="inline-block bg-hydro-green text-white px-6 py-2 rounded-md hover:bg-hydro-green-600 transition-colors duration-300 font-medium">
           Iniciar Sesión
         </a>
@@ -126,8 +122,8 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">
               Producto
             </label>
-            <select 
-              formControlName="productoHydroLinkId" 
+            <select
+              formControlName="productoHydroLinkId"
               class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-hydro-green focus:border-hydro-green"
             >
               <option value="">Selecciona un producto</option>
@@ -135,7 +131,7 @@
                 {{ producto.nombre }}
               </option>
             </select>
-            <div *ngIf="reviewForm.get('productoHydroLinkId')?.invalid && reviewForm.get('productoHydroLinkId')?.touched" 
+            <div *ngIf="reviewForm.get('productoHydroLinkId')?.invalid && reviewForm.get('productoHydroLinkId')?.touched"
                  class="text-red-500 text-sm mt-1">
               Por favor selecciona un producto
             </div>
@@ -147,8 +143,8 @@
             </label>
             <div class="flex items-center space-x-2">
               <div class="flex space-x-1">
-                <button 
-                  *ngFor="let star of [1,2,3,4,5]" 
+                <button
+                  *ngFor="let star of [1,2,3,4,5]"
                   type="button"
                   (click)="setRating(star)"
                   class="text-2xl focus:outline-none transition-colors duration-200"
@@ -162,7 +158,7 @@
                 ({{ reviewForm.get('calificacion')?.value || 0 }} estrellas)
               </span>
             </div>
-            <div *ngIf="reviewForm.get('calificacion')?.invalid && reviewForm.get('calificacion')?.touched" 
+            <div *ngIf="reviewForm.get('calificacion')?.invalid && reviewForm.get('calificacion')?.touched"
                  class="text-red-500 text-sm mt-1">
               Por favor selecciona una calificación
             </div>
@@ -172,7 +168,7 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">
               Comentario (opcional)
             </label>
-            <textarea 
+            <textarea
               formControlName="texto"
               rows="4"
               placeholder="Comparte tu experiencia con este producto..."
@@ -181,8 +177,8 @@
           </div>
 
           <div class="flex space-x-4">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               [disabled]="reviewForm.invalid || isSubmitting"
               class="flex-1 bg-hydro-green hover:bg-hydro-green-600 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-md transition-colors duration-300"
             >
@@ -195,8 +191,8 @@
                 Enviando...
               </span>
             </button>
-            <button 
-              type="button" 
+            <button
+              type="button"
               (click)="cancelarReview()"
               class="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors duration-300"
             >
@@ -206,16 +202,14 @@
         </form>
       </div>
 
-      <!-- Lista de comentarios -->
-      <div class="space-y-6">
-        <!-- Estado de carga -->
+<div class="space-y-6">
+        
         <div *ngIf="isLoading" class="flex justify-center items-center py-12">
           <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-hydro-green"></div>
           <span class="ml-3 text-gray-600">Cargando valoraciones...</span>
         </div>
 
-        <!-- Sin comentarios -->
-        <div *ngIf="comentariosFiltrados.length === 0 && !isLoading" 
+<div *ngIf="comentariosFiltrados.length === 0 && !isLoading"
              class="bg-white rounded-md shadow-md p-10 text-center">
           <div class="text-gray-400 text-6xl mb-4">
             <i class="fas fa-star-half-alt"></i>
@@ -226,14 +220,13 @@
           <p class="text-gray-500 mb-4">
             Sé el primero en escribir una valoración para nuestros productos.
           </p>
-          <a href="/products" 
+          <a href="/products"
              class="inline-block bg-hydro-green text-white px-6 py-2 rounded-md hover:bg-hydro-green-600 transition-colors duration-300">
             Ver Productos
           </a>
         </div>
 
-        <!-- Comentarios -->
-        <div *ngFor="let comentario of comentariosFiltrados" 
+<div *ngFor="let comentario of comentariosFiltrados"
              class="bg-white rounded-md shadow-md p-6 transition-all duration-300 hover:shadow-lg">
           <div class="flex items-start justify-between mb-4">
             <div class="flex items-center space-x-3">
@@ -252,13 +245,13 @@
               <span class="text-sm text-gray-600 font-medium">({{ comentario.calificacion }}/5)</span>
             </div>
           </div>
-          
+
           <div class="mb-4">
             <span class="inline-block bg-hydro-green/10 text-hydro-green text-xs font-medium px-3 py-1 rounded-full">
               {{ comentario.productoNombre }}
             </span>
           </div>
-          
+
           <div class="mb-4">
             <p *ngIf="comentario.texto" class="text-gray-700 leading-relaxed">
               "{{ comentario.texto }}"
@@ -267,19 +260,18 @@
               El usuario no agregó comentarios adicionales.
             </p>
           </div>
-          
-          <!-- Opciones para el propietario del comentario -->
-          <div *ngIf="currentUser && currentUser.id === comentario.usuario.id" 
+
+<div *ngIf="currentUser && currentUser.id === comentario.usuario.id"
                class="pt-4 border-t border-gray-200">
             <div class="flex space-x-4">
-              <button 
+              <button
                 (click)="editarComentario(comentario)"
                 class="text-sm text-hydro-green hover:text-hydro-green-600 font-medium transition-colors duration-200"
               >
                 <i class="fas fa-edit mr-1"></i>
                 Editar
               </button>
-              <button 
+              <button
                 (click)="eliminarComentario(comentario.id)"
                 class="text-sm text-red-600 hover:text-red-800 font-medium transition-colors duration-200"
               >
@@ -290,10 +282,9 @@
           </div>
         </div>
 
-        <!-- Paginación -->
-        <div *ngIf="totalPaginas > 1" class="flex justify-center mt-10">
+<div *ngIf="totalPaginas > 1" class="flex justify-center mt-10">
           <nav class="flex space-x-2">
-            <button 
+            <button
               *ngFor="let page of [].constructor(totalPaginas); let i = index"
               (click)="cambiarPagina(i + 1)"
               [ngClass]="{

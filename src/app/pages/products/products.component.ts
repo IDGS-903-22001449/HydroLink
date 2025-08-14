@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { ProductoService } from '../../services/producto.service';
@@ -39,7 +39,7 @@ export class ProductsComponent implements OnInit {
   cargarProductos(): void {
     this.loading = true;
     this.error = '';
-    
+
     this.productoService.getProductos()
       .pipe(
         finalize(() => {
@@ -58,32 +58,29 @@ export class ProductsComponent implements OnInit {
       });
   }
 
-  // TrackBy function para optimizar *ngFor
+
   trackByProducto(index: number, producto: Productos): number {
     return producto.id;
   }
 
   getImagenSrc(imagenBase64?: string): string {
     if (!imagenBase64) {
-      return 'https://via.placeholder.com/300x200?text=Sin+Imagen';
+      return 'https://via.placeholder.com/300x200?text=Producto+HydroLink';
     }
-    
-    // Si ya tiene el prefijo data:image, lo devolvemos tal como está
+
     if (imagenBase64.startsWith('data:image/')) {
       return imagenBase64;
     }
-    
-    // Si es solo la cadena base64, agregamos el prefijo por defecto
+
     return `data:image/jpeg;base64,${imagenBase64}`;
   }
 
   onImageError(event: any): void {
-    // En caso de error al cargar la imagen, mostrar placeholder
-    event.target.src = 'https://via.placeholder.com/300x200?text=Error+al+cargar';
+    event.target.src = 'https://via.placeholder.com/300x200?text=Error+al+cargar+imagen';
   }
 
   comprar(producto: Productos) {
-    // Verificar si el usuario está autenticado
+
     const userDetail = this.authService.getUserDetail();
     if (!userDetail) {
       this.notificationService.info('Debe iniciar sesión para realizar una compra.');
@@ -91,7 +88,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    // Navegar al detalle de compra con el ID del producto
+
     this.router.navigate(['/purchase-detail', producto.id]);
   }
 }

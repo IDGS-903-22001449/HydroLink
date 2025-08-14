@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CompraService } from '../services/compra.service';
@@ -24,36 +24,29 @@ import { MateriaPrimaDto } from '../interfaces/materia-prima.interface';
   styleUrls: ['./admin-purchases.css']
 })
 export class AdminPurchasesComponent implements OnInit {
-  // Arrays de datos
+
   compras: DetalleCompraDto[] = [];
   comprasFiltradas: DetalleCompraDto[] = [];
   proveedores: Proveedor[] = [];
   materiasPrimas: MateriaPrimaDto[] = [];
   estadisticas: CompraEstadisticasDto | null = null;
 
-  // Estados de la UI
   loading = false;
   mostrarModal = false;
   mostrarDetalles = false;
   compraEditando: DetalleCompraDto | null = null;
   compraSeleccionada: DetalleCompraDto | null = null;
-
-  // Filtros
   filtroProveedor = '';
   fechaInicio = '';
   fechaFin = '';
 
-  // Form data
   compraFormData: CompraCreateDto = {
     proveedorId: 0,
     detalles: []
   };
-
-  // Mensajes
   mensaje = '';
   tipoMensaje: 'success' | 'error' | 'info' = 'info';
 
-  // Menu items para el sidebar
   adminMenuItems: MenuItem[] = [];
 
   constructor(
@@ -71,8 +64,6 @@ export class AdminPurchasesComponent implements OnInit {
 
   cargarDatos(): void {
     this.loading = true;
-    
-    // Cargar compras
     this.compraService.getCompras().subscribe({
       next: (compras: DetalleCompraDto[]) => {
         this.compras = compras;
@@ -86,10 +77,8 @@ export class AdminPurchasesComponent implements OnInit {
       }
     });
 
-    // Cargar proveedores
     this.supplierService.getProveedores().subscribe({
       next: (proveedores: ProveedorDto[]) => {
-        // Convertir ProveedorDto a Proveedor
         this.proveedores = proveedores.map(p => ({
           id: p.id,
           nombre: p.nombreCompleto,
@@ -101,7 +90,6 @@ export class AdminPurchasesComponent implements OnInit {
       }
     });
 
-    // Cargar materias primas
     this.materiaPrimaService.getMateriasPrimas().subscribe({
       next: (materias: MateriaPrimaDto[]) => {
         this.materiasPrimas = materias;
@@ -111,7 +99,6 @@ export class AdminPurchasesComponent implements OnInit {
       }
     });
 
-    // Cargar estadísticas
     this.compraService.getEstadisticas().subscribe({
       next: (stats: CompraEstadisticasDto) => {
         this.estadisticas = stats;
@@ -125,13 +112,11 @@ export class AdminPurchasesComponent implements OnInit {
   aplicarFiltros(): void {
     let comprasFiltradas = [...this.compras];
 
-    // Filtro por proveedor
     if (this.filtroProveedor) {
       const proveedorId = parseInt(this.filtroProveedor);
       comprasFiltradas = comprasFiltradas.filter(c => c.proveedorId === proveedorId);
     }
 
-    // Filtro por fechas
     if (this.fechaInicio && this.fechaFin) {
       const inicio = new Date(this.fechaInicio);
       const fin = new Date(this.fechaFin);
@@ -231,7 +216,7 @@ export class AdminPurchasesComponent implements OnInit {
   eliminarCompra(id: number): void {
     if (confirm('¿Está seguro de que desea eliminar esta compra?')) {
       this.loading = true;
-      
+
       this.compraService.deleteCompra(id).subscribe({
         next: () => {
           this.mostrarMensaje('Compra eliminada exitosamente', 'success');
@@ -249,7 +234,7 @@ export class AdminPurchasesComponent implements OnInit {
   mostrarMensaje(texto: string, tipo: 'success' | 'error' | 'info'): void {
     this.mensaje = texto;
     this.tipoMensaje = tipo;
-    
+
     setTimeout(() => {
       this.mensaje = '';
     }, 3000);

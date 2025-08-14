@@ -1,4 +1,4 @@
-.admin-dropdown {
+﻿.admin-dropdown {
   position: relative;
   display: inline-block;
 }
@@ -195,21 +195,20 @@
   background: transparent;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .admin-button {
     min-width: 160px;
     padding: 0.5rem 0.75rem;
   }
-  
+
   .admin-details {
     display: none;
   }
-  
+
   .admin-avatar i {
     font-size: 1.5rem;
   }
-  
+
   .dropdown-menu {
     min-width: 250px;
     right: -50px;

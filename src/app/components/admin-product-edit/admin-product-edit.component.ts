@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductoService, ProductoCreateDto, ProductoHydroLink } from '../../services/producto.service';
@@ -81,15 +81,15 @@ export class AdminProductEditComponent implements OnInit, OnChanges {
     if (!this.producto) return;
 
     this.isLoading = true;
-    // Obtener datos completos del producto incluyendo componentes
+
     this.productoService.getProductoPorId(this.producto.id).subscribe({
       next: (productoCompleto) => {
-        // Limpiar el FormArray de componentes
+
         while (this.componentesRequeridos.length > 0) {
           this.componentesRequeridos.removeAt(0);
         }
 
-        // Cargar componentes del producto
+
         productoCompleto.componentesRequeridos.forEach(comp => {
           this.componentesRequeridos.push(
             this.fb.group({
@@ -100,12 +100,12 @@ export class AdminProductEditComponent implements OnInit, OnChanges {
           );
         });
 
-        // Si no hay componentes, agregar uno vacío
+
         if (this.componentesRequeridos.length === 0) {
           this.agregarComponente();
         }
 
-        // Cargar datos del formulario
+
         this.productoForm.patchValue({
           nombre: productoCompleto.nombre,
           descripcion: productoCompleto.descripcion,
@@ -158,20 +158,20 @@ export class AdminProductEditComponent implements OnInit, OnChanges {
   onPdfChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      // Verificar que sea un PDF
+
       if (file.type !== 'application/pdf') {
         this.errorMessage = 'Solo se permiten archivos PDF para el manual de usuario.';
         return;
       }
-      // Verificar tamaño (10MB máximo)
+
       if (file.size > 10 * 1024 * 1024) {
         this.errorMessage = 'El archivo PDF debe ser menor a 10MB.';
         return;
       }
-      
+
       this.productoService.convertirArchivoABase64(file).then(base64 => {
         this.productoForm.patchValue({ manualPdf: base64 });
-        this.errorMessage = ''; // Limpiar error si la carga fue exitosa
+        this.errorMessage = '';
       }).catch(error => {
         this.errorMessage = 'Error al procesar el archivo PDF.';
         console.error('Error al convertir PDF:', error);
@@ -183,20 +183,20 @@ export class AdminProductEditComponent implements OnInit, OnChanges {
     if (this.productoForm.valid && !this.isSubmitting && this.producto) {
       this.isSubmitting = true;
       this.errorMessage = '';
-      
+
       const formValue = this.productoForm.value;
-      
-      // Validar que haya al menos un componente válido
+
+
       const componentesValidos = formValue.componentesRequeridos?.filter(
         (comp: any) => comp.componenteId && comp.cantidad > 0
       ) || [];
-      
+
       if (componentesValidos.length === 0) {
         this.errorMessage = 'Debes agregar al menos un componente válido al producto.';
         this.isSubmitting = false;
         return;
       }
-      
+
       const updateProducto: ProductoCreateDto = {
         nombre: formValue.nombre,
         descripcion: formValue.descripcion || '',
@@ -265,12 +265,12 @@ export class AdminProductEditComponent implements OnInit, OnChanges {
     }
     return 'Error inesperado al actualizar el producto. Inténtalo de nuevo.';
   }
-  
+
   private markFormGroupTouched() {
     Object.keys(this.productoForm.controls).forEach(key => {
       const control = this.productoForm.get(key);
       control?.markAsTouched();
-      
+
       if (control instanceof FormArray) {
         control.controls.forEach(arrayControl => {
           if (arrayControl instanceof FormGroup) {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Footer } from './components/footer/footer';
 import { ToastNotificationsComponent } from './components/toast-notifications/toast-notifications.component';

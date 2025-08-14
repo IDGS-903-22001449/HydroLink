@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MateriaPrimaService, MateriaPrimaDto, MateriaPrimaCreateDto } from '../../services/materia-prima.service';
@@ -79,7 +79,7 @@ export class AdminRawMaterialsComponent implements OnInit {
 
   createOrUpdateMateriaPrima(): void {
     if (this.selectedMateriaPrima) {
-      // Update existing materia prima
+
       this.materiaPrimaService.updateMateriaPrima(this.selectedMateriaPrima.id, this.materiaPrimaForm).subscribe({
         next: () => {
           this.successMessage = 'Materia prima actualizada exitosamente';
@@ -92,7 +92,7 @@ export class AdminRawMaterialsComponent implements OnInit {
         }
       });
     } else {
-      // Create new materia prima
+
       this.materiaPrimaService.createMateriaPrima(this.materiaPrimaForm).subscribe({
         next: () => {
           this.successMessage = 'Materia prima creada exitosamente';

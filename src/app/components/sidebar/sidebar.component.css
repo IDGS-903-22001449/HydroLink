@@ -1,4 +1,4 @@
-.active {
+﻿.active {
   @apply bg-white bg-opacity-15 border-l-4 border-hydro-green;
   padding-left: 1.5rem !important;
 }

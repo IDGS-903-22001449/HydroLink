@@ -1,9 +1,5 @@
-<div class="admin-dropdown" (click)="$event.stopPropagation()">
-  <button 
-    class="admin-button"
-    (click)="toggleDropdown()"
-    [class.active]="isOpen"
-    type="button">
+﻿<div class="admin-dropdown" (click)="$event.stopPropagation()">
+  <button class="admin-button" (click)="toggleDropdown()" [class.active]="isOpen" type="button">
     <div class="admin-info">
       <div class="admin-avatar">
         <i class="fas fa-user-circle"></i>
@@ -28,23 +24,23 @@
         </div>
       </div>
     </div>
-    
+
     <div class="dropdown-divider"></div>
-    
+
     <div class="dropdown-body">
       <button class="dropdown-item" (click)="navigateTo('/profile')">
         <i class="fas fa-user"></i>
         <span>Mi Perfil</span>
       </button>
-      
+
       <button class="dropdown-item" (click)="navigateTo('/admin-dashboard')">
         <i class="fas fa-tachometer-alt"></i>
         <span>Panel de Control</span>
       </button>
     </div>
-    
+
     <div class="dropdown-divider"></div>
-    
+
     <div class="dropdown-footer">
       <button class="dropdown-item logout-item" (click)="logout()">
         <i class="fas fa-sign-out-alt"></i>
@@ -54,9 +50,5 @@
   </div>
 </div>
 
-<!-- Backdrop para cerrar el dropdown cuando se hace clic fuera -->
-<div 
-  *ngIf="isOpen" 
-  class="dropdown-backdrop"
-  (click)="closeDropdown()">
+<div *ngIf="isOpen" class="dropdown-backdrop" (click)="closeDropdown()">
 </div>

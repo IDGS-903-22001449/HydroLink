@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
@@ -19,7 +19,7 @@ export class AdminDashboardComponent implements OnInit {
   currentRoute: string = '/admin-dashboard';
   pageTitle: string = 'Panel de Control';
   adminMenuItems: MenuItem[] = [];
-  
+
   constructor(private router: Router, private menuService: MenuService) {}
 
   metrics = [
@@ -42,7 +42,7 @@ export class AdminDashboardComponent implements OnInit {
     { activity: 'Product "Hydrolink Home Kit" stock updated', user: 'Admin User', date: '2025-07-06' }
   ];
 
-  // User Management Data
+
   userColumns = [
     { key: 'name', label: 'Name' },
     { key: 'email', label: 'Email' },
@@ -57,7 +57,7 @@ export class AdminDashboardComponent implements OnInit {
     { name: 'Sarah Wilson', email: 'sarah@example.com', role: 'Client', status: 'Active' }
   ];
 
-  // Supplier Management Data
+
   supplierColumns = [
     { key: 'name', label: 'Supplier Name' },
     { key: 'contact', label: 'Contact' },
@@ -71,7 +71,7 @@ export class AdminDashboardComponent implements OnInit {
     { name: 'EcoPlastic Ltd.', contact: 'sales@ecoplastic.com', materials: 'Recycled Plastics', status: 'Pending' }
   ];
 
-  // Raw Materials Data
+
   rawMaterialColumns = [
     { key: 'material', label: 'Material' },
     { key: 'stock', label: 'Stock' },
@@ -86,7 +86,7 @@ export class AdminDashboardComponent implements OnInit {
     { material: 'Control Boards', stock: '25 units', supplier: 'AquaTech Materials', lastUpdated: '2025-07-27' }
   ];
 
-  // Product Management Data
+
   productColumns = [
     { key: 'name', label: 'Product Name' },
     { key: 'price', label: 'Price' },
@@ -101,7 +101,7 @@ export class AdminDashboardComponent implements OnInit {
     { name: 'Replacement Sensors', price: '$49.99', stock: '45 units', status: 'Available' }
   ];
 
-  // Sales Data
+
   salesMetrics = [
     { title: 'Monthly Revenue', value: '$42,350', subtitle: 'Current month' },
     { title: 'Orders Completed', value: '142', subtitle: 'This month' },
@@ -123,7 +123,7 @@ export class AdminDashboardComponent implements OnInit {
     { orderId: '#HL-004', customer: 'David Miller', amount: '$349.98', date: '2025-07-27' }
   ];
 
-  // Quote Management Data
+
   quoteColumns = [
     { key: 'quoteId', label: 'Quote ID' },
     { key: 'customer', label: 'Customer' },
@@ -139,10 +139,10 @@ export class AdminDashboardComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // Inicializar menú desde el servicio
+
     this.adminMenuItems = this.menuService.getAdminMenuItems();
-    
-    // Escuchar cambios de ruta
+
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -150,13 +150,13 @@ export class AdminDashboardComponent implements OnInit {
       this.updatePageContent();
       this.updateActiveMenuItem();
     });
-    
-    // Configurar contenido inicial
+
+
     this.currentRoute = this.router.url;
     this.updatePageContent();
     this.updateActiveMenuItem();
   }
-  
+
   updatePageContent() {
     switch (this.currentRoute) {
       case '/admin-dashboard':
@@ -187,7 +187,7 @@ export class AdminDashboardComponent implements OnInit {
         this.pageTitle = 'Panel de Administración';
     }
   }
-  
+
   updateActiveMenuItem() {
     this.adminMenuItems.forEach(item => {
       item.active = item.route === this.currentRoute;

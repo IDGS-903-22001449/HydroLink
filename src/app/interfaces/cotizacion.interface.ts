@@ -1,4 +1,4 @@
-export interface CotizacionInterface {
+﻿export interface CotizacionInterface {
   id: number;
   nombreProyecto: string;
   descripcion: string;
@@ -36,4 +36,11 @@ export interface CotizacionCreateRequest {
   descripcion: string;
   observaciones: string;
   porcentajeGanancia: number;
+  componenteIds?: number[];
+
+  subtotalComponentes?: number;
+  subtotalManoObra?: number;
+  subtotalMateriales?: number;
+  montoGanancia?: number;
+  totalEstimado?: number;
 }

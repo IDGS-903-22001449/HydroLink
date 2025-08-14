@@ -1,4 +1,4 @@
-/* Modal Backdrop */
+﻿
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -13,7 +13,6 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Modal Content */
 .modal-content {
   background: white;
   border-radius: 12px;
@@ -25,7 +24,6 @@
   animation: slideIn 0.3s ease-out;
 }
 
-/* Modal Header */
 .modal-header {
   padding: 24px 24px 0 24px;
   display: flex;
@@ -68,14 +66,12 @@
   cursor: not-allowed;
 }
 
-/* Modal Body */
 .modal-body {
   padding: 0 24px;
   max-height: 60vh;
   overflow-y: auto;
 }
 
-/* Error Message */
 .error-message {
   background-color: #fef2f2;
   border: 1px solid #fecaca;
@@ -93,7 +89,6 @@
   color: #dc2626;
 }
 
-/* Delete Confirmation */
 .delete-confirmation {
   text-align: center;
   padding: 20px 0;
@@ -141,7 +136,6 @@
   justify-content: center;
 }
 
-/* Form Styles */
 .role-form {
   display: flex;
   flex-direction: column;
@@ -201,7 +195,6 @@
   margin-top: 4px;
 }
 
-/* Role Info (View Mode) */
 .role-info {
   background-color: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -231,7 +224,6 @@
   color: #111827;
 }
 
-/* Modal Footer */
 .modal-footer {
   padding: 24px;
   border-top: 1px solid #e5e7eb;
@@ -241,7 +233,6 @@
   margin-top: 24px;
 }
 
-/* Buttons */
 .btn {
   padding: 10px 20px;
   border: none;
@@ -296,7 +287,6 @@
   border-color: #9ca3af;
 }
 
-/* Loading Spinner */
 .loading-spinner {
   width: 16px;
   height: 16px;
@@ -310,7 +300,6 @@
   opacity: 0.7;
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -337,22 +326,21 @@
   }
 }
 
-/* Responsive Design */
 @media (max-width: 640px) {
   .modal-content {
     width: 95%;
     margin: 20px;
   }
-  
+
   .modal-header, .modal-body, .modal-footer {
     padding-left: 16px;
     padding-right: 16px;
   }
-  
+
   .modal-footer {
     flex-direction: column;
   }
-  
+
   .btn {
     width: 100%;
   }

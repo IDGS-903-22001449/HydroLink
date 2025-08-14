@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, timeout } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -25,9 +25,12 @@ export interface ComponenteRequerido {
   id: number;
   componenteId: number;
   nombreComponente: string;
+  nombre?: string;
   cantidad: number;
-  unidadMedida: string;
-  especificaciones: string;
+  unidadMedida?: string;
+  especificaciones?: string;
+  precioUnitario?: number;
+  descripcion?: string;
 }
 
 export interface ProductoCreateDto {
@@ -56,7 +59,7 @@ export interface ComponenteRequeridoCreateDto {
   providedIn: 'root'
 })
 export class ProductoService {
-  private apiUrl = environment.apiUrl;
+  public apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -72,16 +75,17 @@ export class ProductoService {
     return this.http.get<ProductoHome[]>(`${this.apiUrl}productos/home`);
   }
 
-  getProductos(): Observable<ProductoHydroLink[]> {
-    return this.http.get<ProductoHydroLink[]>(`${this.apiUrl}productos`, this.getHttpOptions())
-      .pipe(timeout(10000)); // Reducido a 10 segundos para detectar problemas más rápido
+  getProductos(includeComponents: boolean = false): Observable<ProductoHydroLink[]> {
+    const params = includeComponents ? '?includeComponents=true' : '';
+    return this.http.get<ProductoHydroLink[]>(`${this.apiUrl}productos${params}`, this.getHttpOptions())
+      .pipe(timeout(60000));
   }
 
   getProductoPorId(id: number): Observable<ProductoHydroLink> {
     return this.http.get<ProductoHydroLink>(`${this.apiUrl}productos/${id}`);
   }
 
-  // Método alias para compatibilidad con la interfaz Productos
+
   getProducto(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}productos/${id}`);
   }
@@ -98,14 +102,14 @@ export class ProductoService {
     return this.http.delete<any>(`${this.apiUrl}productos/${id}`);
   }
 
-  // Función auxiliar para convertir archivo a base64
+
   convertirArchivoABase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const result = reader.result as string;
-        // Remover el prefijo "data:image/...;base64," para obtener solo la cadena base64
+
         const base64 = result.split(',')[1];
         resolve(base64);
       };

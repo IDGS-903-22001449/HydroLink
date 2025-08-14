@@ -1,10 +1,7 @@
-<!-- Layout principal con flexbox y Tailwind -->
-<div class="flex min-h-screen bg-gray-50">
+﻿<div class="flex min-h-screen bg-gray-50">
   <app-sidebar [menuItems]="adminMenuItems" [isAdmin]="true"></app-sidebar>
 
-  <!-- Contenido principal -->
   <div class="flex-1 p-6 bg-white">
-    <!-- Header con título y dropdown -->
     <div class="flex justify-between items-start mb-8 pb-6 border-b border-gray-200">
       <div class="space-y-1">
         <h1 class="text-3xl font-bold text-green-800">Administración de Productos</h1>
@@ -13,7 +10,6 @@
       <app-admin-dropdown></app-admin-dropdown>
     </div>
 
-    <!-- Pestañas de navegación mejoradas -->
     <div class="flex space-x-1 mb-8 bg-gray-100 p-1 rounded-lg w-fit">
       <button class="flex items-center px-4 py-2 text-sm font-medium rounded-md transition-all duration-200"
         [class]="currentView === 'list' ? 'bg-white text-green-700 shadow-sm' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'"
@@ -34,15 +30,13 @@
       </button>
     </div>
 
-    <!-- Contenedor de contenido con animación -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[500px] transition-all duration-300">
       <div class="fade-in">
-        <app-admin-product-list *ngIf="currentView === 'list'" (onEditProduct)="onEditProduct($event)"></app-admin-product-list>
+        <app-admin-product-list *ngIf="currentView === 'list'"
+          (onEditProduct)="onEditProduct($event)"></app-admin-product-list>
         <app-admin-product-create *ngIf="currentView === 'create'"></app-admin-product-create>
-        <app-admin-product-edit *ngIf="currentView === 'edit'" 
-                                [producto]="selectedProduct" 
-                                (onCancel)="onCancelEdit()" 
-                                (onSave)="onSaveEdit()"></app-admin-product-edit>
+        <app-admin-product-edit *ngIf="currentView === 'edit'" [producto]="selectedProduct" (onCancel)="onCancelEdit()"
+          (onSave)="onSaveEdit()"></app-admin-product-edit>
       </div>
     </div>
   </div>

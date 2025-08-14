@@ -1,4 +1,4 @@
-/* Admin dashboard layout styles */
+﻿
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
@@ -26,9 +26,6 @@ h1 {
   margin: 0 0 30px 0;
 }
 
-/* Additional custom styles for admin-quotes component */
-
-/* Animation for modal backdrop */
 .modal-backdrop {
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -43,7 +40,6 @@ h1 {
   }
 }
 
-/* Modal animation */
 .modal-content {
   animation: slideUp 0.3s ease-out;
 }
@@ -60,14 +56,12 @@ h1 {
   }
 }
 
-/* Table hover effects */
 .table-row-hover:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease-in-out;
 }
 
-/* Custom scrollbar for modals */
 .modal-body {
   scrollbar-width: thin;
   scrollbar-color: #d1d5db #f9fafb;
@@ -91,12 +85,10 @@ h1 {
   background: #9ca3af;
 }
 
-/* Loading spinner enhancement */
 .loading-spinner {
   border-color: #10b981 transparent #10b981 transparent;
 }
 
-/* Status badge animations */
 .status-badge {
   transition: all 0.2s ease-in-out;
 }
@@ -105,7 +97,6 @@ h1 {
   transform: scale(1.05);
 }
 
-/* Button hover effects */
 .btn-action {
   transition: all 0.2s ease-in-out;
 }
@@ -114,21 +105,18 @@ h1 {
   transform: translateY(-1px);
 }
 
-/* Card hover effects */
 .metric-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
 }
 
-/* Input focus effects */
 .form-input:focus {
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
   transform: scale(1.01);
   transition: all 0.2s ease-in-out;
 }
 
-/* Empty state illustration */
 .empty-state-icon {
   animation: float 3s ease-in-out infinite;
 }
@@ -145,7 +133,6 @@ h1 {
   }
 }
 
-/* Responsive improvements */
 @media (max-width: 768px) {
   .modal-content {
     margin: 1rem;
@@ -157,7 +144,6 @@ h1 {
   }
 }
 
-/* Custom utility classes */
 .text-shadow {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -166,17 +152,14 @@ h1 {
   backdrop-filter: blur(4px);
 }
 
-/* Action buttons spacing */
 .action-buttons>*+* {
   margin-left: 0.5rem;
 }
 
-/* Table cell animations */
 .table-cell {
   transition: background-color 0.2s ease-in-out;
 }
 
-/* Status-specific styling */
 .status-pendiente {
   background-color: #fef3c7;
   color: #d97706;

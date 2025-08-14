@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -14,7 +14,7 @@ export interface ContactForm {
   providedIn: 'root'
 })
 export class ContactService {
-  private apiUrl = 'http://localhost:5000/api/Contact';
+  private apiUrl = 'http://localhost:5001/api/contact';
 
   constructor(private http: HttpClient) { }
 

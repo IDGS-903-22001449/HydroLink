@@ -1,4 +1,4 @@
-export interface User {
+﻿export interface User {
   id: number;
   email: string;
   fullName: string;
@@ -27,7 +27,6 @@ export interface UserProfile {
   isAdmin: boolean;
 }
 
-// DTO que viene del backend C#
 export interface UserDetailDto {
   id?: string;
   email?: string;

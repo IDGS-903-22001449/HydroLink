@@ -1,4 +1,4 @@
-export interface DetalleCompraDto {
+﻿export interface DetalleCompraDto {
   id: number;
   fecha: Date;
   proveedorId: number;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoleModalComponent, RoleModalConfig } from '../role-modal/role-modal.component';
 import { RoleService } from '../../services/role.service';
@@ -31,7 +31,7 @@ export class RoleManagementComponent implements OnInit {
   loadRoles() {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     this.roleService.getRoles().subscribe({
       next: (roles) => {
         this.roles = roles;
@@ -80,15 +80,15 @@ export class RoleManagementComponent implements OnInit {
     switch (event.action) {
       case 'created':
         this.showSuccessMessage('Rol creado exitosamente');
-        this.loadRoles(); // Recargar la lista
+        this.loadRoles();
         break;
       case 'updated':
         this.showSuccessMessage('Rol actualizado exitosamente');
-        this.loadRoles(); // Recargar la lista
+        this.loadRoles();
         break;
       case 'deleted':
         this.showSuccessMessage('Rol eliminado exitosamente');
-        this.loadRoles(); // Recargar la lista
+        this.loadRoles();
         break;
     }
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductoService, ProductoCreateDto } from '../../services/producto.service';
@@ -98,20 +98,18 @@ export class AdminProductCreateComponent {
   onPdfChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
-      // Verificar que sea un PDF
       if (file.type !== 'application/pdf') {
         this.errorMessage = 'Solo se permiten archivos PDF para el manual de usuario.';
         return;
       }
-      // Verificar tamaño (10MB máximo)
       if (file.size > 10 * 1024 * 1024) {
         this.errorMessage = 'El archivo PDF debe ser menor a 10MB.';
         return;
       }
-      
+
       this.productoService.convertirArchivoABase64(file).then(base64 => {
         this.productoForm.patchValue({ manualPdf: base64 });
-        this.errorMessage = ''; // Limpiar error si la carga fue exitosa
+        this.errorMessage = '';
       }).catch(error => {
         this.errorMessage = 'Error al procesar el archivo PDF.';
         console.error('Error al convertir PDF:', error);
@@ -123,20 +121,19 @@ export class AdminProductCreateComponent {
     if (this.productoForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       this.errorMessage = '';
-      
+
       const formValue = this.productoForm.value;
-      
-      // Validar que haya al menos un componente válido
+
       const componentesValidos = formValue.componentesRequeridos?.filter(
         (comp: any) => comp.componenteId && comp.cantidad > 0
       ) || [];
-      
+
       if (componentesValidos.length === 0) {
         this.errorMessage = 'Debes agregar al menos un componente válido al producto.';
         this.isSubmitting = false;
         return;
       }
-      
+
       const newProducto: ProductoCreateDto = {
         nombre: formValue.nombre,
         descripcion: formValue.descripcion || '',
@@ -178,14 +175,12 @@ export class AdminProductCreateComponent {
       this.errorMessage = 'Por favor, completa todos los campos requeridos.';
     }
   }
-  
+
   private resetForm() {
     this.productoForm.reset();
-    // Resetear el FormArray de componentes
     while (this.componentesRequeridos.length > 1) {
       this.componentesRequeridos.removeAt(1);
     }
-    // Resetear valores por defecto
     this.productoForm.patchValue({
       margenGanancia: 30
     });
@@ -195,7 +190,7 @@ export class AdminProductCreateComponent {
       especificaciones: ''
     });
   }
-  
+
   private getErrorMessage(error: any): string {
     if (error.error?.message) {
       return error.error.message;
@@ -214,12 +209,12 @@ export class AdminProductCreateComponent {
     }
     return 'Error inesperado al crear el producto. Inténtalo de nuevo.';
   }
-  
+
   private markFormGroupTouched() {
     Object.keys(this.productoForm.controls).forEach(key => {
       const control = this.productoForm.get(key);
       control?.markAsTouched();
-      
+
       if (control instanceof FormArray) {
         control.controls.forEach(arrayControl => {
           if (arrayControl instanceof FormGroup) {

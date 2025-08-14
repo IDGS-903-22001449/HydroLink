@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface Notification {
@@ -13,7 +13,7 @@ export interface Notification {
 })
 export class NotificationService {
   private notifications$ = new BehaviorSubject<Notification[]>([]);
-  
+
   get notifications() {
     return this.notifications$.asObservable();
   }
@@ -21,7 +21,7 @@ export class NotificationService {
   show(message: string, type: 'success' | 'error' | 'warning' | 'info' = 'info', duration = 5000) {
     const id = Math.random().toString(36).substr(2, 9);
     const notification: Notification = { id, message, type, duration };
-    
+
     const current = this.notifications$.value;
     this.notifications$.next([...current, notification]);
 

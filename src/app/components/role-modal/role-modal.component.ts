@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+﻿import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoleService } from '../../services/role.service';
@@ -42,7 +42,7 @@ export class RoleModalComponent implements OnInit {
       });
     }
 
-    // Deshabilitar el formulario en modo de vista
+
     if (this.config.mode === 'view') {
       this.roleForm.disable();
     } else {
@@ -131,8 +131,8 @@ export class RoleModalComponent implements OnInit {
 
       this.roleService.updateRole(this.config.role.id, roleData).subscribe({
         next: (response) => {
-          this.roleAction.emit({ 
-            action: 'updated', 
+          this.roleAction.emit({
+            action: 'updated',
             role: { ...this.config.role!, name: roleData.roleName }
           });
           this.closeModal();
@@ -149,9 +149,9 @@ export class RoleModalComponent implements OnInit {
     if (this.config.role) {
       this.roleService.deleteRole(this.config.role.id).subscribe({
         next: (response) => {
-          this.roleAction.emit({ 
-            action: 'deleted', 
-            role: this.config.role 
+          this.roleAction.emit({
+            action: 'deleted',
+            role: this.config.role
           });
           this.closeModal();
         },
@@ -163,7 +163,7 @@ export class RoleModalComponent implements OnInit {
     }
   }
 
-  // Método para prevenir el cierre del modal al hacer clic dentro del contenido
+
   onModalContentClick(event: Event) {
     event.stopPropagation();
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+﻿import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule, DatePipe, CurrencyPipe } from '@angular/common';
 import { SalesService, Venta } from '../../services/sales.service';
 import { AuthService } from '../../services/auth.service';
@@ -20,9 +20,9 @@ export class UserPurchasesComponent implements OnInit {
   userEmail = '';
   totalPurchases = 0;
   totalSpent = 0;
-  showManuales = false; // Para alternar entre ventas y productos con manuales
-  
-  @Input() showHeader = true; // Para controlar si mostrar el header
+  showManuales = false;
+
+  @Input() showHeader = true;
 
   constructor(
     private salesService: SalesService,
@@ -37,22 +37,22 @@ export class UserPurchasesComponent implements OnInit {
 
   loadUserPurchases() {
     console.log('=== DEBUG: Iniciando carga de compras ===');
-    
-    // Verificar si el usuario está logueado
+
+
     const isLoggedIn = this.authService.isLoggedIn();
     console.log('Usuario logueado:', isLoggedIn);
-    
-    // Verificar token
+
+
     const token = this.authService.getToken();
     console.log('Token disponible:', !!token);
     if (token) {
       console.log('Token (primeros 20 chars):', token.substring(0, 20) + '...');
     }
-    
+
     const userDetail = this.authService.getUserDetail();
     console.log('User detail completo:', userDetail);
-    
-    // DEBUG: Mostrar información sobre todos los usuarios disponibles
+
+
     console.log('=== DEBUG: Verificando que usuarios tienen compras ===');
     this.salesService.getVentas().subscribe({
       next: (allSales) => {
@@ -61,23 +61,23 @@ export class UserPurchasesComponent implements OnInit {
       },
       error: (err) => console.log('Error obteniendo ventas para debug:', err)
     });
-    
-    // TEMPORAL: usar email fijo para pruebas
+
+
     if (!userDetail || !userDetail.email) {
       console.warn('No se pudo obtener la información del usuario, usando email de prueba:', userDetail);
-      this.userEmail = 'vicente@gmail.com'; // EMAIL FIJO PARA PRUEBAS
+      this.userEmail = 'vicente@gmail.com';
     } else {
       this.userEmail = userDetail.email;
     }
-    
-    // Si el usuario autenticado no es vicente@gmail.com, usar vicente para pruebas
+
+
     if (this.userEmail !== 'vicente@gmail.com') {
       console.log('Usuario autenticado es diferente, usando vicente@gmail.com para pruebas');
       this.userEmail = 'vicente@gmail.com';
     }
     console.log('Email del usuario:', this.userEmail);
     console.log('URL que se va a llamar:', `${this.salesService['apiUrl']}/user/${encodeURIComponent(this.userEmail)}`);
-    
+
     this.salesService.getUserPurchases(this.userEmail).subscribe({
       next: (purchases) => {
         console.log('✅ Compras cargadas exitosamente:', purchases);
@@ -91,7 +91,7 @@ export class UserPurchasesComponent implements OnInit {
         console.error('Status:', error.status);
         console.error('Error message:', error.message);
         console.error('Error body:', error.error);
-        
+
         let errorMessage = 'Error al cargar las compras';
         if (error.status === 401) {
           errorMessage = 'No tienes autorización. Por favor, inicia sesión nuevamente.';
@@ -100,7 +100,7 @@ export class UserPurchasesComponent implements OnInit {
         } else if (error.error && error.error.mensaje) {
           errorMessage = error.error.mensaje;
         }
-        
+
         this.notificationService.error(errorMessage);
         this.isLoading = false;
       }
@@ -138,7 +138,7 @@ export class UserPurchasesComponent implements OnInit {
     }
   }
 
-  // Alternar entre vista de ventas y productos con manuales
+
   toggleView(showManuales: boolean) {
     this.showManuales = showManuales;
     if (showManuales && this.productosComprados.length === 0) {
@@ -146,7 +146,7 @@ export class UserPurchasesComponent implements OnInit {
     }
   }
 
-  // Cargar productos comprados con manuales
+
   loadProductosComprados() {
     this.isLoadingManuales = true;
     this.manualUsuarioService.obtenerMisProductos().subscribe({
@@ -163,25 +163,25 @@ export class UserPurchasesComponent implements OnInit {
     });
   }
 
-  // Descargar manual de usuario (versión optimizada)
+
   descargarManual(productoId: number, nombreProducto: string) {
-    // Mostrar indicador de progreso
+
     this.notificationService.info('Preparando descarga del manual...');
-    
-    // Usar el nuevo endpoint optimizado
+
+
     this.manualUsuarioService.descargarPdfManualOptimizado(productoId).subscribe({
       next: (blob) => {
         try {
-          // Crear enlace de descarga
+
           const url = window.URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
           link.download = `Manual_${nombreProducto.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
           link.click();
-          
-          // Limpiar el objeto URL
+
+
           window.URL.revokeObjectURL(url);
-          
+
           this.notificationService.success('Manual descargado exitosamente');
         } catch (error) {
           console.error('Error al crear descarga:', error);
@@ -190,15 +190,15 @@ export class UserPurchasesComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al descargar manual optimizado:', error);
-        
-        // Fallback: intentar con el método original si el optimizado falla
+
+
         console.log('Intentando con método de descarga alternativo...');
         this.descargarManualFallback(productoId, nombreProducto);
       }
     });
   }
-  
-  // Método de respaldo para descargar manual
+
+
   private descargarManualFallback(productoId: number, nombreProducto: string) {
     this.manualUsuarioService.obtenerManualProducto(productoId).subscribe({
       next: (manual) => {
@@ -220,15 +220,15 @@ export class UserPurchasesComponent implements OnInit {
     });
   }
 
-  // Visualizar manual de usuario (método directo y rápido)
+
   visualizarManual(productoId: number) {
-    // Usar directamente el método que funciona, sin optimización que puede fallar
+
     this.notificationService.info('Abriendo manual...');
-    
+
     this.manualUsuarioService.obtenerManualProducto(productoId).subscribe({
       next: (manual) => {
         try {
-          // Usar el método directo de visualización que ya funciona
+
           this.manualUsuarioService.visualizarPdfManual(manual.manualPdf);
           this.notificationService.success('Manual abierto en nueva ventana');
         } catch (error) {
@@ -248,8 +248,8 @@ export class UserPurchasesComponent implements OnInit {
       }
     });
   }
-  
-  // Método de respaldo para visualizar manual
+
+
   private visualizarManualFallback(productoId: number) {
     this.manualUsuarioService.obtenerManualProducto(productoId).subscribe({
       next: (manual) => {

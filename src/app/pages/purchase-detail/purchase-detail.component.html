@@ -1,33 +1,30 @@
-<app-navbar></app-navbar>
+﻿<app-navbar></app-navbar>
 
 <div class="max-w-4xl mx-auto px-4 py-8">
-  <!-- Loading State -->
+  
   <div *ngIf="loading" class="flex justify-center items-center py-20">
     <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-hydro-green"></div>
     <span class="ml-3 text-lg text-gray-600">Cargando...</span>
   </div>
 
-  <!-- Error State -->
-  <div *ngIf="error && !loading" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+<div *ngIf="error && !loading" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
     <p class="text-lg">{{ error }}</p>
     <div class="mt-3 space-x-3">
-      <button (click)="goToProducts()" 
+      <button (click)="goToProducts()"
         class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
         Volver a Productos
       </button>
-      <button *ngIf="currentStep === 2 && processing === false" 
-        (click)="processPurchase()" 
+      <button *ngIf="currentStep === 2 && processing === false"
+        (click)="processPurchase()"
         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
         Reintentar Compra
       </button>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <div *ngIf="!loading && !error && producto">
-    
-    <!-- Progress Indicator -->
-    <div class="mb-8">
+<div *ngIf="!loading && !error && producto">
+
+<div class="mb-8">
       <div class="flex items-center">
         <div class="flex items-center text-sm">
           <div [class]="currentStep >= 1 ? 'w-8 h-8 bg-hydro-green text-white rounded-full flex items-center justify-center font-semibold' : 'w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center'">
@@ -37,9 +34,9 @@
           </div>
           <span class="ml-2 font-medium">Detalle</span>
         </div>
-        
+
         <div class="flex-auto border-t-2 mx-4" [class]="currentStep >= 2 ? 'border-hydro-green' : 'border-gray-300'"></div>
-        
+
         <div class="flex items-center text-sm">
           <div [class]="currentStep >= 2 ? 'w-8 h-8 bg-hydro-green text-white rounded-full flex items-center justify-center font-semibold' : 'w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center'">
             <span *ngIf="currentStep > 2">✓</span>
@@ -48,9 +45,9 @@
           </div>
           <span class="ml-2 font-medium">Pago</span>
         </div>
-        
+
         <div class="flex-auto border-t-2 mx-4" [class]="currentStep >= 3 ? 'border-hydro-green' : 'border-gray-300'"></div>
-        
+
         <div class="flex items-center text-sm">
           <div [class]="currentStep >= 3 ? 'w-8 h-8 bg-hydro-green text-white rounded-full flex items-center justify-center font-semibold' : 'w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center'">
             3
@@ -60,25 +57,24 @@
       </div>
     </div>
 
-    <!-- Step 1: Purchase Detail -->
-    <div *ngIf="currentStep === 1" class="bg-white rounded-lg shadow-lg overflow-hidden">
+<div *ngIf="currentStep === 1" class="bg-white rounded-lg shadow-lg overflow-hidden">
       <div class="px-6 py-4 border-b border-gray-200">
         <h2 class="text-2xl font-bold text-gray-900">Detalle de Compra</h2>
       </div>
-      
+
       <div class="p-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <!-- Product Image and Info -->
+          
           <div>
             <div class="aspect-w-16 aspect-h-9 mb-4">
-              <img [src]="getImagenSrc(producto.imagenBase64)" 
+              <img [src]="getImagenSrc(producto.imagenBase64)"
                    [alt]="producto.nombre"
                    class="w-full h-64 object-cover rounded-lg">
             </div>
-            
+
             <h3 class="text-xl font-bold text-gray-900 mb-2">{{ producto.nombre }}</h3>
             <p class="text-gray-600 mb-4">{{ producto.descripcion }}</p>
-            
+
             <div class="flex items-center space-x-4">
               <span class="text-2xl font-bold text-hydro-green">
                 ${{ producto.precio | number:'1.2-2' }}
@@ -89,22 +85,20 @@
             </div>
           </div>
 
-          <!-- Quantity and Summary -->
-          <div>
+<div>
             <div class="border border-gray-200 rounded-lg p-6">
               <h4 class="text-lg font-semibold mb-4">Resumen del Pedido</h4>
-              
-              <!-- Quantity Selector -->
-              <div class="flex items-center justify-between mb-6">
+
+<div class="flex items-center justify-between mb-6">
                 <span class="font-medium">Cantidad:</span>
                 <div class="flex items-center space-x-3">
-                  <button (click)="updateQuantity(-1)" 
+                  <button (click)="updateQuantity(-1)"
                     [disabled]="cantidad <= 1"
                     class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
                     -
                   </button>
                   <span class="w-8 text-center font-semibold">{{ cantidad }}</span>
-                  <button (click)="updateQuantity(1)" 
+                  <button (click)="updateQuantity(1)"
                     [disabled]="cantidad >= 10"
                     class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed">
                     +
@@ -112,8 +106,7 @@
                 </div>
               </div>
 
-              <!-- Price Breakdown -->
-              <div class="space-y-2 mb-6">
+<div class="space-y-2 mb-6">
                 <div class="flex justify-between">
                   <span>Subtotal:</span>
                   <span>${{ getSubtotal() | number:'1.2-2' }}</span>
@@ -130,7 +123,7 @@
                 </div>
               </div>
 
-              <button (click)="proceedToPayment()" 
+              <button (click)="proceedToPayment()"
                 class="w-full bg-hydro-green text-white font-semibold py-3 px-6 rounded-md hover:bg-hydro-green-600 transition-colors">
                 Continuar al Pago
               </button>
@@ -140,60 +133,58 @@
       </div>
     </div>
 
-    <!-- Step 2: Payment Form -->
-    <div *ngIf="currentStep === 2" class="bg-white rounded-lg shadow-lg overflow-hidden">
+<div *ngIf="currentStep === 2" class="bg-white rounded-lg shadow-lg overflow-hidden">
       <div class="px-6 py-4 border-b border-gray-200">
         <h2 class="text-2xl font-bold text-gray-900">Información de Pago</h2>
       </div>
-      
+
       <form (ngSubmit)="processPurchase()" class="p-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          <!-- Customer Information -->
-          <div>
+
+<div>
             <h3 class="text-lg font-semibold mb-4">Información del Cliente</h3>
-            
+
             <div class="space-y-4">
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-                  <input type="text" 
-                    [(ngModel)]="paymentForm.cliente.nombre" 
+                  <input type="text"
+                    [(ngModel)]="paymentForm.cliente.nombre"
                     name="nombre"
                     required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hydro-green focus:border-transparent">
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-                  <input type="text" 
-                    [(ngModel)]="paymentForm.cliente.apellido" 
+                  <input type="text"
+                    [(ngModel)]="paymentForm.cliente.apellido"
                     name="apellido"
                     required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hydro-green focus:border-transparent">
                 </div>
               </div>
-              
+
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input type="email" 
-                  [(ngModel)]="paymentForm.cliente.email" 
+                <input type="email"
+                  [(ngModel)]="paymentForm.cliente.email"
                   name="email"
                   required
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hydro-green focus:border-transparent">
               </div>
-              
+
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-                <input type="tel" 
-                  [(ngModel)]="paymentForm.cliente.telefono" 
+                <input type="tel"
+                  [(ngModel)]="paymentForm.cliente.telefono"
                   name="telefono"
                   required
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hydro-green focus:border-transparent">
               </div>
-              
+
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
-                <textarea [(ngModel)]="paymentForm.cliente.direccion" 
+                <textarea [(ngModel)]="paymentForm.cliente.direccion"
                   name="direccion"
                   required
                   rows="3"
@@ -202,15 +193,14 @@
             </div>
           </div>
 
-          <!-- Payment Information -->
-          <div>
+<div>
             <h3 class="text-lg font-semibold mb-4">Información de la Tarjeta</h3>
-            
+
             <div class="space-y-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Número de Tarjeta</label>
                 <div class="relative">
-                  <input type="text" 
+                  <input type="text"
                     (input)="onCardNumberInput($event)"
                     name="numeroTarjeta"
                     placeholder="1234 5678 9012 3456"
@@ -222,21 +212,21 @@
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Nombre del Titular</label>
-                <input type="text" 
-                  [(ngModel)]="paymentForm.tarjeta.nombreTitular" 
+                <input type="text"
+                  [(ngModel)]="paymentForm.tarjeta.nombreTitular"
                   name="nombreTitular"
                   placeholder="Como aparece en la tarjeta"
                   required
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hydro-green focus:border-transparent">
               </div>
-              
+
               <div class="grid grid-cols-3 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">Mes</label>
-                  <select [(ngModel)]="paymentForm.tarjeta.mesExpiracion" 
+                  <select [(ngModel)]="paymentForm.tarjeta.mesExpiracion"
                     name="mesExpiracion"
                     required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hydro-green focus:border-transparent">
@@ -255,10 +245,10 @@
                     <option value="12">12</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">Año</label>
-                  <select [(ngModel)]="paymentForm.tarjeta.anoExpiracion" 
+                  <select [(ngModel)]="paymentForm.tarjeta.anoExpiracion"
                     name="anoExpiracion"
                     required
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hydro-green focus:border-transparent">
@@ -266,11 +256,11 @@
                     <option *ngFor="let year of years" [value]="year">{{ year }}</option>
                   </select>
                 </div>
-                
+
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-1">CVV</label>
-                  <input type="password" 
-                    [(ngModel)]="paymentForm.tarjeta.cvv" 
+                  <input type="password"
+                    [(ngModel)]="paymentForm.tarjeta.cvv"
                     name="cvv"
                     placeholder="123"
                     maxlength="4"
@@ -280,8 +270,7 @@
               </div>
             </div>
 
-            <!-- Order Summary -->
-            <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+<div class="mt-6 p-4 bg-gray-50 rounded-lg">
               <h4 class="font-medium mb-2">Resumen del Pedido</h4>
               <div class="text-sm space-y-1">
                 <div class="flex justify-between">
@@ -301,15 +290,14 @@
           </div>
         </div>
 
-        <!-- Buttons -->
-        <div class="flex space-x-4 mt-8 pt-6 border-t border-gray-200">
-          <button type="button" 
+<div class="flex space-x-4 mt-8 pt-6 border-t border-gray-200">
+          <button type="button"
             (click)="backToDetail()"
             class="flex-1 bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-md hover:bg-gray-400 transition-colors">
             Volver
           </button>
-          
-          <button type="submit" 
+
+          <button type="submit"
             [disabled]="!isPaymentFormValid() || processing"
             class="flex-1 bg-hydro-green text-white font-semibold py-3 px-6 rounded-md hover:bg-hydro-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
             <span *ngIf="!processing">Procesar Pago</span>
@@ -322,20 +310,19 @@
       </form>
     </div>
 
-    <!-- Step 3: Confirmation -->
-    <div *ngIf="currentStep === 3" class="bg-white rounded-lg shadow-lg overflow-hidden text-center">
+<div *ngIf="currentStep === 3" class="bg-white rounded-lg shadow-lg overflow-hidden text-center">
       <div class="p-8">
         <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
           <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
-        
+
         <h2 class="text-3xl font-bold text-gray-900 mb-4">¡Compra Exitosa!</h2>
         <p class="text-lg text-gray-600 mb-6">
           Tu pedido ha sido procesado correctamente. Recibirás un email de confirmación en breve.
         </p>
-        
+
         <div class="bg-gray-50 rounded-lg p-6 mb-6 text-left max-w-md mx-auto">
           <h3 class="font-semibold mb-3">Resumen del Pedido:</h3>
           <div class="space-y-2 text-sm">
@@ -353,9 +340,9 @@
             </div>
           </div>
         </div>
-        
+
         <div class="space-x-4">
-          <button (click)="goToProducts()" 
+          <button (click)="goToProducts()"
             class="bg-hydro-green text-white font-semibold py-3 px-8 rounded-md hover:bg-hydro-green-600 transition-colors">
             Continuar Comprando
           </button>

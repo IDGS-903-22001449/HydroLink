@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -62,32 +62,32 @@ export class SalesService {
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todas las ventas
+
   getVentas(): Observable<Venta[]> {
     return this.http.get<Venta[]>(this.apiUrl);
   }
 
-  // Obtener una venta por ID
+
   getVenta(id: number): Observable<Venta> {
     return this.http.get<Venta>(`${this.apiUrl}/${id}`);
   }
 
-  // Crear una nueva venta
+
   createVenta(venta: VentaCreateDto): Observable<Venta> {
     return this.http.post<Venta>(this.apiUrl, venta);
   }
 
-  // Obtener métricas de ventas desde el backend
+
   getSalesMetrics(): Observable<SalesMetrics> {
     return this.http.get<SalesMetrics>(`${this.apiUrl}/metrics`);
   }
 
-  // Obtener compras de un usuario específico
+
   getUserPurchases(email: string): Observable<Venta[]> {
     return this.http.get<Venta[]>(`${this.apiUrl}/user/${encodeURIComponent(email)}`);
   }
 
-  // Crear datos de prueba
+
   createSeedData(): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/seed`);
   }

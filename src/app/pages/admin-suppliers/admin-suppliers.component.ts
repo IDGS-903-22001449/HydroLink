@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupplierService, ProveedorDto, ProveedorCreateDto } from '../../services/supplier.service';
@@ -57,7 +57,7 @@ export class AdminSuppliersComponent implements OnInit {
   openModal(proveedor?: ProveedorDto): void {
     if (proveedor) {
       this.selectedProveedor = proveedor;
-      // Obtener el proveedor completo para editar
+
       this.supplierService.getProveedor(proveedor.id).subscribe({
         next: (proveedorCompleto) => {
           this.proveedorForm = {
@@ -97,7 +97,7 @@ export class AdminSuppliersComponent implements OnInit {
 
   createOrUpdateProveedor(): void {
     if (this.selectedProveedor) {
-      // Update existing proveedor
+
       this.supplierService.updateProveedor(this.selectedProveedor.id, this.proveedorForm).subscribe({
         next: (response) => {
           this.successMessage = 'Proveedor actualizado exitosamente';
@@ -110,7 +110,7 @@ export class AdminSuppliersComponent implements OnInit {
         }
       });
     } else {
-      // Create new proveedor
+
       this.supplierService.createProveedor(this.proveedorForm).subscribe({
         next: (response) => {
           this.successMessage = 'Proveedor creado exitosamente';

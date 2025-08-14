@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InventarioService, InventarioMateriaPrimaDto, ResumenInventarioDto } from '../../services/inventario.service';
 import { FormsModule } from '@angular/forms';
@@ -22,15 +22,15 @@ export class InventarioComponent implements OnInit {
   selectedItem: InventarioMateriaPrimaDto | null = null;
   showModal = false;
   showAdjustModal = false;
-  
-  // Variables para el ajuste de stock
+
+
   ajusteForm = {
     cantidadAjuste: 0,
     motivo: '',
     observaciones: ''
   };
-  
-  // Menu items para el sidebar
+
+
   adminMenuItems: MenuItem[] = [];
 
   constructor(
@@ -47,17 +47,17 @@ export class InventarioComponent implements OnInit {
   cargarDatos(): void {
     this.loading = true;
     this.error = null;
-    
+
     console.log('Cargando inventario desde:', `${this.inventarioService['apiUrl']}`);
-    
-    // Cargar inventario
+
+
     this.inventarioService.getInventario()
       .pipe(
         catchError(error => {
           console.error('Error cargando inventario:', error);
           console.error('URL utilizada:', error.url);
           console.error('Status:', error.status);
-          this.error = `Error al cargar el inventario. URL: ${error.url} - Status: ${error.status}. Verifique que el backend esté ejecutándose en https://localhost:5000`;
+          this.error = `Error al cargar el inventario. URL: ${error.url} - Status: ${error.status}. Verifique que el backend esté ejecutándose en https://localhost:5001`;
           this.loading = false;
           return of([]);
         })
@@ -67,8 +67,8 @@ export class InventarioComponent implements OnInit {
         this.inventario = data;
         this.loading = false;
       });
-    
-    // Cargar resumen
+
+
     this.inventarioService.getResumenInventario()
       .pipe(
         catchError(error => {
@@ -122,7 +122,7 @@ export class InventarioComponent implements OnInit {
       next: (response) => {
         console.log('Ajuste realizado:', response);
         this.cerrarModalAjuste();
-        this.cargarDatos(); // Recargar datos
+        this.cargarDatos();
       },
       error: (error) => {
         console.error('Error al realizar ajuste:', error);

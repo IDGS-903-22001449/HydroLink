@@ -1,4 +1,4 @@
-.user-purchases-container {
+﻿.user-purchases-container {
   padding: 1.5rem;
   max-width: 100%;
   margin: 0 auto;
@@ -52,7 +52,6 @@
   color: #2c3e50;
 }
 
-/* Loading */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -77,7 +76,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/* No purchases */
 .no-purchases {
   text-align: center;
   padding: 3rem;
@@ -102,7 +100,6 @@
   margin-bottom: 1.5rem;
 }
 
-/* Purchase cards */
 .purchases-list {
   display: flex;
   flex-direction: column;
@@ -278,7 +275,6 @@
   line-height: 1.5;
 }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -314,7 +310,6 @@
   transform: translateY(-1px);
 }
 
-/* Tabs */
 .tabs-container {
   display: flex;
   gap: 0.5rem;
@@ -347,7 +342,6 @@
   background: #f8f9fa;
 }
 
-/* Manuales section */
 .no-manuales {
   text-align: center;
   padding: 3rem;
@@ -510,56 +504,55 @@
   line-height: 1.4;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .user-purchases-container {
     padding: 1rem;
   }
-  
+
   .purchase-header {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .purchase-summary {
     justify-content: space-around;
   }
-  
+
   .product-info {
     flex-direction: column;
   }
-  
+
   .quantity-price {
     text-align: left;
     min-width: auto;
   }
-  
+
   .purchase-header-row {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .tabs-container {
     flex-direction: column;
     gap: 0;
   }
-  
+
   .tab-button {
     padding: 0.75rem 1rem;
     text-align: center;
   }
-  
+
   .manual-header {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  
+
   .manual-actions {
     flex-direction: column;
     gap: 0.75rem;
   }
-  
+
   .product-specs {
     justify-content: center;
   }

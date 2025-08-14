@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+﻿import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -13,20 +13,20 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
-  
+
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
-  
+
   get userDetail() {
     return this.authService.getUserDetail();
   }
-  
+
   get isAdmin(): boolean {
     const roles = this.authService.getRoles();
     return roles?.includes('Admin') || roles?.includes('Administrator') || false;
   }
-  
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/']);

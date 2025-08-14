@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -47,8 +47,8 @@ export class MateriaPrimaService {
   getMateriasPrimas(): Observable<MateriaPrimaDto[]> {
     return this.http.get<MateriaPrimaDto[]>(`${this.apiUrl}materiaprimas`);
   }
-  
-  // Nuevo método para obtener componentes generados desde materias primas
+
+
   getComponentes(): Observable<ComponenteDto[]> {
     return this.http.get<ComponenteDto[]>(`${this.apiUrl}materiaprimas/as-components`);
   }

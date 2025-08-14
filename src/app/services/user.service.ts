@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User, UserDetailDto } from '../interfaces/user.interface';
+import { UserProfileDto, UpdateProfileDto } from '../interfaces/user-profile.interface';
 import { environment } from '../../environments/environment';
 
 export interface UserDetail {
@@ -28,9 +29,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  /**
-   * Obtiene los detalles del usuario actual
-   */
+
   getCurrentUser(): Observable<User> {
     return this.http.get<UserDetailDto>(`${this.apiUrl}Account/detail`)
       .pipe(
@@ -38,9 +37,7 @@ export class UserService {
       );
   }
 
-  /**
-   * Obtiene todos los usuarios (solo para administradores)
-   */
+
   getAllUsers(): Observable<User[]> {
     return this.http.get<UserDetailDto[]>(`${this.apiUrl}Account`)
       .pipe(
@@ -48,50 +45,50 @@ export class UserService {
       );
   }
 
-  /**
-   * Obtiene todos los usuarios para administración (formato simplificado)
-   */
+
   getAllUsersForAdmin(): Observable<UserDetail[]> {
     return this.http.get<UserDetail[]>(`${this.apiUrl}account`);
   }
 
-  /**
-   * Asigna un rol a un usuario
-   */
+
   assignRole(roleAssignDto: RoleAssignDto): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`${this.apiUrl}roles/assign`, roleAssignDto);
   }
 
-  /**
-   * Quita un rol a un usuario
-   */
+
   removeRole(roleAssignDto: RoleAssignDto): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}roles/remove`, {
       body: roleAssignDto
     });
   }
 
-  /**
-   * Obtiene todos los roles disponibles
-   */
+
   getAllRoles(): Observable<{ id: string; name: string }[]> {
     return this.http.get<{ id: string; name: string }[]>(`${this.apiUrl}roles`);
   }
 
-  /**
-   * Mapea UserDetailDto del backend a User para el frontend
-   */
+
+  getUserProfile(): Observable<UserProfileDto> {
+    return this.http.get<UserProfileDto>(`${this.apiUrl}Account/profile`);
+  }
+
+
+  updateUserProfile(profileData: UpdateProfileDto): Observable<{ isSuccess: boolean; message: string }> {
+    return this.http.put<{ isSuccess: boolean; message: string }>(`${this.apiUrl}Account/profile`, profileData);
+  }
+
+
   private mapUserDetailToUser(userDetail: UserDetailDto): User {
     return {
       id: parseInt(userDetail.id || '0'),
       email: userDetail.email || '',
       fullName: userDetail.fullName || '',
       username: userDetail.email,
-      isActive: true, // El backend no proporciona este campo, asumimos true
-      createdAt: new Date(), // El backend no proporciona este campo
-      updatedAt: new Date(), // El backend no proporciona este campo
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
       roles: userDetail.roles?.map(roleName => ({
-        id: 0, // El backend solo proporciona nombres de roles
+        id: 0,
         name: roleName,
         description: ''
       })) || []

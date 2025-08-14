@@ -1,4 +1,4 @@
-/* Dashboard Layout Styles */
+﻿
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
@@ -23,9 +23,6 @@
   margin-bottom: 30px;
 }
 
-/* Complemento a Tailwind CSS para casos específicos */
-
-/* Animación personalizada para transiciones de contenido */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -41,24 +38,20 @@
   animation: fadeIn 0.4s ease-out;
 }
 
-/* Smooth transitions para elementos interactivos */
 .transition-smooth {
   transition: all 0.2s ease-in-out;
 }
 
-/* Focus styles para accesibilidad */
 .focus-ring:focus {
   outline: 2px solid #10b981;
   outline-offset: 2px;
 }
 
-/* Hover effects para cards y botones */
 .hover-lift:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Animación personalizada para botones de actualización */
 .refresh-spin {
   animation: spin 1s linear infinite;
 }

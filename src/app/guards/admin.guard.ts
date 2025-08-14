@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+﻿import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
@@ -8,20 +8,18 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const notificationService = inject(NotificationService);
 
-  // Verificar si está autenticado
   if (!authService.isLoggedIn()) {
     console.log('AdminGuard: Usuario no autenticado, redirigiendo a login');
     router.navigate(['/login']);
     return false;
   }
 
-  // Verificar si tiene rol de administrador o empleado
   const userRoles = authService.getRoles();
   console.log('AdminGuard: Roles del usuario:', userRoles);
-  
-  const hasAccess = userRoles?.includes('Admin') || 
-                   userRoles?.includes('Administrator') || 
-                   userRoles?.includes('Employee') || 
+
+  const hasAccess = userRoles?.includes('Admin') ||
+                   userRoles?.includes('Administrator') ||
+                   userRoles?.includes('Employee') ||
                    userRoles?.includes('Empleado');
   console.log('AdminGuard: ¿Tiene acceso?', hasAccess);
 

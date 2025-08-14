@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+﻿<app-navbar></app-navbar>
 
 <main>
   <section class="bg-white py-15 text-center">
@@ -33,18 +33,14 @@
           </li>
         </ul>
         <div class="w-full h-64 bg-green-100 flex items-center justify-center mt-8 rounded-md">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.2262963322646!2d-101.5842237239937!3d21.06362208657888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842b963652f40f0d%3A0xa7d88da0ad8eff8a!2sUniversidad%20Tecnol%C3%B3gica%20de%20Le%C3%B3n!5e0!3m2!1ses-419!2smx!4v1754007181077!5m2!1ses-419!2smx"
-            style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            class="w-full h-full"></iframe>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3734.8442!2d-101.6777!3d21.1234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDA3JzI0LjIiTiAxMDHCsDA0JzM5LjciVw!5e0!3m2!1sen!2smx!4v1234567890123" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe>
         </div>
       </div>
 
       <div class="bg-white rounded-md shadow-md p-10 flex-1 min-w-[300px] max-w-[550px]">
         <h2 class="text-3xl text-hydro-green mb-6">Envíanos un Mensaje</h2>
         <form (ngSubmit)="onSubmit()">
-          <!-- Mensaje de estado -->
-          <div *ngIf="submitMessage" class="mb-4 p-3 rounded-md" 
+          <div *ngIf="submitMessage" class="mb-4 p-3 rounded-md"
                [class]="submitSuccess ? 'bg-green-100 text-green-800 border border-green-300' : 'bg-red-100 text-red-800 border border-red-300'">
             {{ submitMessage }}
           </div>
@@ -96,7 +92,6 @@
       </div>
 
       <div class="grid md:grid-cols-3 gap-6">
-        <!-- FAQ -->
         <div class="bg-gray-50 rounded-lg p-6 text-center hover:shadow-md transition-shadow duration-300">
           <div class="text-hydro-green text-4xl mb-4">
             <i class="fas fa-question-circle"></i>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+﻿import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductoService, ProductoHydroLink } from '../../services/producto.service';
 import { NotificationService } from '../../services/notification.service';
@@ -49,7 +49,7 @@ export class AdminProductListComponent implements OnInit {
     });
   }
 
-  // Método para refrescar la lista desde el componente padre
+
   refresh(): void {
     this.cargarProductos();
   }

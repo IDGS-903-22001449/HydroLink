@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { MetricCardComponent } from '../../components/metric-card/metric-card.component';

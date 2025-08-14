@@ -1,19 +1,16 @@
-<!-- Modal Backdrop -->
-<div 
-  *ngIf="config.isOpen" 
+<div
+  *ngIf="config.isOpen"
   class="modal-backdrop"
   (click)="closeModal()"
 >
-  <!-- Modal Content -->
-  <div 
+  <div
     class="modal-content"
     (click)="onModalContentClick($event)"
   >
-    <!-- Modal Header -->
     <div class="modal-header">
       <h2 class="modal-title">{{ modalTitle }}</h2>
-      <button 
-        type="button" 
+      <button
+        type="button"
         class="modal-close"
         (click)="closeModal()"
         [disabled]="isLoading"
@@ -22,21 +19,18 @@
       </button>
     </div>
 
-    <!-- Modal Body -->
     <div class="modal-body">
-      <!-- Error Message -->
       <div *ngIf="errorMessage" class="error-message">
         <i class="fas fa-exclamation-triangle"></i>
         {{ errorMessage }}
       </div>
 
-      <!-- Delete Confirmation -->
       <div *ngIf="config.mode === 'delete'" class="delete-confirmation">
         <div class="warning-icon">
           <i class="fas fa-exclamation-triangle"></i>
         </div>
         <p class="delete-text">
-          ¿Estás seguro de que deseas eliminar el rol 
+          ¿Estás seguro de que deseas eliminar el rol
           <strong>"{{ config.role?.name }}"</strong>?
         </p>
         <p class="delete-subtext">
@@ -48,14 +42,12 @@
         </div>
       </div>
 
-      <!-- Form for Create/Edit/View -->
-      <form 
-        *ngIf="config.mode !== 'delete'" 
-        [formGroup]="roleForm" 
+      <form
+        *ngIf="config.mode !== 'delete'"
+        [formGroup]="roleForm"
         (ngSubmit)="onSubmit()"
         class="role-form"
       >
-        <!-- Role Name Field -->
         <div class="form-group">
           <label for="roleName" class="form-label">
             Nombre del Rol <span class="required" *ngIf="config.mode !== 'view'">*</span>
@@ -69,10 +61,9 @@
             [class.error]="roleForm.get('roleName')?.invalid && roleForm.get('roleName')?.touched"
             [class.success]="roleForm.get('roleName')?.valid && roleForm.get('roleName')?.touched"
           />
-          
-          <!-- Validation Messages -->
-          <div 
-            *ngIf="roleForm.get('roleName')?.invalid && roleForm.get('roleName')?.touched" 
+
+          <div
+            *ngIf="roleForm.get('roleName')?.invalid && roleForm.get('roleName')?.touched"
             class="validation-message"
           >
             <span *ngIf="roleForm.get('roleName')?.errors?.['required']">
@@ -87,7 +78,6 @@
           </div>
         </div>
 
-        <!-- Role Info in View Mode -->
         <div *ngIf="config.mode === 'view' && config.role" class="role-info">
           <div class="info-row">
             <span class="info-label">ID del Rol:</span>
@@ -101,18 +91,17 @@
       </form>
     </div>
 
-    <!-- Modal Footer -->
     <div class="modal-footer">
-      <button 
-        type="button" 
+      <button
+        type="button"
         class="btn btn-secondary"
         (click)="closeModal()"
         [disabled]="isLoading"
       >
         {{ config.mode === 'view' ? 'Cerrar' : 'Cancelar' }}
       </button>
-      
-      <button 
+
+      <button
         *ngIf="config.mode !== 'view'"
         type="button"
         [class]="'btn ' + submitButtonClass"

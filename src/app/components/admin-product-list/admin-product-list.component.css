@@ -1,4 +1,4 @@
-/* Estilos para la lista de productos */
+﻿
 .list-container {
   padding: 25px;
   background: white;
@@ -142,11 +142,11 @@ tr:hover {
   .table-container {
     font-size: 14px;
   }
-  
+
   th, td {
     padding: 10px 8px;
   }
-  
+
   .actions {
     flex-direction: column;
     gap: 4px;

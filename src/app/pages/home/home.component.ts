@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { ProductoService } from '../../services/producto.service';
@@ -61,15 +61,13 @@ export class HomeComponent implements OnInit {
 
   getImagenSrc(imagenBase64?: string): string {
     if (!imagenBase64) {
-      return 'https://via.placeholder.com/200x200?text=Producto';
+      return 'https://via.placeholder.com/300x200?text=Producto+HydroLink';
     }
-    
-    // Si ya tiene el prefijo data:image, lo devolvemos tal como está
+
     if (imagenBase64.startsWith('data:image/')) {
       return imagenBase64;
     }
-    
-    // Si es solo la cadena base64, agregamos el prefijo por defecto
+
     return `data:image/jpeg;base64,${imagenBase64}`;
   }
 }

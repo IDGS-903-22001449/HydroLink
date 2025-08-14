@@ -1,10 +1,9 @@
-/* Estilos específicos para el componente home */
+﻿
 
 .btn-secondary {
   @apply inline-block bg-gray-200 text-gray-800 py-2 px-4 rounded-md text-base transition-colors duration-300 hover:bg-gray-300;
 }
 
-/* Clases de Tailwind customizadas para Hydrolink */
 .bg-hydro-green {
   background-color: #4CAF50;
 }
@@ -25,7 +24,6 @@
   background-color: #2E7D32;
 }
 
-/* Animación de carga personalizada */
 .animate-spin {
   animation: spin 1s linear infinite;
 }
@@ -39,7 +37,6 @@
   }
 }
 
-/* Responsive para imágenes de productos */
 @media (max-width: 768px) {
   .grid-cols-1 .w-48 {
     width: 12rem;
@@ -47,7 +44,6 @@
   }
 }
 
-/* Espaciado consistente para toda la página */
 .py-15 {
   padding-top: 3.75rem;
   padding-bottom: 3.75rem;
@@ -58,7 +54,6 @@
   padding-bottom: 5rem;
 }
 
-/* Gradientes simples */
 .bg-gradient-to-r {
   background: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -96,7 +91,6 @@
   --tw-gradient-to: #9333ea;
 }
 
-/* Transformaciones simples */
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -111,7 +105,6 @@
   transform: translateY(-0.5rem);
 }
 
-/* Sombras */
 .shadow-lg {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
@@ -120,7 +113,6 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Bordes redondeados */
 .rounded-lg {
   border-radius: 0.5rem;
 }
@@ -129,7 +121,6 @@
   border-radius: 0.75rem;
 }
 
-/* Colores adicionales */
 .bg-gray-50 {
   background-color: #f9fafb;
 }
@@ -150,7 +141,6 @@
   color: #4CAF50;
 }
 
-/* Espaciado */
 .space-y-6 > * + * {
   margin-top: 1.5rem;
 }
@@ -163,32 +153,31 @@
   margin-bottom: 3rem;
 }
 
-/* Responsive adjustments */
 @media (max-width: 640px) {
   .py-15 {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
-  
+
   .py-20 {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
-  
+
   .text-4xl {
     font-size: 2rem;
     line-height: 2.5rem;
   }
-  
+
   .text-lg {
     font-size: 1rem;
     line-height: 1.5rem;
   }
-  
+
   .gap-8 {
     gap: 1.5rem;
   }
-  
+
   .mb-12 {
     margin-bottom: 2rem;
   }

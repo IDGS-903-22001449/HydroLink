@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { NotificationService, Notification } from '../../services/notification.service';
+import { ToastService, ToastMessage } from '../../services/toast.service';
 
 @Component({
   selector: 'app-toast-notifications',
@@ -20,7 +20,6 @@ import { NotificationService, Notification } from '../../services/notification.s
         }"
       >
         <div class="flex items-center p-4 rounded-lg border shadow-lg max-w-sm">
-          <!-- Icono -->
           <div class="flex-shrink-0 mr-3">
             <svg
               *ngIf="notification.type === 'success'"
@@ -60,7 +59,6 @@ import { NotificationService, Notification } from '../../services/notification.s
             </svg>
           </div>
 
-          <!-- Mensaje -->
           <div class="flex-1">
             <p
               class="text-sm font-medium"
@@ -75,7 +73,6 @@ import { NotificationService, Notification } from '../../services/notification.s
             </p>
           </div>
 
-          <!-- Botón cerrar -->
           <button
             type="button"
             class="ml-3 flex-shrink-0 rounded-md p-1 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
@@ -129,13 +126,13 @@ import { NotificationService, Notification } from '../../services/notification.s
   `]
 })
 export class ToastNotificationsComponent implements OnInit, OnDestroy {
-  notifications: Notification[] = [];
+  notifications: ToastMessage[] = [];
   private subscription?: Subscription;
 
-  constructor(private notificationService: NotificationService) {}
+  constructor(private toastService: ToastService) { }
 
   ngOnInit() {
-    this.subscription = this.notificationService.notifications.subscribe(
+    this.subscription = this.toastService.toasts$.subscribe(
       notifications => this.notifications = notifications
     );
   }
@@ -147,6 +144,6 @@ export class ToastNotificationsComponent implements OnInit, OnDestroy {
   }
 
   removeNotification(id: string) {
-    this.notificationService.remove(id);
+    this.toastService.remove(id);
   }
 }

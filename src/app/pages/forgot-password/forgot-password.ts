@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+﻿import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -14,13 +14,13 @@ import { AuthCardComponent } from '../../components/auth-card/auth-card.componen
 export class ForgotPasswordComponent {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
-  
+
   forgotPasswordForm: FormGroup;
   isLoading = false;
   errorMessage = '';
   successMessage = '';
   emailSent = false;
-  
+
   constructor() {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
@@ -32,9 +32,9 @@ export class ForgotPasswordComponent {
       this.isLoading = true;
       this.errorMessage = '';
       this.successMessage = '';
-      
+
       const email = this.forgotPasswordForm.get('email')?.value;
-      
+
       this.authService.forgotPassword(email).subscribe({
         next: (response) => {
           if (response.isSuccess) {
@@ -54,14 +54,14 @@ export class ForgotPasswordComponent {
       this.markFormGroupTouched();
     }
   }
-  
+
   private markFormGroupTouched() {
     Object.keys(this.forgotPasswordForm.controls).forEach(key => {
       const control = this.forgotPasswordForm.get(key);
       control?.markAsTouched();
     });
   }
-  
+
   getFieldError(fieldName: string): string {
     const field = this.forgotPasswordForm.get(fieldName);
     if (field?.errors && field.touched) {

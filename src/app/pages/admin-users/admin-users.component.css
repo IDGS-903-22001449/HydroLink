@@ -1,7 +1,5 @@
-/* Este archivo ahora usa completamente Tailwind CSS */
-/* Se mantiene solo para futuras customizaciones específicas si son necesarias */
+﻿
 
-/* Animación personalizada para mejor UX */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -17,12 +15,10 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-/* Smooth transitions for hover states */
 .transition-smooth {
   transition: all 0.2s ease-in-out;
 }
 
-/* Custom scrollbar for modal */
 .modal-scroll::-webkit-scrollbar {
   width: 6px;
 }

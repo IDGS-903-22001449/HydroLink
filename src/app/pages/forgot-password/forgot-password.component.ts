@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ export class ForgotPasswordComponent {
     this.error = '';
     this.success = '';
 
-    // Validaciones
+
     if (!this.email) {
       this.error = 'El email es requerido';
       return;

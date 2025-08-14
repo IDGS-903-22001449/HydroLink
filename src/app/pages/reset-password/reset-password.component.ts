@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -27,11 +27,11 @@ export class ResetPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener parámetros de la URL
+
     this.route.queryParams.subscribe(params => {
       this.email = params['email'] || '';
       this.token = params['token'] || '';
-      
+
       if (!this.email || !this.token) {
         this.error = 'Enlace de recuperación inválido. Por favor solicita un nuevo enlace.';
       }
@@ -42,7 +42,7 @@ export class ResetPasswordComponent implements OnInit {
     this.error = '';
     this.success = '';
 
-    // Validaciones
+
     if (!this.newPassword || !this.confirmPassword) {
       this.error = 'Todos los campos son requeridos';
       return;

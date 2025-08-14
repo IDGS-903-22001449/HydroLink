@@ -1,5 +1,4 @@
-<div class="role-management-container">
-  <!-- Header -->
+﻿<div class="role-management-container">
   <div class="page-header">
     <div class="header-content">
       <h1 class="page-title">Gestión de Roles</h1>
@@ -11,7 +10,6 @@
     </button>
   </div>
 
-  <!-- Error Message -->
   <div *ngIf="errorMessage" class="error-banner">
     <i class="fas fa-exclamation-triangle"></i>
     {{ errorMessage }}
@@ -21,13 +19,11 @@
     </button>
   </div>
 
-  <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-container">
     <div class="loading-spinner"></div>
     <p>Cargando roles...</p>
   </div>
 
-  <!-- Roles Table -->
   <div *ngIf="!isLoading" class="table-container">
     <div *ngIf="roles.length === 0 && !errorMessage" class="empty-state">
       <div class="empty-icon">
@@ -80,7 +76,6 @@
     </table>
   </div>
 
-  <!-- Role Modal -->
   <app-role-modal [config]="modalConfig" (configChange)="onModalConfigChange($event)"
     (roleAction)="onRoleAction($event)"></app-role-modal>
 </div>

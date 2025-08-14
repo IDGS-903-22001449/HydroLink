@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { AdminDropdownComponent } from '../../components/admin-dropdown/admin-dropdown.component';
@@ -117,7 +117,7 @@ export class AdminSalesComponent implements OnInit, OnDestroy {
       fecha: new Date(venta.fecha).toLocaleDateString('es-ES'),
       estado: this.getEstadoBadge(venta.estado),
       actions: `
-        <button class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 transition-colors" 
+        <button class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 transition-colors"
                 onclick="document.dispatchEvent(new CustomEvent('viewSaleDetail', { detail: { index: ${index} } }))">
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

@@ -1,4 +1,4 @@
-.dashboard-layout {
+﻿.dashboard-layout {
   display: flex;
   min-height: 100vh;
   background-color: #f8f9fa;
@@ -43,7 +43,7 @@
   .dashboard-layout {
     flex-direction: column;
   }
-  
+
   .top-bar {
     padding: 1rem;
   }

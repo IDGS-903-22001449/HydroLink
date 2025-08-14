@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -51,7 +51,6 @@ export class AdminDropdownComponent implements OnInit {
     this.closeDropdown();
   }
 
-  // Cerrar dropdown cuando se hace clic fuera
   onDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
     const dropdown = target.closest('.admin-dropdown');

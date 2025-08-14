@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, BehaviorSubject, of } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
@@ -24,14 +24,13 @@ export class AuthService {
   public user$ = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    // Inicializar el estado al crear el servicio
     this.checkAuthState();
   }
 
   private checkAuthState(): void {
     const isLoggedIn = this.isLoggedIn();
     this.authStatusSubject.next(isLoggedIn);
-    
+
     if (isLoggedIn) {
       const user = this.getUserDetail();
       this.userSubject.next(user);
@@ -45,7 +44,7 @@ export class AuthService {
       map((response) => {
         if (response.isSuccess && response.token) {
           localStorage.setItem(this.userKey, JSON.stringify(response));
-          this.checkAuthState(); // Actualizar estado
+          this.checkAuthState();
         }
         return response;
       })
@@ -76,7 +75,6 @@ export class AuthService {
     const token = this.getToken();
     if (!token) return false;
 
-    // Verificar si el token ha expirado
     try {
       const decodedToken: any = jwtDecode(token);
       const isTokenExpired = Date.now() >= decodedToken.exp * 1000;
@@ -111,7 +109,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.userKey);
-    this.checkAuthState(); // Actualizar estado
+    this.checkAuthState();
   }
 
   getRoles(): string[] | null {
@@ -165,7 +163,6 @@ export class AuthService {
     }
   }
 
-  // Método para obtener el usuario actual como observable
   getCurrentUser(): Observable<any> {
     return this.user$;
   }

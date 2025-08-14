@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+﻿import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -15,12 +15,12 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
-  
+
   registerForm: FormGroup;
   isLoading = false;
   errorMessage = '';
   successMessage = '';
-  
+
   constructor() {
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2)]],
@@ -37,9 +37,9 @@ export class RegisterComponent {
       this.isLoading = true;
       this.errorMessage = '';
       this.successMessage = '';
-      
+
       const { confirmPassword, ...registerData } = this.registerForm.value;
-      
+
       this.authService.register(registerData).subscribe({
         next: (response) => {
           if (response.isSuccess) {
@@ -61,24 +61,24 @@ export class RegisterComponent {
       this.markFormGroupTouched();
     }
   }
-  
+
   private passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
-    
+
     if (password !== confirmPassword) {
       return { passwordMismatch: true };
     }
     return null;
   }
-  
+
   private markFormGroupTouched() {
     Object.keys(this.registerForm.controls).forEach(key => {
       const control = this.registerForm.get(key);
       control?.markAsTouched();
     });
   }
-  
+
   getFieldError(fieldName: string): string {
     const field = this.registerForm.get(fieldName);
     if (field?.errors && field.touched) {
@@ -93,12 +93,12 @@ export class RegisterComponent {
         return `Debe tener al menos ${minLength} caracteres`;
       }
     }
-    
-    // Verificar error de confirmación de contraseña
+
+
     if (fieldName === 'confirmPassword' && this.registerForm.errors?.['passwordMismatch'] && field?.touched) {
       return 'Las contraseñas no coinciden';
     }
-    
+
     return '';
   }
 }

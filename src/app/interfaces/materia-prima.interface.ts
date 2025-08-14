@@ -1,4 +1,4 @@
-export interface MateriaPrimaDto {
+﻿export interface MateriaPrimaDto {
   id: number;
   nombre: string;
   unidadMedida: string;

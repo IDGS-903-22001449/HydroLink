@@ -1,4 +1,4 @@
-/* Estilos específicos para el componente roles */
+﻿
 
 .bg-hydro-green {
   background-color: #4CAF50;
@@ -28,7 +28,6 @@
   --tw-ring-offset-width: 2px;
 }
 
-/* Animación de carga */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -42,18 +41,16 @@
   animation: spin 1s linear infinite;
 }
 
-/* Tabla responsive */
 @media (max-width: 640px) {
   .overflow-x-auto {
     overflow-x: auto;
   }
-  
+
   table {
     min-width: 500px;
   }
 }
 
-/* Hover effects */
 .hover\:bg-gray-50:hover {
   background-color: #f9fafb;
 }
@@ -66,7 +63,6 @@
   color: #7f1d1d;
 }
 
-/* Focus states */
 .focus\:outline-none:focus {
   outline: none;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormsModule, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -29,17 +29,17 @@ export class AdminQuotesComponent implements OnInit {
   createQuoteForm: FormGroup;
   loading: boolean = false;
 
-  // Sidebar and navigation
+
   adminMenuItems: MenuItem[] = [];
   pageTitle: string = 'Gestión de Cotizaciones';
 
-  // Métricas
+
   totalQuotes: number = 0;
   pendingQuotes: number = 0;
   approvedQuotes: number = 0;
   totalValue: number = 0;
 
-  // Datos para dropdowns
+
   clientes: Cliente[] = [];
   productos: ProductoHydroLink[] = [];
   selectedProduct: ProductoHydroLink | null = null;
@@ -47,7 +47,7 @@ export class AdminQuotesComponent implements OnInit {
   selectedComponents: ComponenteRequerido[] = [];
   loadingDropdowns: boolean = false;
 
-  // Cálculos automáticos
+
   subtotalComponentes: number = 0;
   subtotalManoObra: number = 0;
   subtotalMateriales: number = 0;
@@ -55,7 +55,7 @@ export class AdminQuotesComponent implements OnInit {
   montoGanancia: number = 0;
   totalEstimado: number = 0;
 
-  // Configuración de columnas para la tabla
+
   columns = [
     { key: 'id', label: 'ID', sortable: true },
     { key: 'nombreProyecto', label: 'Proyecto', sortable: true },
@@ -92,7 +92,7 @@ export class AdminQuotesComponent implements OnInit {
       porcentajeGanancia: [25, [Validators.required, Validators.min(0), Validators.max(100)]]
     });
 
-    // Suscribirse a cambios en el porcentaje de ganancia
+
     this.createQuoteForm.get('porcentajeGanancia')?.valueChanges.subscribe(() => {
       if (this.selectedComponents.length > 0) {
         this.calculateTotal();
@@ -101,16 +101,16 @@ export class AdminQuotesComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Inicializar menú de administrador
+
     this.adminMenuItems = this.menuService.getAdminMenuItems('/admin-quotes');
     this.loadQuotes();
   }
 
-  // Cargar datos para dropdowns
+
   loadDropdownData() {
     this.loadingDropdowns = true;
 
-    // Cargar clientes y productos en paralelo
+
     Promise.all([
       this.clienteService.getClientes().toPromise(),
       this.productoService.getProductos().toPromise()
@@ -124,7 +124,7 @@ export class AdminQuotesComponent implements OnInit {
     });
   }
 
-  // Agregar/quitar componentes seleccionados
+
   toggleComponentSelection(component: ComponenteRequerido, event: Event) {
     const target = event.target as HTMLInputElement;
     const isSelected = target.checked;
@@ -140,27 +140,27 @@ export class AdminQuotesComponent implements OnInit {
     this.calculateTotal();
   }
 
-  // Calcular totales y ganancia automáticamente
+
   calculateTotal() {
-    // El cálculo ahora se basa en componentes reales y se realizará en el backend
-    // Aquí solo mostramos un preview estimado basado en precios simulados
+
+
     this.subtotalComponentes = this.selectedComponents.reduce((sum, c) => {
-      const precioEstimado = 150; // Precio estimado por componente (se calculará realmente en backend)
+      const precioEstimado = 150;
       return sum + (c.cantidad * precioEstimado);
     }, 0);
 
-    // Calculamos mano de obra y materiales como porcentajes del subtotal de componentes
-    this.subtotalManoObra = this.subtotalComponentes * 0.20; // 20% para mano de obra
-    this.subtotalMateriales = this.subtotalComponentes * 0.10; // 10% para materiales adicionales
+
+    this.subtotalManoObra = this.subtotalComponentes * 0.20;
+    this.subtotalMateriales = this.subtotalComponentes * 0.10;
     this.totalSinGanancia = this.subtotalComponentes + this.subtotalManoObra + this.subtotalMateriales;
 
-    // Obtener porcentaje de ganancia del formulario
+
     const porcentajeGanancia = this.createQuoteForm.get('porcentajeGanancia')?.value || 25;
     this.montoGanancia = this.totalSinGanancia * (porcentajeGanancia / 100);
     this.totalEstimado = this.totalSinGanancia + this.montoGanancia;
   }
 
-  // Manejar selección de producto
+
   onProductChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     const productId = target.value;
@@ -169,7 +169,7 @@ export class AdminQuotesComponent implements OnInit {
       this.selectedProduct = this.productos.find(p => p.id === id) || null;
       if (this.selectedProduct) {
         this.productComponents = this.selectedProduct.componentesRequeridos || [];
-        // Auto-completar información del formulario basada en el producto
+
         this.createQuoteForm.patchValue({
           nombreProyecto: `Instalación ${this.selectedProduct.nombre}`,
           descripcion: this.selectedProduct.descripcion
@@ -181,7 +181,7 @@ export class AdminQuotesComponent implements OnInit {
     }
   }
 
-  // Manejar selección de cliente
+
   onClientChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     const clientId = target.value;
@@ -189,7 +189,7 @@ export class AdminQuotesComponent implements OnInit {
     if (id && !isNaN(id)) {
       const selectedCliente = this.clientes.find(c => c.id === id);
       if (selectedCliente) {
-        // Puede agregar lógica adicional aquí si es necesario
+
         console.log('Cliente seleccionado:', selectedCliente);
       }
     }
@@ -231,7 +231,7 @@ export class AdminQuotesComponent implements OnInit {
   applyFilters() {
     let filtered = this.quotes;
 
-    // Filtro por término de búsqueda
+
     if (this.searchTerm) {
       filtered = filtered.filter(quote =>
         quote.nombreProyecto.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
@@ -240,7 +240,7 @@ export class AdminQuotesComponent implements OnInit {
       );
     }
 
-    // Filtro por estado
+
     if (this.selectedStatus !== 'all') {
       filtered = filtered.filter(quote => quote.estado === this.selectedStatus);
     }
@@ -255,13 +255,13 @@ export class AdminQuotesComponent implements OnInit {
     this.selectedProduct = null;
     this.productComponents = [];
     this.selectedComponents = [];
-    // Resetear cálculos
+
     this.resetCalculations();
-    // Cargar datos para dropdowns cuando se abre el modal
+
     this.loadDropdownData();
   }
 
-  // Resetear todos los cálculos
+
   resetCalculations() {
     this.subtotalComponentes = 0;
     this.subtotalManoObra = 0;
@@ -289,14 +289,21 @@ export class AdminQuotesComponent implements OnInit {
     if (this.createQuoteForm.valid && this.selectedProduct) {
       const formValue = this.createQuoteForm.value as CotizacionCreateRequest;
 
-      // Solo enviamos los datos básicos, el backend calculará los costos reales
-      const quoteRequest = {
+
+      const quoteRequest: CotizacionCreateRequest = {
         clienteId: formValue.clienteId,
         productoId: formValue.productoId,
         nombreProyecto: formValue.nombreProyecto,
         descripcion: formValue.descripcion,
         observaciones: formValue.observaciones,
-        porcentajeGanancia: formValue.porcentajeGanancia
+        porcentajeGanancia: formValue.porcentajeGanancia,
+        componenteIds: this.selectedComponents.map(c => c.componenteId || c.id),
+
+        subtotalComponentes: this.subtotalComponentes,
+        subtotalManoObra: this.subtotalManoObra,
+        subtotalMateriales: this.subtotalMateriales,
+        montoGanancia: this.montoGanancia,
+        totalEstimado: this.totalEstimado
       };
 
       this.quotesService.createQuote(quoteRequest).subscribe({
@@ -326,7 +333,7 @@ export class AdminQuotesComponent implements OnInit {
           this.calculateMetrics();
         }
 
-        // Mostrar notificación si se creó una venta
+
         if (response.ventaCreada && newStatus === 'APROBADA') {
           this.notificationService.success(`¡Cotización aprobada exitosamente!\n\nSe ha creado automáticamente la venta #${response.ventaId}\nEl inventario ha sido actualizado.`);
         } else {
@@ -336,12 +343,12 @@ export class AdminQuotesComponent implements OnInit {
       error: (error) => {
         console.error('Error updating quote status:', error);
 
-        // Mostrar mensaje de error más específico
+
         let errorMessage = 'Error al actualizar el estado de la cotización';
         if (error.error && error.error.mensaje) {
           errorMessage = error.error.mensaje;
 
-          // Si hay problemas de inventario, mostrar detalles
+
           if (error.error.componentesInsuficientes) {
             errorMessage += ':\n\n' + error.error.componentesInsuficientes.join('\n');
           }
@@ -366,7 +373,7 @@ export class AdminQuotesComponent implements OnInit {
         this.updateQuoteStatus(item, 'RECHAZADA');
         break;
       case 'edit':
-        // Implementar edición si es necesario
+
         console.log('Edit quote:', item);
         break;
     }

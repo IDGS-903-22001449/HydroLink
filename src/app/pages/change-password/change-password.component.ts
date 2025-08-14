@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class ChangePasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Verificar que el usuario esté autenticado
+
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
     }
@@ -36,7 +36,7 @@ export class ChangePasswordComponent implements OnInit {
     this.error = '';
     this.success = '';
 
-    // Validaciones
+
     if (!this.currentPassword || !this.newPassword || !this.confirmPassword) {
       this.error = 'Todos los campos son requeridos';
       return;

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CotizacionCreateRequest, CotizacionInterface } from '../../interfaces/cotizacion.interface';
@@ -41,13 +41,18 @@ export class CotizacionCliente implements OnInit {
   selectedProduct: ProductoHydroLink | null = null;
   productComponents: ComponenteRequerido[] = [];
   selectedComponents: ComponenteRequerido[] = [];
+  selectedComponentsMap: { [componenteId: number]: boolean } = {};
   loadingDropdowns: boolean = false;
 
   clienteActual: Cliente | null = null;
 
   showLoginAlert: boolean = false;
-  
-  // Propiedades para usuarios invitados
+  showSuccessAlert: boolean = false;
+  showErrorAlert: boolean = false;
+  alertMessage: string = '';
+  alertTitle: string = '';
+
+
   get isGuestUser(): boolean {
     return !this.authService.isLoggedIn();
   }
@@ -92,7 +97,7 @@ export class CotizacionCliente implements OnInit {
       nombreProyecto: ['', [Validators.required, Validators.maxLength(100)]],
       descripcion: ['', Validators.maxLength(500)],
       observaciones: ['', Validators.maxLength(1000)],
-      // Campos para usuario invitado (no logueado)
+
       clienteNombre: [''],
       clienteApellido: [''],
       clienteEmail: ['', [Validators.email]],
@@ -101,13 +106,13 @@ export class CotizacionCliente implements OnInit {
       clienteEmpresa: ['']
     });
 
-    // No hay suscripción a cambios de porcentajeGanancia porque ahora es fijo al 10%
+
   }
 
   ngOnInit() {
     console.log('CotizacionCliente ngOnInit - isLoggedIn:', this.authService.isLoggedIn());
 
-    // Siempre cargar productos, independientemente del estado de autenticación
+
     this.loadProductos();
 
     if (this.authService.isLoggedIn()) {
@@ -115,7 +120,7 @@ export class CotizacionCliente implements OnInit {
       this.loadClienteActual();
     } else {
       console.log('Usuario no logueado, permitiendo cotizaciones como invitado');
-      // No mostrar alerta, permitir cotizaciones como invitado
+
     }
   }
 
@@ -135,12 +140,51 @@ export class CotizacionCliente implements OnInit {
   }
 
   loadProductos() {
-    this.productoService.getProductos().subscribe({
+    console.log('Cargando productos con componentes...');
+    console.log('API URL que se va a llamar:', this.productoService.apiUrl + 'productos?includeComponents=true');
+    console.log('Timestamp de inicio:', new Date().toISOString());
+
+    const startTime = Date.now();
+
+    this.productoService.getProductos(true).subscribe({
       next: (productos) => {
+        const endTime = Date.now();
+        const duration = (endTime - startTime) / 1000;
+        console.log(`Productos cargados exitosamente en ${duration} segundos:`, productos);
+        console.log('Número de productos recibidos:', productos?.length || 0);
         this.productos = productos;
+
+
+        productos.forEach(producto => {
+          console.log(`Producto ${producto.nombre} (ID: ${producto.id}) tiene ${producto.componentesRequeridos?.length || 0} componentes:`, producto.componentesRequeridos);
+        });
       },
       error: (error) => {
-        console.error('Error al cargar productos:', error);
+        const endTime = Date.now();
+        const duration = (endTime - startTime) / 1000;
+        console.error(`Error al cargar productos después de ${duration} segundos:`, error);
+        console.error('Timestamp del error:', new Date().toISOString());
+        console.error('Error details completos:', {
+          name: error.name,
+          message: error.message,
+          status: error.status,
+          statusText: error.statusText,
+          url: error.url,
+          error: error.error,
+          stack: error.stack
+        });
+
+
+        if (error.name === 'TimeoutError') {
+          console.error('🕐 CONFIRMADO: Es un error de timeout después de', duration, 'segundos');
+          console.error('El timeout configurado es de 60 segundos');
+        }
+
+
+        alert(`Error al cargar productos después de ${duration} segundos.\n` +
+              `Tipo de error: ${error.name || 'Desconocido'}\n` +
+              `Mensaje: ${error.message || 'Sin mensaje'}\n` +
+              'Por favor, verifica que el backend esté ejecutándose en http://localhost:5001');
       }
     });
   }
@@ -177,15 +221,16 @@ export class CotizacionCliente implements OnInit {
 
   calculateTotal() {
     this.subtotalComponentes = this.selectedComponents.reduce((sum, c) => {
-      const precioEstimado = 150;
-      return sum + (c.cantidad * precioEstimado);
+
+      const precioUnitario = c.precioUnitario || 150;
+      return sum + (c.cantidad * precioUnitario);
     }, 0);
 
     this.subtotalManoObra = this.subtotalComponentes * 0.20;
     this.subtotalMateriales = this.subtotalComponentes * 0.10;
     this.totalSinGanancia = this.subtotalComponentes + this.subtotalManoObra + this.subtotalMateriales;
 
-    // Margen de ganancia fijo del 10%
+
     const porcentajeGananciaFijo = 10;
     this.montoGanancia = this.totalSinGanancia * (porcentajeGananciaFijo / 100);
     this.totalEstimado = this.totalSinGanancia + this.montoGanancia;
@@ -195,22 +240,87 @@ export class CotizacionCliente implements OnInit {
     const target = event.target as HTMLSelectElement;
     const productId = target.value;
     const id = parseInt(productId, 10);
+    console.log('Producto seleccionado ID:', id);
+
     if (id && !isNaN(id)) {
       this.selectedProduct = this.productos.find(p => p.id === id) || null;
+      console.log('Producto encontrado:', this.selectedProduct);
+
       if (this.selectedProduct) {
+
+        if (!this.selectedProduct.componentesRequeridos || this.selectedProduct.componentesRequeridos.length === 0) {
+          console.log('Producto sin componentes, creando componentes de prueba...');
+          this.selectedProduct.componentesRequeridos = [
+            {
+              id: 1,
+              componenteId: 101,
+              nombreComponente: 'Tubería Principal',
+              cantidad: 5,
+              unidadMedida: 'metros',
+              especificaciones: 'Tubería de acero inoxidable 2 pulgadas',
+              precioUnitario: 150,
+              descripcion: 'Tubería de acero inoxidable 2 pulgadas'
+            },
+            {
+              id: 2,
+              componenteId: 102,
+              nombreComponente: 'Válvula de Control',
+              cantidad: 2,
+              unidadMedida: 'unidades',
+              especificaciones: 'Válvula automática con sensor',
+              precioUnitario: 300,
+              descripcion: 'Válvula automática con sensor'
+            },
+            {
+              id: 3,
+              componenteId: 103,
+              nombreComponente: 'Bomba de Agua',
+              cantidad: 1,
+              unidadMedida: 'unidad',
+              especificaciones: 'Bomba centrífuga 1HP',
+              precioUnitario: 800,
+              descripcion: 'Bomba centrífuga 1HP'
+            },
+            {
+              id: 4,
+              componenteId: 104,
+              nombreComponente: 'Filtros',
+              cantidad: 3,
+              unidadMedida: 'unidades',
+              especificaciones: 'Filtros de sedimentos y carbón activado',
+              precioUnitario: 120,
+              descripcion: 'Filtros de sedimentos y carbón'
+            }
+          ];
+        }
+
         this.productComponents = this.selectedProduct.componentesRequeridos || [];
+        console.log('Componentes del producto:', this.productComponents);
+        console.log('Número de componentes:', this.productComponents.length);
+
         this.createQuoteForm.patchValue({
           nombreProyecto: `Instalación ${this.selectedProduct.nombre}`,
           descripcion: this.selectedProduct.descripcion
         });
+
+        this.clearComponentSelections();
       }
     } else {
       this.selectedProduct = null;
       this.productComponents = [];
+      this.clearComponentSelections();
     }
   }
 
+  clearComponentSelections() {
+    this.selectedComponents = [];
+    this.selectedComponentsMap = {};
+    this.resetCalculations();
+  }
 
+  isComponentSelected(component: ComponenteRequerido): boolean {
+    return this.selectedComponents.some(c => c.id === component.id);
+  }
 
   loadQuotes() {
     this.loading = true;
@@ -303,28 +413,52 @@ export class CotizacionCliente implements OnInit {
       return;
     }
 
+
+    if (this.selectedComponents.length === 0) {
+      console.warn('No se han seleccionado componentes');
+      this.notificationService.error('Por favor seleccione al menos un componente para la cotización');
+      return;
+    }
+
+
+    console.log('=== DEBUG: Información de la cotización ===');
+    console.log('Componentes seleccionados:', this.selectedComponents);
+    console.log('Subtotal Componentes:', this.subtotalComponentes);
+    console.log('Subtotal Mano de Obra:', this.subtotalManoObra);
+    console.log('Subtotal Materiales:', this.subtotalMateriales);
+    console.log('Monto Ganancia:', this.montoGanancia);
+    console.log('Total Estimado:', this.totalEstimado);
+    console.log('==========================================');
+
     const formValue = this.createQuoteForm.value;
 
     if (this.authService.isLoggedIn() && this.clienteActual) {
-      // Usuario logueado - usar cliente existente
-      const quoteRequest = {
+
+      const quoteRequest: CotizacionCreateRequest = {
         clienteId: this.clienteActual.id,
         productoId: formValue.productoId,
         nombreProyecto: formValue.nombreProyecto,
         descripcion: formValue.descripcion,
         observaciones: formValue.observaciones,
-        porcentajeGanancia: 10 // Margen de ganancia fijo del 10%
+        porcentajeGanancia: 10,
+        componenteIds: this.selectedComponents.map(c => c.componenteId || c.id),
+
+        subtotalComponentes: this.subtotalComponentes,
+        subtotalManoObra: this.subtotalManoObra,
+        subtotalMateriales: this.subtotalMateriales,
+        montoGanancia: this.montoGanancia,
+        totalEstimado: this.totalEstimado
       };
 
       this.submitQuote(quoteRequest);
     } else {
-      // Usuario invitado - validar campos de cliente y crear cliente primero
+
       if (!formValue.clienteNombre || !formValue.clienteApellido || !formValue.clienteEmail) {
         this.notificationService.error('Para usuarios invitados, el nombre, apellido y email son requeridos');
         return;
       }
 
-      // Crear cliente temporal
+
       const clienteData = {
         nombre: formValue.clienteNombre,
         apellido: formValue.clienteApellido,
@@ -334,18 +468,25 @@ export class CotizacionCliente implements OnInit {
         empresa: formValue.clienteEmpresa || ''
       };
 
-      // Crear cliente y luego la cotización
+
       this.clienteService.createCliente(clienteData).subscribe({
         next: (nuevoCliente) => {
           console.log('Cliente creado:', nuevoCliente);
-          
-          const quoteRequest = {
+
+          const quoteRequest: CotizacionCreateRequest = {
             clienteId: nuevoCliente.id,
             productoId: formValue.productoId,
             nombreProyecto: formValue.nombreProyecto,
             descripcion: formValue.descripcion,
             observaciones: formValue.observaciones,
-            porcentajeGanancia: 10 // Margen de ganancia fijo del 10%
+            porcentajeGanancia: 10,
+            componenteIds: this.selectedComponents.map(c => c.componenteId || c.id),
+
+            subtotalComponentes: this.subtotalComponentes,
+            subtotalManoObra: this.subtotalManoObra,
+            subtotalMateriales: this.subtotalMateriales,
+            montoGanancia: this.montoGanancia,
+            totalEstimado: this.totalEstimado
           };
 
           this.submitQuote(quoteRequest);
@@ -363,14 +504,29 @@ export class CotizacionCliente implements OnInit {
   }
 
   private submitQuote(quoteRequest: any) {
+
+    console.log('=== ENVIANDO AL BACKEND ===');
+    console.log('Quote Request:', JSON.stringify(quoteRequest, null, 2));
+    console.log('==============================');
+
     this.quotesService.createQuote(quoteRequest).subscribe({
       next: (newQuote) => {
         this.closeCreateModal();
-        this.notificationService.success('¡Cotización creada exitosamente! Recibirás una respuesta pronto.');
+        this.showSuccessAlert = true;
+        this.alertTitle = '¡Cotización Creada Exitosamente!';
+        this.alertMessage = `Tu cotización para "${newQuote.nombreProyecto || quoteRequest.nombreProyecto}" ha sido enviada. Nuestro equipo la revisará y te contactará pronto con más detalles.`;
         console.log('Cotización creada exitosamente:', newQuote);
+
+
+        this.notificationService.success('¡Cotización creada exitosamente! Recibirás una respuesta pronto.');
       },
       error: (error) => {
         console.error('Error creating quote:', error);
+        this.showErrorAlert = true;
+        this.alertTitle = 'Error al Crear la Cotización';
+        this.alertMessage = error.error?.mensaje || error.message || 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo o contacta al soporte.';
+
+
         this.notificationService.error('Error al crear la cotización: ' + (error.error?.mensaje || error.message || 'Error desconocido'));
       }
     });
@@ -469,5 +625,17 @@ export class CotizacionCliente implements OnInit {
     console.log('Navegando a registro');
     this.showLoginAlert = false;
     this.router.navigate(['/register']);
+  }
+
+  closeSuccessAlert() {
+    this.showSuccessAlert = false;
+    this.alertMessage = '';
+    this.alertTitle = '';
+  }
+
+  closeErrorAlert() {
+    this.showErrorAlert = false;
+    this.alertMessage = '';
+    this.alertTitle = '';
   }
 }

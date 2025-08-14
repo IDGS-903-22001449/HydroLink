@@ -1,10 +1,9 @@
-<!-- Layout principal con flexbox -->
+﻿
 <div class="flex min-h-screen bg-gray-50">
   <app-sidebar [menuItems]="adminMenuItems" [isAdmin]="true"></app-sidebar>
-  
-  <!-- Contenido principal -->
-  <div class="flex-1 p-6">
-    <!-- Header con dropdown -->
+
+<div class="flex-1 p-6">
+    
     <div class="flex justify-between items-start mb-8 pb-6 border-b border-gray-200">
       <div>
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Inventario de Materias Primas</h1>
@@ -13,8 +12,7 @@
       <app-admin-dropdown></app-admin-dropdown>
     </div>
 
-    <!-- Resumen Cards -->
-    <div *ngIf="resumen" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div *ngIf="resumen" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center">
           <div class="p-2 bg-blue-100 rounded-lg">
@@ -28,7 +26,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center">
           <div class="p-2 bg-green-100 rounded-lg">
@@ -42,7 +40,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center">
           <div class="p-2 bg-yellow-100 rounded-lg">
@@ -56,7 +54,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="bg-white rounded-lg shadow p-6">
         <div class="flex items-center">
           <div class="p-2 bg-red-100 rounded-lg">
@@ -72,8 +70,7 @@
       </div>
     </div>
 
-    <!-- Error Message -->
-    <div *ngIf="error" class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+<div *ngIf="error" class="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
       <div class="flex">
         <svg class="w-5 h-5 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
@@ -82,14 +79,13 @@
       </div>
     </div>
 
-    <!-- Inventory Cards Grid -->
-    <div *ngIf="!error" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+<div *ngIf="!error" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <div *ngFor="let item of inventario" class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-        <!-- Card Header -->
+        
         <div class="p-4 border-b border-gray-200">
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-gray-900 truncate">{{ item.nombre }}</h3>
-            <span 
+            <span
               class="px-2 py-1 text-xs font-medium rounded-full"
               [ngClass]="{
                 'bg-red-100 text-red-800': item.estadoStock === 'Crítico',
@@ -103,24 +99,21 @@
           <p class="text-sm text-gray-600 mt-1">{{ item.unidadMedida }}</p>
         </div>
 
-        <!-- Card Body -->
-        <div class="p-4">
-          <!-- Stock Information -->
+<div class="p-4">
+          
           <div class="space-y-3">
-            <!-- Current Stock -->
+            
             <div class="flex items-center justify-between">
               <span class="text-sm text-gray-600">Stock Actual:</span>
               <span class="text-lg font-bold text-gray-900">{{ item.stockActual }}</span>
             </div>
 
-            <!-- Stock Range -->
-            <div class="flex items-center justify-between text-sm">
+<div class="flex items-center justify-between text-sm">
               <span class="text-gray-600">Mín: <span class="font-medium">{{ item.stockMinimo }}</span></span>
               <span class="text-gray-600">Máx: <span class="font-medium">{{ item.stockMaximo }}</span></span>
             </div>
 
-            <!-- Price Information -->
-            <div class="border-t pt-3">
+<div class="border-t pt-3">
               <div class="flex items-center justify-between">
                 <span class="text-sm text-gray-600">Costo Unitario:</span>
                 <span class="text-sm font-medium text-gray-900">${{ item.costoUnitarioPromedio | number:'1.2-2' }}</span>
@@ -131,8 +124,7 @@
               </div>
             </div>
 
-            <!-- Last Purchase -->
-            <div *ngIf="item.fechaUltimaCompra" class="border-t pt-3">
+<div *ngIf="item.fechaUltimaCompra" class="border-t pt-3">
               <div class="text-xs text-gray-500">
                 <p>Última compra: {{ item.fechaUltimaCompra | date:'dd/MM/yyyy' }}</p>
                 <p *ngIf="item.ultimoPrecioCompra">Precio: ${{ item.ultimoPrecioCompra | number:'1.2-2' }}</p>
@@ -141,15 +133,14 @@
           </div>
         </div>
 
-        <!-- Card Footer -->
-        <div class="px-4 py-3 bg-gray-50 border-t">
+<div class="px-4 py-3 bg-gray-50 border-t">
           <div class="flex items-center justify-between">
-            <button 
+            <button
               class="text-sm text-blue-600 hover:text-blue-800 font-medium"
               (click)="verDetalles(item)">
               Ver Detalles
             </button>
-            <button 
+            <button
               class="text-sm text-green-600 hover:text-green-800 font-medium"
               (click)="ajustarStock(item)">
               Ajustar Stock
@@ -159,8 +150,7 @@
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div *ngIf="!error && inventario.length === 0" class="text-center py-12">
+<div *ngIf="!error && inventario.length === 0" class="text-center py-12">
       <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2 2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-4.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 009.586 13H7" />
       </svg>
@@ -170,7 +160,6 @@
   </div>
 </div>
 
-<!-- Modal de Detalles -->
 <div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" (click)="cerrarModal()">
   <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white" (click)="$event.stopPropagation()">
     <div class="mt-3">
@@ -182,9 +171,9 @@
           </svg>
         </button>
       </div>
-      
+
       <div *ngIf="selectedItem" class="space-y-4">
-        <!-- Información General -->
+        
         <div class="grid grid-cols-2 gap-4">
           <div>
             <p class="text-sm font-medium text-gray-500">Stock Actual</p>
@@ -203,9 +192,8 @@
             </span>
           </div>
         </div>
-        
-        <!-- Movimientos Recientes -->
-        <div *ngIf="selectedItem.movimientosRecientes.length > 0">
+
+<div *ngIf="selectedItem.movimientosRecientes.length > 0">
           <h4 class="text-md font-medium text-gray-900 mb-2">Movimientos Recientes</h4>
           <div class="max-h-60 overflow-y-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -241,7 +229,6 @@
   </div>
 </div>
 
-<!-- Modal de Ajuste de Stock -->
 <div *ngIf="showAdjustModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" (click)="cerrarModalAjuste()">
   <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-1/2 lg:w-1/3 shadow-lg rounded-md bg-white" (click)="$event.stopPropagation()">
     <div class="mt-3">
@@ -253,28 +240,28 @@
           </svg>
         </button>
       </div>
-      
+
       <form (ngSubmit)="realizarAjuste()" class="space-y-4">
         <div>
           <p class="text-sm text-gray-600">Stock actual: <span class="font-bold">{{ selectedItem?.stockActual }}</span> {{ selectedItem?.unidadMedida }}</p>
         </div>
-        
+
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Cantidad de Ajuste</label>
-          <input 
-            type="number" 
-            [(ngModel)]="ajusteForm.cantidadAjuste" 
+          <input
+            type="number"
+            [(ngModel)]="ajusteForm.cantidadAjuste"
             name="cantidadAjuste"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Cantidad (+ para aumentar, - para disminuir)"
             required>
           <p class="text-xs text-gray-500 mt-1">Ingrese un número positivo para aumentar stock o negativo para disminuir</p>
         </div>
-        
+
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Motivo</label>
-          <select 
-            [(ngModel)]="ajusteForm.motivo" 
+          <select
+            [(ngModel)]="ajusteForm.motivo"
             name="motivo"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required>
@@ -286,26 +273,26 @@
             <option value="Otro">Otro</option>
           </select>
         </div>
-        
+
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Observaciones (Opcional)</label>
-          <textarea 
-            [(ngModel)]="ajusteForm.observaciones" 
+          <textarea
+            [(ngModel)]="ajusteForm.observaciones"
             name="observaciones"
             rows="3"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Observaciones adicionales..."></textarea>
         </div>
-        
+
         <div class="flex justify-end space-x-3 pt-4">
-          <button 
-            type="button" 
+          <button
+            type="button"
             (click)="cerrarModalAjuste()"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300">
             Cancelar
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             [disabled]="ajusteForm.cantidadAjuste === 0 || !ajusteForm.motivo"
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-gray-400">
             Realizar Ajuste

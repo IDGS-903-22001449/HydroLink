@@ -1,4 +1,4 @@
-/* Estilos específicos para el componente profile */
+﻿
 
 .bg-hydro-green {
   background-color: #4CAF50;
@@ -40,7 +40,6 @@
   --tw-ring-offset-width: 2px;
 }
 
-/* Gradientes personalizados */
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -49,7 +48,6 @@
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
 
-/* Animaciones */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -63,7 +61,6 @@
   animation: spin 1s linear infinite;
 }
 
-/* Transform y transiciones */
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
@@ -83,7 +80,6 @@
   transition-duration: 200ms;
 }
 
-/* Espaciado */
 .space-y-6 > * + * {
   margin-top: 1.5rem;
 }
@@ -96,12 +92,10 @@
   margin-left: 1rem;
 }
 
-/* Avatar circle */
 .rounded-full {
   border-radius: 9999px;
 }
 
-/* Grid responsive */
 @media (max-width: 768px) {
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -120,7 +114,6 @@
   }
 }
 
-/* Hover effects adicionales */
 .hover\:opacity-90:hover {
   opacity: 0.9;
 }
@@ -129,7 +122,6 @@
   background-color: #f9fafb;
 }
 
-/* Colores adicionales para las tarjetas */
 .bg-purple-500 {
   background-color: #8b5cf6;
 }
@@ -174,7 +166,6 @@
   --tw-gradient-to: #c2410c;
 }
 
-/* Estado badge */
 .bg-green-100 {
   background-color: #dcfce7;
 }

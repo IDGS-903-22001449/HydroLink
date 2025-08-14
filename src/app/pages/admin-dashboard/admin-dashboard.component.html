@@ -1,6 +1,6 @@
-<div class="dashboard-layout">
+﻿<div class="dashboard-layout">
   <app-sidebar [menuItems]="adminMenuItems" [isAdmin]="true"></app-sidebar>
-  
+
   <div class="main-content">
     <header class="top-bar">
       <app-admin-dropdown></app-admin-dropdown>
@@ -8,13 +8,9 @@
 
     <h1>{{ pageTitle }}</h1>
 
-    <!-- Dashboard Overview Content -->
     <div *ngIf="currentRoute === '/admin-dashboard'">
       <div class="metrics-grid">
-        <app-metric-card
-          *ngFor="let metric of metrics"
-          [title]="metric.title"
-          [value]="metric.value"
+        <app-metric-card *ngFor="let metric of metrics" [title]="metric.title" [value]="metric.value"
           [subtitle]="metric.subtitle">
         </app-metric-card>
       </div>
@@ -26,95 +22,65 @@
         </div>
       </div>
 
-      <app-data-table
-        title="Recent Activities"
-        [columns]="activityColumns"
-        [data]="activityData">
+      <app-data-table title="Recent Activities" [columns]="activityColumns" [data]="activityData">
       </app-data-table>
     </div>
 
-    <!-- Users Management Content -->
     <div *ngIf="currentRoute === '/admin-users'" class="page-content">
       <div class="card">
         <h2>User Management</h2>
         <p>Manage system users, their roles, and permissions.</p>
-        <app-data-table
-          title="System Users"
-          [columns]="userColumns"
-          [data]="userData">
+        <app-data-table title="System Users" [columns]="userColumns" [data]="userData">
         </app-data-table>
       </div>
     </div>
 
-    <!-- Suppliers Management Content -->
     <div *ngIf="currentRoute === '/admin-suppliers'" class="page-content">
       <div class="card">
         <h2>Supplier Management</h2>
         <p>Manage suppliers and their information.</p>
-        <app-data-table
-          title="Suppliers"
-          [columns]="supplierColumns"
-          [data]="supplierData">
+        <app-data-table title="Suppliers" [columns]="supplierColumns" [data]="supplierData">
         </app-data-table>
       </div>
     </div>
 
-    <!-- Raw Materials Content -->
     <div *ngIf="currentRoute === '/admin-raw-materials'" class="page-content">
       <div class="card">
         <h2>Raw Materials Inventory</h2>
         <p>Manage raw materials inventory and stock levels.</p>
-        <app-data-table
-          title="Raw Materials"
-          [columns]="rawMaterialColumns"
-          [data]="rawMaterialData">
+        <app-data-table title="Raw Materials" [columns]="rawMaterialColumns" [data]="rawMaterialData">
         </app-data-table>
       </div>
     </div>
 
-    <!-- Products Management Content -->
     <div *ngIf="currentRoute === '/admin-products'" class="page-content">
       <div class="card">
         <h2>Product Management</h2>
         <p>Manage products, pricing, and availability.</p>
-        <app-data-table
-          title="Products"
-          [columns]="productColumns"
-          [data]="productData">
+        <app-data-table title="Products" [columns]="productColumns" [data]="productData">
         </app-data-table>
       </div>
     </div>
 
-    <!-- Sales & Reports Content -->
     <div *ngIf="currentRoute === '/admin-sales'" class="page-content">
       <div class="card">
         <h2>Sales & Reports</h2>
         <p>View sales data and generate reports.</p>
         <div class="metrics-grid">
-          <app-metric-card
-            *ngFor="let metric of salesMetrics"
-            [title]="metric.title"
-            [value]="metric.value"
+          <app-metric-card *ngFor="let metric of salesMetrics" [title]="metric.title" [value]="metric.value"
             [subtitle]="metric.subtitle">
           </app-metric-card>
         </div>
-        <app-data-table
-          title="Recent Sales"
-          [columns]="salesColumns"
-          [data]="salesData">
+        <app-data-table title="Recent Sales" [columns]="salesColumns" [data]="salesData">
         </app-data-table>
       </div>
     </div>
 
-    <!-- Quotes Management Content -->
     <div *ngIf="currentRoute === '/admin-quotes'" class="page-content">
       <div class="card">
         <h2>Quote Management</h2>
         <p>Manage customer quotes and proposals.</p>
-        <app-data-table
-          title="Quotes"
-          [columns]="quoteColumns"
-          [data]="quoteData">
+        <app-data-table title="Quotes" [columns]="quoteColumns" [data]="quoteData">
         </app-data-table>
       </div>
     </div>

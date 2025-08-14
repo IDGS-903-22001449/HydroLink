@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService, UserDetail, RoleAssignDto } from '../../services/user.service';
@@ -25,15 +25,15 @@ export class AdminUsersComponent implements OnInit {
   loading = true;
   error: string | null = null;
   successMessage: string | null = null;
-  
-  // Variables para el modal de asignación de roles
+
+
   showRoleModal = false;
   selectedUser: UserDetail | null = null;
   selectedRoleId = '';
-  
-  // Variable para el modal de gestión de roles
+
+
   showRoleManagementModal = false;
-  
+
   adminMenuItems: MenuItem[] = [];
 
   constructor(private userService: UserService, private menuService: MenuService) {
@@ -100,7 +100,7 @@ export class AdminUsersComponent implements OnInit {
       next: (response) => {
         this.successMessage = response.message || 'Rol asignado exitosamente';
         this.error = null;
-        this.loadUsers(); // Recargar la lista de usuarios
+        this.loadUsers();
         this.closeRoleModal();
       },
       error: (error) => {
@@ -112,7 +112,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   removeRole(user: UserDetail, roleName: string): void {
-    // Encontrar el ID del rol por su nombre
+
     const role = this.allRoles.find(r => r.name === roleName);
     if (!role) {
       this.error = 'No se pudo encontrar el rol especificado';
@@ -129,7 +129,7 @@ export class AdminUsersComponent implements OnInit {
         next: (response) => {
           this.successMessage = response.message || 'Rol removido exitosamente';
           this.error = null;
-          this.loadUsers(); // Recargar la lista de usuarios
+          this.loadUsers();
         },
         error: (error) => {
           console.error('Error al remover rol:', error);
@@ -150,7 +150,7 @@ export class AdminUsersComponent implements OnInit {
 
   closeRoleManagementModal(): void {
     this.showRoleManagementModal = false;
-    // Recargar usuarios cuando se cierre el modal por si hubo cambios en roles
+
     this.loadUsers();
     this.loadRoles();
   }

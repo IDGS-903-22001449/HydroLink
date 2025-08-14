@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
@@ -105,8 +105,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         imagenBase64: p.imagenBase64,
         activo: p.activo
       }));
-      
-      // Extraer los comentarios del objeto response
+
+
       this.comentarios = comentariosResponse?.comentarios || [];
 
       this.calcularEstadisticasGlobales();
@@ -132,11 +132,11 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   aplicarFiltros() {
-    // Asegurar que comentarios sea un array
+
     if (!Array.isArray(this.comentarios)) {
       this.comentarios = [];
     }
-    
+
     let comentariosFiltrados = [...this.comentarios];
 
     if (this.filtroProducto) {

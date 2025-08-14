@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+﻿import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminProductListComponent } from '../../components/admin-product-list/admin-product-list.component';
@@ -13,9 +13,9 @@ import { ProductoHydroLink } from '../../services/producto.service';
   selector: 'app-admin-products',
   standalone: true,
   imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    AdminProductListComponent, 
+    CommonModule,
+    ReactiveFormsModule,
+    AdminProductListComponent,
     AdminProductCreateComponent,
     AdminProductEditComponent,
     SidebarComponent,
@@ -28,9 +28,9 @@ export class AdminProductsComponent {
   currentView: 'list' | 'create' | 'edit' = 'list';
   adminMenuItems: MenuItem[] = [];
   selectedProduct: ProductoHydroLink | null = null;
-  
+
   @ViewChild(AdminProductListComponent) productListComponent!: AdminProductListComponent;
-  
+
   constructor(private menuService: MenuService) {
     this.adminMenuItems = this.menuService.getAdminMenuItems('/admin-products');
   }
@@ -55,7 +55,7 @@ export class AdminProductsComponent {
   onSaveEdit() {
     this.selectedProduct = null;
     this.currentView = 'list';
-    // Refrescar la lista de productos
+
     if (this.productListComponent) {
       this.productListComponent.refresh();
     }

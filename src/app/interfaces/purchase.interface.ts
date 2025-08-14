@@ -1,4 +1,4 @@
-export interface PurchaseDetail {
+﻿export interface PurchaseDetail {
   producto: {
     id: number;
     nombre: string;
@@ -12,7 +12,7 @@ export interface PurchaseDetail {
 }
 
 export interface PaymentData {
-  // Datos del cliente
+
   cliente: {
     nombre: string;
     apellido: string;
@@ -20,8 +20,8 @@ export interface PaymentData {
     telefono: string;
     direccion: string;
   };
-  
-  // Datos de la tarjeta
+
+
   tarjeta: {
     numeroTarjeta: string;
     nombreTitular: string;
@@ -29,8 +29,8 @@ export interface PaymentData {
     anoExpiracion: string;
     cvv: string;
   };
-  
-  // Datos del pedido
+
+
   pedido: {
     productoId: number;
     cantidad: number;

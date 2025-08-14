@@ -1,28 +1,27 @@
-export interface Comentario {
+﻿export interface Comentario {
   id: number;
   texto: string;
   calificacion: number;
   fecha: string;
-  productoHydroLinkId: number;  // ✅ Actualizado para usar ProductoHydroLink
+  productoHydroLinkId: number;
   productoNombre: string;
   usuario: {
-    id: string; // GUID como string
-    fullName: string;  // ✅ Actualizado para coincidir con backend
+    id: string;
+    fullName: string;
     email: string;
   };
 }
 
 export interface ComentarioCreate {
-  usuarioId: string; // GUID como string
-  productoHydroLinkId: number;  // ✅ Actualizado para usar ProductoHydroLink
+  usuarioId: string;
+  productoHydroLinkId: number;
   calificacion: number;
   texto?: string;
 }
 
-// DTO simplificado que espera el backend actualizado
 export interface ComentarioCreateDto {
   usuarioId: string;
-  productoHydroLinkId: number;  // ✅ Actualizado para usar ProductoHydroLink
+  productoHydroLinkId: number;
   calificacion: number;
   texto?: string;
 }

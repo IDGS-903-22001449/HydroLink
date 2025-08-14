@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+﻿import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { catchError, throwError } from 'rxjs';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  
+
   if (!authService.getToken()) return next(req);
 
   const cloned = req.clone({

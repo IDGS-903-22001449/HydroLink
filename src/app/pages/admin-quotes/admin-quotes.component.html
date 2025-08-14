@@ -1,4 +1,4 @@
-<div class="dashboard-layout">
+﻿<div class="dashboard-layout">
   <app-sidebar [menuItems]="adminMenuItems" [isAdmin]="true"></app-sidebar>
 
   <div class="main-content">
@@ -8,14 +8,11 @@
 
     <h1>{{ pageTitle }}</h1>
 
-    <!-- Loading State -->
     <div *ngIf="loading" class="flex justify-center items-center py-12">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
     </div>
 
-    <!-- Content -->
     <div *ngIf="!loading">
-      <!-- Metrics Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
           <div class="flex items-center">
@@ -79,13 +76,10 @@
         </div>
       </div>
 
-      <!-- Filters and Actions -->
       <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
         <div class="p-6">
           <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <!-- Search and Filters -->
             <div class="flex flex-col sm:flex-row gap-4 flex-1">
-              <!-- Search -->
               <div class="relative flex-1 max-w-md">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,7 +92,6 @@
                   placeholder="Buscar cotizaciones...">
               </div>
 
-              <!-- Status Filter -->
               <div class="w-full sm:w-48">
                 <select [(ngModel)]="selectedStatus" (change)="onStatusChange(selectedStatus)"
                   class="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
@@ -109,7 +102,6 @@
               </div>
             </div>
 
-            <!-- Create Button -->
             <div>
               <button (click)="openCreateModal()"
                 class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
@@ -123,7 +115,6 @@
         </div>
       </div>
 
-      <!-- Quotes Table -->
       <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
@@ -182,7 +173,6 @@
             </tbody>
           </table>
 
-          <!-- Empty State -->
           <div *ngIf="filteredQuotes.length === 0" class="text-center py-12">
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -196,11 +186,9 @@
       </div>
     </div>
 
-    <!-- Create Quote Modal -->
     <div *ngIf="showCreateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
       <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
         <div class="mt-3">
-          <!-- Modal Header -->
           <div class="flex items-center justify-between pb-4 border-b">
             <h3 class="text-lg font-medium text-gray-900">Nueva Cotización</h3>
             <button (click)="closeCreateModal()" class="text-gray-400 hover:text-gray-600">
@@ -210,16 +198,13 @@
             </button>
           </div>
 
-          <!-- Modal Body -->
           <form [formGroup]="createQuoteForm" (ngSubmit)="onSubmitCreate()" class="mt-6">
-            <!-- Loading State para Dropdowns -->
             <div *ngIf="loadingDropdowns" class="flex justify-center items-center py-8">
               <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
               <span class="ml-2 text-gray-600">Cargando datos...</span>
             </div>
 
             <div *ngIf="!loadingDropdowns" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <!-- Dropdown Cliente -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Cliente *</label>
                 <select formControlName="clienteId" (change)="onClientChange($event)"
@@ -231,7 +216,6 @@
                 </select>
               </div>
 
-              <!-- Dropdown Producto -->
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Producto *</label>
                 <select formControlName="productoId" (change)="onProductChange($event)"
@@ -267,7 +251,6 @@
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"></textarea>
               </div>
 
-              <!-- Componentes del Producto Seleccionado -->
               <div *ngIf="selectedProduct && productComponents.length > 0" class="md:col-span-2">
                 <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
                   <h4 class="text-md font-medium text-blue-900 mb-3">Componentes disponibles para:
@@ -282,7 +265,6 @@
                           <p *ngIf="component.especificaciones" class="text-xs text-gray-500 mt-1">
                             {{component.especificaciones}}</p>
 
-                          <!-- Toggle Component Selection -->
                           <div class="flex items-center my-2">
                             <label class="flex items-center">
                               <input type="checkbox" (change)="toggleComponentSelection(component, $event)"
@@ -311,7 +293,6 @@
                 </div>
               </div>
 
-              <!-- Resumen de Cálculos (solo si hay componentes seleccionados) -->
               <div *ngIf="selectedComponents.length > 0" class="md:col-span-2">
                 <div class="bg-green-50 p-4 rounded-lg border border-green-200">
                   <h4 class="text-md font-medium text-green-900 mb-3">Resumen de Cotización</h4>
@@ -346,7 +327,6 @@
               </div>
             </div>
 
-            <!-- Modal Footer -->
             <div class="flex justify-end space-x-3 pt-6 border-t mt-6">
               <button type="button" (click)="closeCreateModal()"
                 class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
@@ -362,12 +342,10 @@
       </div>
     </div>
 
-    <!-- Details Modal -->
     <div *ngIf="showDetailsModal && selectedQuote"
       class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
       <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2 shadow-lg rounded-md bg-white">
         <div class="mt-3">
-          <!-- Modal Header -->
           <div class="flex items-center justify-between pb-4 border-b">
             <h3 class="text-lg font-medium text-gray-900">Detalles de Cotización #{{ selectedQuote.id }}</h3>
             <button (click)="closeDetailsModal()" class="text-gray-400 hover:text-gray-600">
@@ -377,9 +355,7 @@
             </button>
           </div>
 
-          <!-- Modal Body -->
           <div class="mt-6 space-y-6">
-            <!-- Project Info -->
             <div class="bg-gray-50 p-4 rounded-lg">
               <h4 class="text-md font-medium text-gray-900 mb-3">Información del Proyecto</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -401,7 +377,6 @@
               </div>
             </div>
 
-            <!-- Client Info -->
             <div class="bg-gray-50 p-4 rounded-lg">
               <h4 class="text-md font-medium text-gray-900 mb-3">Información del Cliente</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -420,7 +395,6 @@
               </div>
             </div>
 
-            <!-- Financial Info -->
             <div class="bg-gray-50 p-4 rounded-lg">
               <h4 class="text-md font-medium text-gray-900 mb-3">Información Financiera</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -453,7 +427,6 @@
               </div>
             </div>
 
-            <!-- Dates -->
             <div class="bg-gray-50 p-4 rounded-lg">
               <h4 class="text-md font-medium text-gray-900 mb-3">Fechas</h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -468,14 +441,12 @@
               </div>
             </div>
 
-            <!-- Observations -->
             <div *ngIf="selectedQuote.observaciones" class="bg-gray-50 p-4 rounded-lg">
               <h4 class="text-md font-medium text-gray-900 mb-3">Observaciones</h4>
               <p class="text-sm text-gray-900">{{ selectedQuote.observaciones }}</p>
             </div>
           </div>
 
-          <!-- Modal Footer -->
           <div class="flex justify-end space-x-3 pt-6 border-t mt-6">
             <button (click)="closeDetailsModal()"
               class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
@@ -486,5 +457,5 @@
       </div>
     </div>
 
-  </div> <!-- Close main-content -->
-</div> <!-- Close dashboard-layout -->
+  </div>
+</div>

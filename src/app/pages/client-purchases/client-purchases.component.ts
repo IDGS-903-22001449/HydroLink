@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserPurchasesComponent } from '../../components/user-purchases/user-purchases.component';
 import { AuthService } from '../../services/auth.service';

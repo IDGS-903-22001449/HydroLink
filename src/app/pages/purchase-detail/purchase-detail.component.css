@@ -1,4 +1,4 @@
-/* Estilos personalizados para el componente de purchase-detail */
+﻿
 
 .hydro-green {
   @apply bg-green-600;
@@ -20,7 +20,6 @@
   @apply ring-green-600;
 }
 
-/* Animación para el spinner de carga */
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -34,7 +33,6 @@
   animation: spin 1s linear infinite;
 }
 
-/* Efectos de hover mejorados */
 .btn-primary {
   @apply bg-green-600 text-white font-semibold py-3 px-6 rounded-md transition-all duration-300 hover:bg-green-700 hover:shadow-lg;
 }
@@ -43,7 +41,6 @@
   @apply bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-md transition-all duration-300 hover:bg-gray-400;
 }
 
-/* Estilos para inputs de formulario */
 .form-input {
   @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent transition-all duration-200;
 }
@@ -52,31 +49,28 @@
   @apply shadow-md;
 }
 
-/* Estilos para tarjeta de resumen */
 .summary-card {
   @apply bg-gray-50 rounded-lg p-4 border border-gray-200;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .grid-cols-2 {
     @apply grid-cols-1;
   }
-  
+
   .lg\:grid-cols-2 {
     @apply grid-cols-1;
   }
-  
+
   .space-x-4 > * + * {
     @apply ml-0 mt-4;
   }
-  
+
   .flex.space-x-4 {
     @apply flex-col space-x-0 space-y-4;
   }
 }
 
-/* Animaciones suaves para transiciones entre steps */
 .fade-in {
   animation: fadeIn 0.3s ease-in;
 }
@@ -92,7 +86,6 @@
   }
 }
 
-/* Estilos para el indicador de progreso */
 .progress-circle {
   transition: all 0.3s ease;
 }
@@ -101,7 +94,6 @@
   transition: all 0.3s ease;
 }
 
-/* Validación visual para inputs */
 .form-input.invalid {
   @apply border-red-500 ring-red-500;
 }
@@ -110,17 +102,14 @@
   @apply border-green-500 ring-green-500;
 }
 
-/* Estilos para el tipo de tarjeta */
 .card-type {
   @apply text-xs text-gray-500 font-medium;
 }
 
-/* Loading overlay */
 .loading-overlay {
   @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
 }
 
-/* Success animation */
 .success-icon {
   animation: successPulse 0.6s ease-out;
 }
